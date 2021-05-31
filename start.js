@@ -44,7 +44,7 @@ app.post('/logout', function(req, res){
 
 app.post('/post', function(req, res){
   let post = req.body;
-  var permlink = getSlug(title);
+  var permlink = getSlug(post.title);
   let token = req.cookies.token;
   let author = req.cookies.dlike_username;
   let link = randomstring.generate(10);

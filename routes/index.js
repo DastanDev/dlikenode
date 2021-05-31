@@ -16,8 +16,8 @@ router.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '../public', 'index.html'))
 })
 
-router.get('/login|login.html', function(req, res) {let token = req.cookies.token;
-    if (!token) {res.sendFile(path.join(__dirname, '../public', 'login.html'))}else {res.redirect('/');}
+router.get('/welcome|welcome.html', function(req, res) {let token = req.cookies.token;
+    if (!token) {res.sendFile(path.join(__dirname, '../public', 'welcome.html'))}else {res.redirect('/');}
 })
 
 router.get('/post', function (req, res){
@@ -27,8 +27,6 @@ router.get('/post', function (req, res){
 router.get('/share|share.html', function (req, res){let token = req.cookies.token;
     if (!token) {res.redirect('/login');} else {res.sendFile(path.join(__dirname, '../public', 'share.html'))}
 })
-
-
 
 
 module.exports = router;
