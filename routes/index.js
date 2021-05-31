@@ -11,7 +11,6 @@ const router = express.Router();
 router.use(cookieParser());
 
 
-
 router.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '../public', 'index.html'))
 })

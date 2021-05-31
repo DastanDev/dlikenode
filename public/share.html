@@ -10,11 +10,11 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 
-<link rel="apple-touch-icon" sizes="180x180" href="https://dlike.io/images/favicons/apple-touch-icon.png?v=kPvWrWRLXe">
-<link rel="icon" type="image/png" sizes="32x32" href="https://dlike.io/images/favicons/favicon-32x32.png?v=kPvWrWRLXe">
-<link rel="icon" type="image/png" sizes="16x16" href="https://dlike.io/images/favicons/favicon-16x16.png?v=kPvWrWRLXe">
-<link rel="manifest" href="https://dlike.io/images/favicons/site.webmanifest?v=kPvWrWRLXe">
-<link rel="shortcut icon" href="https://dlike.io/images/favicons/favicon.ico?v=kPvWrWRLXe">
+<link rel="apple-touch-icon" sizes="180x180" href="./images/favicons/apple-touch-icon.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicons/favicon-32x32.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="16x16" href="./images/favicons/favicon-16x16.png?v=kPvWrWRLXe">
+<link rel="manifest" href="./images/favicons/site.webmanifest?v=kPvWrWRLXe">
+<link rel="shortcut icon" href="./images/favicons/favicon.ico?v=kPvWrWRLXe">
 
 <meta name="apple-mobile-web-app-title" content="DLIKE">
 <meta name="application-name" content="DLIKE">
@@ -55,7 +55,6 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
 
 
 
-
 <div class="container share_link"><div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
     <div class="modal-content" style="background: #1b1e63;border-radius: 14px;"><div class="modal-body">
         <div class="share-block">=<p>Share To Get Rewarded</p></div>
@@ -68,7 +67,6 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
         </div>
     </div></div>
 </div></div>  
-
 
 <div class="container edit_psot" style="display: none;">
     <div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
@@ -109,42 +107,6 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
 <script src="./js/toaster.js"></script><script src="./js/loader.js"></script>
 
 <script>
-
-
-$('#plus2').click(function() {
-var title ="eth needs to control gas fees";
-var body = "gas fees are very high";
-var url = "https://yahoo.com";
-
-var content = {};
-title && (content.title = title),
-body && (content.body = body),
-url && (content.url = url);
-
-console.log(content);
-var newTx = {
-    type: 4,
-    data: {
-      link: 'vr9gh1dcmk6',
-      json: content
-    }
-};
-
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify({ newTx: newTx}),
-            contentType: 'application/json',
-            url: '/post',            
-            success: function(data) {//console.log(JSON.stringify(data));
-                if (data.error == true) {toastr['error']("Fail");return false;
-                } else {toastr['success']("Post Success");}
-            }
-        });
-
-
-});
-
-
 
 $('.share_me').click(function() {
     if (dlike_username != null) {$('#share_plus').hide();$('.share_loader').show();

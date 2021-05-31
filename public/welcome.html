@@ -10,11 +10,11 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 
-<link rel="apple-touch-icon" sizes="180x180" href="https://dlike.io/images/favicons/apple-touch-icon.png?v=kPvWrWRLXe">
-<link rel="icon" type="image/png" sizes="32x32" href="https://dlike.io/images/favicons/favicon-32x32.png?v=kPvWrWRLXe">
-<link rel="icon" type="image/png" sizes="16x16" href="https://dlike.io/images/favicons/favicon-16x16.png?v=kPvWrWRLXe">
-<link rel="manifest" href="https://dlike.io/images/favicons/site.webmanifest?v=kPvWrWRLXe">
-<link rel="shortcut icon" href="https://dlike.io/images/favicons/favicon.ico?v=kPvWrWRLXe">
+<link rel="apple-touch-icon" sizes="180x180" href="./images/favicons/apple-touch-icon.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicons/favicon-32x32.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="16x16" href="./images/favicons/favicon-16x16.png?v=kPvWrWRLXe">
+<link rel="manifest" href="./images/favicons/site.webmanifest?v=kPvWrWRLXe">
+<link rel="shortcut icon" href="./images/favicons/favicon.ico?v=kPvWrWRLXe">
 
 <meta name="apple-mobile-web-app-title" content="DLIKE">
 <meta name="application-name" content="DLIKE">
@@ -54,16 +54,6 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
 </div><!-- head -->
 
 
-
-
-
-
-
-
-
-
-
-
 <div class="container"><div class="user-login-signup-form-wrap" style="padding: 9rem 0rem;">
     <div class="modal-content" style="background: #1b1e63;border-radius: 14px;">
         <div class="modal-body login_section">
@@ -82,9 +72,7 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
                     </div></div>
                     <input type="password" name="email_pass" id="login_pass" placeholder="Private Key" class="form-control" />
                 </div>
-                <div style="text-align:center;margin-top:40px;">
-                <button type="button" class="btn btn-default login_btn" style="width: 40%;padding-top: 5px;">Log In</button>
-                </div>
+                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default login_btn" style="width: 40%;padding-top: 5px;">Log In</button></div>
                 </form>
                 <div style="color: #fff;text-align:center;">Don't have an account?<span class="register_btn" style="color: #e1ec31;cursor: pointer;"> Register</span></div>
             </div>
@@ -96,8 +84,7 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
                 <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
                 <form name="signup" style="margin-top: 15px;">
                     <div class="form-group input-username">
-                        
-                        <input type="text" name="username" class="form-control" id="user_name" placeholder="username">
+                    <input type="text" name="username" class="form-control" id="user_name" placeholder="username">
                     </div>
                     <button type="button" class="next btn btn-default signup_btn" style="background: #1652f0;color: #fff;font-weight: 700;font-size: 15px;min-height: 50px;padding: 0px 40px;margin:12px;"><span class="signup_txt">Signup</span></button>
                 </form>
@@ -127,20 +114,13 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
 
 
 
-
-
-
-
-
-
-
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <script src="./js/toaster.js"></script><script src="/js/loader.js"></script>
 <script src="./js/javalon.min.js"></script>
 <script src="./js/loader.js"></script>
 <script>
-const pivkey = "Notsasawds323232323232fdxcg";
+
 
 $('.login_btn').click(function() {
     $(".login_btn").attr("disabled", true);
@@ -148,8 +128,7 @@ $('.login_btn').click(function() {
     if (login_user=="") {toastr.error('phew.. Username should not be empty');$(".login_btn").attr("disabled", false);return false;}
     if (login_pass=="") {toastr.error('phew... Private key should not be empty');$(".login_btn").attr("disabled", false);return false;}
     javalon.getAccount(login_user, function(error, account) {const pivkey = login_pass;
-        console.log(account)
-        if (!account || account.length === 0) {console.log("Could not find account @"+login_user);
+        if (!account || account.length === 0) {
             toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);
             return
         }
@@ -157,40 +136,14 @@ $('.login_btn').click(function() {
             toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);
             return
         }
-        $.ajax({
-            type: 'POST',
-            data: JSON.stringify({ pivkey: pivkey,  username: login_user,}),
-            contentType: 'application/json',
-            url: '/loginuser',            
+        $.ajax({type: 'POST',data: JSON.stringify({ pivkey: pivkey,  username: login_user,}),contentType: 'application/json',url: '/loginuser',            
             success: function(data) {//console.log(JSON.stringify(data));
-                if (data.error == true) {toastr['error']("Login Fail");console.log('Login Fail');$(".login_btn").attr("disabled", false);return false;
+                if (data.error == true) {toastr['error']("Login Fail");$(".login_btn").attr("disabled", false);return false;
                 } else {toastr['success']("Login Success");setTimeout(function(){window.location.href = '/';}, 300);}
             }
         });
     })
 
-});
-
-
-$('.login_btns').click(function() {
-  $.ajax({
-    type: 'POST',
-    data: JSON.stringify({ pivkey: pivkey }),
-    contentType: 'application/json',
-    url: '/loginUser',            
-    success: function(data) { var token = data;
-        if (token == '') {console.log('token not set');return false;
-        } else {console.log(token)
-        //$.cookie("dlike_username", login_user, { expires: 84, path: '/' });$.cookie("token", response.token );
-        //setTimeout(function(){window.location.href = '/';}, 500);
-        }
-
-
-      //var response = JSON.stringify(data)
-      //console.log('success');
-      //console.log(response);
-    }
-  });
 });
 </script>
 
