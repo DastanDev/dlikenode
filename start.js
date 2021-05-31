@@ -48,7 +48,7 @@ app.post('/post', function(req, res){
   let token = req.cookies.token;
   let author = req.cookies.dlike_username;
   let link = randomstring.generate(10);
-  let content = {title:post.title, permlink:permlink, body: post.description, url: post.exturl, image: post.image, tags: post.tags }; 
+  let content = {title:post.title, permlink:permlink, body: post.description, category: post.category,url: post.exturl, image: post.image, tags: post.tags }; 
   let newTx = {type: 4,data: {link: link,json: content}}
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
