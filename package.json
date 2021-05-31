@@ -1,0 +1,29 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "crypto-js": "^4.0.0",
+    "crypto-random-string": "^4.0.0",
+    "express": "^4.17.1",
+    "html-metadata-parser": "^1.0.3",
+    "javalon": "^1.0.32",
+    "moment": "^2.29.1",
+    "node-php": "^0.0.1",
+    "phpcgijs": "^1.0.0-beta7",
+    "pm2": "^4.5.6",
+    "pretty-url": "^0.1.1",
+    "random-string": "^0.2.0",
+    "randomstring": "^1.2.1",
+    "slugify": "^1.5.3",
+    "speakingurl": "^14.0.1"
+  }
+}
