@@ -81,8 +81,10 @@ $(document).ready(function(){
 
 			let img = $post.json['image'];
 			let thumbnail = '<img src="' + img + '" alt="' + title + '" class="card-img-top">';
-			let tags=$post.json['tags'];let metatags=tags.map(function (meta) { if (meta) return '#' + meta + ' '});
-			let likes = $post.likes;var reward = '0.1';var income=likes*reward;console.log(metatags)
+			let tags=$post.json['tags'];
+			//let metatags=tags.map(function (meta) { if (meta) return '#' + meta + ' '});
+			let likes = $post.likes;var reward = '0.1';var income=likes*reward;
+			//console.log(metatags)
 			//let postTags = metatags.toLowerCase();
 			$('#content').append('<div class="col-lg-4 col-md-6 postsMainDiv">\n' +
 				'\n' +
@@ -110,7 +112,7 @@ $(document).ready(function(){
 				'\n' +
 				'<h4 class="post-title single_title"><a href="/post/' + $post.author + '/' + permlink + '">' + title + '</a></h4>\n' +
 				'\n' +
-				'<p class="post-entry post-tags">' + metatags + '</p>\n' +
+				'<p class="post-entry post-tags">' + tags + '</p>\n' +
 				'\n' +
 				'<div class="post-comments bottom_block">\n' +
 				'<div><img src="./images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="' + $post.link + '" data-author="' + $post.author + '"> | <span id="post_likes" class="post_likes">' + likes +'</span>LIKES</div>\n' +
