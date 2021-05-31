@@ -81,8 +81,9 @@ $(document).ready(function(){
 
 			let img = $post.json['image'];
 			let thumbnail = '<img src="' + img + '" alt="' + title + '" class="card-img-top">';
-			let metatags = $post.json['tags'];
-			let likes = $post.likes;
+			let tags=$post.json['tags'];let metatags=tags.map(function (meta) { if (meta) return '#' + meta + ' '});
+			let likes = $post.likes;var reward = '0.1';var income=likes*reward;
+			let postTags = metatags.toLowerCase();
 			$('#content').append('<div class="col-lg-4 col-md-6 postsMainDiv">\n' +
 				'\n' +
 				'<article class="post-style-two"><div class="post-contnet-wrap-top">\n' +
@@ -99,7 +100,7 @@ $(document).ready(function(){
 				'\n' +    
 				'</div></div>\n' +
 				'\n' +
-				'<div class="post-comments post-catg"><span class="post-meta"><b>' + postCategory + '</b></span></div>\n' +
+				'<div class="post-comments post-catg"><span class="post-meta"><b>' + category + '</b></span></div>\n' +
 				'\n' +
 				'</div></div>\n' +
 				'\n' +
@@ -109,11 +110,11 @@ $(document).ready(function(){
 				'\n' +
 				'<h4 class="post-title single_title"><a href="/post/' + $post.author + '/' + permlink + '">' + title + '</a></h4>\n' +
 				'\n' +
-				'<p class="post-entry post-tags">' + metatags + '</p>\n' +
+				'<p class="post-entry post-tags">' + postTags + '</p>\n' +
 				'\n' +
 				'<div class="post-comments bottom_block">\n' +
 				'<div><img src="./images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="' + $post.link + '" data-author="' + $post.author + '"> | <span id="post_likes" class="post_likes">' + likes +'</span>LIKES</div>\n' +
-				'<div><span class="dlike_tokens"></span> <b>DLIKE</b>\n' +
+				'<div><span class="dlike_tokens">'+income+'</span> <b>DLIKE</b>\n' +
 				'</div></div>\n' +
 			'</article></div>');
 		});
