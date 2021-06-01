@@ -57,7 +57,7 @@ app.post('/post', function(req, res){
     }else{
       newTx = javalon.sign(wifKey, author, newTx)
       javalon.sendTransaction(newTx, function(err, response) {
-        console.log(err,response)
+        //console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true  });}
       })
     }
@@ -67,16 +67,15 @@ app.post('/post', function(req, res){
 
 app.post('/share', function(req, res){
   var post = req.body;
-  console.log(post)
   var sharedUrl = post.url
   Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);})
 });
 
 
 app.post('/upvote', function(req, res){
-  let post = req.body;console.log(post)
+  let post = req.body;
   let token = req.cookies.token;
-  let voter = req.cookies.dlike_username;console.log(voter)
+  let voter = req.cookies.dlike_username;
 
   let newTx = {type: 5,data: {link: post.postLink,author: post.author}}
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
@@ -86,11 +85,24 @@ app.post('/upvote', function(req, res){
     if (pubKey !== account.pub) {res.send( {error: true } )
     }else{newTx = javalon.sign(wifKey, voter, newTx)
       javalon.sendTransaction(newTx, function(err, response) {
-        console.log(err,response)
+        //console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
       })
     }
   })
+});
+
+
+app.post('/signup', function(req, res){
+  let post = req.body;
+  let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}
+  let priv = process.env.privKey;
+  let signedTx = javalon.sign(priv,'dlike',newTx)
+  javalon.sendTransaction(signedTx, (error,result) => {
+    //console.log(error,result)
+    if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });}
+  })
+
 });
 
 
