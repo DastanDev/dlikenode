@@ -45,23 +45,12 @@ router.get('/post/:name/:link', async(req, res) => {
 
 router.get('/profile/:name', async(req, res) => {
     let name = req.params.name
-    try {
+    //try {
         const userAPI = await axios.get(`https://api.dlike.network/account/${name}`)
-        res.render('post', { user : postAPI.data, moment: moment })
-    } catch (err) {
-        if(err.response) {
-            res.render('post', { article : null })
-            console.log(err.response.data)
-            //console.log(err.response.status)
-            //console.log(err.response.headers)
-        } else if(err.requiest) {
-            res.render('post', { article : null })
-            console.log(err.requiest)
-        } else {
-            res.render('post', { article : null })
-            console.error('Error', err.message)
-        }
-    } 
+        res.render('profile', { user : userAPI.data, moment: moment })
+    //} catch (err) {
+
+    //} 
 })
 router.get('/tags/:tag', function (req, res){
     res.render('tags', {tag: req.params.tag})
@@ -79,9 +68,9 @@ router.get('/share', function (req, res){let token = req.cookies.token;
     if (!token) {res.redirect('/welcome');} else {res.render('share')}
 })
 
-router.get('/profile/:name', function (req, res){
-	res.render('profile', {name: req.params.name})
-})
+//router.get('/profile/:name', function (req, res){
+//	res.render('profile', {name: req.params.name})
+//})
 
 router.get('/trending', function (req, res){
     res.render('trending')
