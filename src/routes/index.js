@@ -42,6 +42,15 @@ router.get('/post/:name/:link', async(req, res) => {
         }
     } 
 })
+
+router.get('/tags/:tag', function (req, res){
+    res.render('tags', {tag: req.params.tag})
+})
+
+router.get('/category/:catg', function (req, res){
+    res.render('category', {catg: req.params.catg})
+})
+
 router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}
 })
