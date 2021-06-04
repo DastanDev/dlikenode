@@ -44,8 +44,7 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto"><li class="nav-item top_nav_li">
-            <div class="row top_nav"><div class="col-md-3 col-2"><button onclick="window.location.href='/welcome';" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon search_btn_hover" id="user_img"><i class="fas fa-user"></i></button></div>
-            <div class="col-md-4 col-2"><button onclick="window.location.href='/share';" id="btn_share" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon edit_btn_hover"><i class="fa fa-pencil-alt"></i></button></div>
+            <div class="row top_nav"><div class="col-md-3 col-2"><button onclick="window.location.href='/welcome';" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon search_btn_hover"><span class="img_profile" style="display: none"><img src="" alt="" title="" id="user_img" class="rounded-circle img-fluid prof_img_nav"></span><span class="icon_profile"><i class="fas fa-user"></i></span></button></div><div class="col-md-4 col-2"><button onclick="window.location.href='/share';" id="btn_share" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon edit_btn_hover"><i class="fa fa-pencil-alt"></i></button></div>
             <div class="col-md-4 col-2 stick_nav"><span class="nav_sticks" onclick="openNav()">&#9776;</span></div>
             </div>
         </li></ul>
@@ -65,11 +64,11 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
         <article class="post-style-two"><div class="post-contnet-wrap-top">
             <div class="post-footer">
                 <div class="post-author-block">
-                    <div><a href="/profile/<%- article.author %>" target="_blank"><img src="https://steemitimages.com/u/<%- article.author %>/avatar" alt="img" class="img-fluid my_img"></a></div>
+                    <div><a href="/profile/<%- article.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
                     <div class="author-info">
-                        <h5><a href="/profile/<%- article.author %>" target="_blank"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
+                        <h5><a href="/profile/<%- article.author %>"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
                     </div></div>
-                    <div class="post-comments post-catg"><span class="post-meta"><b><%- article.json.category %></b></span></div>
+                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- article.json.category %></b></a></span></div>
                     </div></div>
                     <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
                     <div class="post-contnet-wrap">

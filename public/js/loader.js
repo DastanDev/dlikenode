@@ -15,7 +15,7 @@ function getCookie(name) {var cookieArr = document.cookie.split(";");
 }
 var dlike_user_img = 'https://i.postimg.cc/rwbTkssy/dlike-user-profile.png';
 var Username = getCookie("dlike_username");
-if(Username !== "") {console.log(Username); var dlike_username  = Username;$("#user_img").attr("src", dlike_user_img).show();$("#logout_btn").show();} else {console.log('not a valid user')}
+if(Username) {console.log(Username); var dlike_username  = Username;$("#user_img, #p_img, .my_img").attr("src", dlike_user_img).show();$("#logout_btn").show();$(".icon_profile").hide();$(".img_profile").show();} else {console.log('not a valid user')}
 
 
 $('.signin_btn').click(function() {signinNOw();})

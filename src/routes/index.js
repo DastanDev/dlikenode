@@ -19,13 +19,8 @@ javalon.init({api: 'https://api.dlike.network'})
 var msgkey = process.env.msgKey;
 var iv = "123456789"
 
+router.get('',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);res.render('index', { articles : postsAPI.data, moment: moment }) })
 
-
-router.get('',  async(req, res) => {
-    let postsAPI = await axios.get(`https://api.dlike.network/new/`)
-    res.render('index', { articles : postsAPI.data, moment: moment  })
-
-})
 router.get('/post/:name/:link', async(req, res) => {
     let author = req.params.name
     let link = req.params.link
@@ -106,8 +101,7 @@ router.post('/post', function(req, res){
 
 
 router.post('/share', function(req, res){
-  var post = req.body;
-  var sharedUrl = post.url
+  var post = req.body;var sharedUrl = post.url
   Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);})
 });
 
@@ -117,7 +111,6 @@ router.post('/upvote', function(req, res){
   let post = req.body;
   let token = req.cookies.token;
   let voter = req.cookies.dlike_username;
-
   let newTx = {type: 5,data: {link: post.postLink,author: post.author}}
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
