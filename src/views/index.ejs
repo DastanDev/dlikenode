@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,18 +19,18 @@
 <meta name="apple-mobile-web-app-title" content="DLIKE">
 <meta name="application-name" content="DLIKE">
 <meta name="msapplication-TileColor" content="#2d89ef">
-<meta name="msapplication-config" content="https://dlike.io/images/favicons/browserconfig.xml?v=kPvWrWRLXe">
+<meta name="msapplication-config" content="./images/favicons/browserconfig.xml?v=kPvWrWRLXe">
 <meta name="theme-color" content="#ffffff">
 
-<link rel="stylesheet" href="./css/style.css"><script type='text/javascript'>
+<link rel="stylesheet" href="/css/style.css">
+<script type='text/javascript'>
 //<![CDATA[
 function loadCSS(e, t, n) { "use strict"; var i = window.document.createElement("link"); var o = t || window.document.getElementsByTagName("script")[0]; i.rel = "stylesheet"; i.href = e; i.media = "only x"; o.parentNode.insertBefore(i, o); setTimeout(function () { i.media = n || "all" }) }
 loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css");
 //]]>
 </script>
-
-</head><body>
-
+</head>
+<body>
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a href="/rewards">Reward Pool</a>
@@ -50,74 +50,45 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
             </div>
         </li></ul>
     </div>
-</div></nav>
-</div><!-- head -->
+</div></nav><!-- main-nav-block -->
+</div>
 
 
-<div class="container"><div class="user-login-signup-form-wrap" style="padding: 9rem 0rem;">
-    <div class="modal-content" style="background: #1b1e63;border-radius: 14px;">
-        <div class="modal-body login_section">
-            <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
-            <div class="user-connected-form-block" style="background: #1b1e63;">
-                <form class="user-connected-from">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="fa fas fa-user"></span>
+
+<div class="latest-post-section"><div class="container">
+<div class="row main_top"></div>
+<div class="row"><% articles.forEach(function(article) { 
+    let tags = (article.json.tags).toLowerCase();
+    let metatags = tags.split(' ').map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+    %>
+    <div class="col-lg-4 col-md-6 postsMainDiv">
+        <article class="post-style-two"><div class="post-contnet-wrap-top">
+            <div class="post-footer">
+                <div class="post-author-block">
+                    <div><a href="/profile/<%- article.author %>" target="_blank"><img src="https://steemitimages.com/u/<%- article.author %>/avatar" alt="img" class="img-fluid my_img"></a></div>
+                    <div class="author-info">
+                        <h5><a href="/profile/<%- article.author %>" target="_blank"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
                     </div></div>
-                    <input type="text" name="login_user" id="login_user_id" placeholder="Username" class="form-control" />
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="fa fas fa-lock"></span>
+                    <div class="post-comments post-catg"><span class="post-meta"><b><%- article.json.category %></b></span></div>
                     </div></div>
-                    <input type="password" name="email_pass" id="login_pass" placeholder="Private Key" class="form-control" />
-                </div>
-                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default login_btn" style="width: 40%;padding-top: 5px;"><i class="fas fa-spinner fa-spin login_loader" style="display:none;"></i><span id="login_txt">Log In</span></button></div>
-                </form>
-                <div style="color: #fff;text-align:center;">Don't have an account?<span class="register_btn" style="color: #e1ec31;cursor: pointer;"> Register</span></div>
-            </div>
-        </div>
-
-        <div class="modal-body signup_section" style="display:none;">
-            <div class="contact-info-block signup_block"><div class="contact-info-inner signup_inner" style="margin: 3%;padding-bottom: 10px;">
-                <h4 class="sign_head" style="color: #f5f5f5;"></h4>
-                <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
-                <form name="signup" style="margin-top: 15px;">
-                    <div class="form-group input-username">
-                    <input type="text" name="username" class="form-control" id="user_name" placeholder="username">
-                    </div>
-                    <button type="button" class="next btn btn-default signup_btn" style="background: #1652f0;color: #fff;font-weight: 700;font-size: 15px;min-height: 50px;padding: 0px 40px;margin:12px;"><span class="signup_txt">Signup</span></button>
-                </form>
-                <div style="color: #fff;text-align:center;">Already a user?<span class="loginNow_btn" style="color: #e1ec31;cursor: pointer;"> Login</span></div>
-            </div></div>
-        </div>
-
-        <div class="modal-body key_section" style="display:none;">
-            <div class="user-connected-from-block" style="text-align:center;margin:25px 0px;">
-                <span class="signup-signup-icon"><span class="fas fa-user"></span></span>
-                <h4 style="color: #f5f5f5;">You're all set up!</h4>
-                <p class="signup-signup-description" style="margin-bottom: 20px;color: #f5f5f5;">This is the private key (password) of your account<br><span style="color: #e1ec31;">Copy and save it securely!</span></p>
-                <form class="user-connected-from">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="copy_pass" style="cursor:pointer;">Copy</a>
-                    </div></div>
-                    <input type="text" name="user_key" id="acct_priv_key" style="min-width:80%;" />
-                </div>
-                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default signin_btn" style="width: 40%;padding-top: 5px;">Log In</button></div>
-                </form>
-
-            </div>
-        </div>
-    </div>
+                    <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
+                    <div class="post-contnet-wrap">
+                        <h4 class="post-title single_title"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></h4>
+                        <p class="post-entry post-tags"><%- metatags %></p>
+                        <div class="post-comments bottom_block">
+                        <div><img src="./images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
+                <div><span class="dlike_tokens"><%- (article.likes)*0.1 %></span> <b>DLIKE</b>
+                </div></div>
+        </article>
+    </div><% }) %>
+</div>
 </div></div>
-
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-<script src="./js/toaster.js"></script><script src="./js/loader.js"></script><script src="./js/javalon.min.js"></script>
+<script src="/js/toaster.js"></script><script src="/js/loader.js"></script><script src="/js/javalon.min.js"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <footer class="footer" style="background: #0C090D;">
     <div class="footer-upper-section" style="padding: 50px 0 30px !important;">
         <div class="container">

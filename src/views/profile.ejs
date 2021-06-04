@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLIKE - Share To Get Rewarded</title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="./images/favicons/apple-touch-icon.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="32x32" href="./images/favicons/favicon-32x32.png?v=kPvWrWRLXe">
+<link rel="icon" type="image/png" sizes="16x16" href="./images/favicons/favicon-16x16.png?v=kPvWrWRLXe">
+<link rel="manifest" href="./images/favicons/site.webmanifest?v=kPvWrWRLXe">
+<link rel="shortcut icon" href="./images/favicons/favicon.ico?v=kPvWrWRLXe">
+
+<meta name="apple-mobile-web-app-title" content="DLIKE">
+<meta name="application-name" content="DLIKE">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="msapplication-config" content="./images/favicons/browserconfig.xml?v=kPvWrWRLXe">
+<meta name="theme-color" content="#ffffff">
+
+<link rel="stylesheet" href="/../css/style.css"><script type='text/javascript'>
+//<![CDATA[
+function loadCSS(e, t, n) { "use strict"; var i = window.document.createElement("link"); var o = t || window.document.getElementsByTagName("script")[0]; i.rel = "stylesheet"; i.href = e; i.media = "only x"; o.parentNode.insertBefore(i, o); setTimeout(function () { i.media = n || "all" }) }
+loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css");
+//]]>
+</script>
+
+</head><body>
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/rewards">Reward Pool</a>
+    <a href="/staking">Staking</a>
+    <a href="/explorer">Explorer</a>
+    <a href="https://dlike.zendesk.com/hc/en-us" target="_blank">Help</a>
+    <a id="logout_btn" style="display: none;">Logout</a>
+</div>
+<div class="banner-block"><nav class="navbar main-nav navbar-expand-lg"><div class="container">
+    <a class="navbar-brand" href="/"><img class="navbar-logo" src="/images/logo.png" alt="DLIKE"/></a>
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto"><li class="nav-item top_nav_li">
+            <div class="row top_nav"><div class="col-md-3 col-2"><button onclick="window.location.href='/welcome';" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon search_btn_hover" id="user_img"><i class="fas fa-user"></i></button></div>
+            <div class="col-md-4 col-2"><button onclick="window.location.href='/share';" id="btn_share" type="button" class="btn btn-default btn-circle-it btn-lg custom_btn_icon edit_btn_hover"><i class="fa fa-pencil-alt"></i></button></div>
+            <div class="col-md-4 col-2 stick_nav"><span class="nav_sticks" onclick="openNav()">&#9776;</span></div>
+            </div>
+        </li></ul>
+    </div>
+</div></nav><!-- main-nav-block -->
+</div>
+
+
+
+
+<div id="profile_page">
+    <div id="p_cover" class="img-fluid"><img src="" style="width:100%;height:100%;"></div>
+    <div style="background: #ededed;"><div class="container p-data">
+        <div class="row p_data_inner">
+            <div>
+                <span><img src="" id="p_img" class="img-fluid rounded-circle"></span><span class="p_data_names"><span class="name"></span><br><span class="p_name">@<%- name %></span></span>
+            </div>
+            <div><button class="btn btn-danger btn_edit btn-follow">Edit Profile</button>
+                    <button class="btn btn-danger btn_verify_email">Verify Email</button>
+            </div>
+        </div>
+        <div class="row p_data_top"><span class="p_about"></span></div>
+        <div class="row p_data_mid">
+            <span class="p_joined"><i class="fas fa-calendar-alt" style="line-height:0.1;color: #191d5d;"></i> Joined </span>
+            <span class="p_location" style="margin-left:10px;"><i class="fas fa-map-marker-alt" style="color: #191d5d;padding-right:3px;"></i></span>
+            <span class="web_site" style="margin-left:10px;"><i class="fas fa-link" style="color: #191d5d;padding-right:3px;"></i>
+        </div>
+    </div>
+<div class="new-ticker-block new-ticker-block-section" style="min-height:50vh;"><div class="container"><div class="new-ticker-block-wrap">
+<div class="ticker-head">
+    <ul class="nav nav-tabs ticker-nav prof-nav" role="tablist">
+        <li class="nav-item"><a class="nav-link active show" href="#user_posts" role="tab" data-toggle="tab" aria-selected="true"><h5>Posts</h5></a></li><li class="nav-item"><a class="nav-link" href="#user_likes" role="tab" data-toggle="tab">Likes</a></li><li class="nav-item nav-item-last"></li>
+    </ul>
+</div>
+<div class="market-ticker-block"><div class="tab-content">
+<div role="tabpanel" class="tab-pane fade in active show" id="user_posts"><div class="container"><div class="row" style="margin-top: 30px;">
+
+<div class="col-lg-4 col-md-6 postsMainDiv"></div> 
+
+</div></div></div>
+<div role="tabpanel" class="tab-pane fade" id="user_likes"><div class="container"><div class="row" style="margin-top: 30px;">
+
+<div class="col-lg-4 col-md-6 postsMainDiv"></div> 
+
+</div></div></div>
+</div>
+<!--<div role="tabpanel" class="tab-pane fade p_tab_pad" id="user_replies"><div id="replies_content"></div>-->
+</div></div></div></div></div>

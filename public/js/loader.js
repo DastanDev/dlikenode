@@ -101,22 +101,22 @@ function signinNOw() {
 }
 
 $('.login_btn').click(function() {
-    $(".login_btn").attr("disabled", true);
+    $(".login_btn").attr("disabled", true);$('#login_txt').hide();$('.login_loader').show();
     let login_user = $('#login_user_id').val();let login_pass = $('#login_pass').val();
     if (login_user=="") {toastr.error('phew.. Username should not be empty');$(".login_btn").attr("disabled", false);return false;}
     if (login_pass=="") {toastr.error('phew... Private key should not be empty');$(".login_btn").attr("disabled", false);return false;}
     javalon.getAccount(login_user, function(error, account) {const pivkey = login_pass;
         if (!account || account.length === 0) {
-            toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);
+            toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
         if (javalon.privToPub(pivkey) !== account.pub) {
-            toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);
+            toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
         $.ajax({type: 'POST',data: JSON.stringify({ pivkey: pivkey,  username: login_user}),contentType: 'application/json',url: '/loginuser',            
             success: function(data) {
-                if (data.error == true) {toastr['error']("Login Fail");$(".login_btn").attr("disabled", false);return false;
+                if (data.error == true) {toastr['error']("Login Fail");$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();return false;
                 } else {toastr['success']("Login Success");setTimeout(function(){window.location.href = '/';}, 300);}
             }
         });
@@ -190,7 +190,7 @@ $('.dlike_share_post').click(function(clickEvent) {
         $.ajax({type: "POST",url: "/post",data: {title: title,tags:post_tags,description:post_body,category: post_category,image:urlImage,exturl:urlInput},
             success: function(data) {console.log(data)
                 if (data.error == false) {toastr['success']("Link Shared Successfully!");setTimeout(function(){window.location.href = '/';}, 400);
-                } else {toastr['error']("Unable to share link");return false}
+                } else {toastr['error'](data.message);$(".dlike_share_post").attr("disabled", false);$('.dlike_share_post').html('Publish');return false}
             },
         });
 })
@@ -214,3 +214,15 @@ function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i
         return match[2];
     } else {return false;}
 }
+
+$('.latest-post-section').on("click", ".hov_vote", function() {
+    var postLink = $(this).attr("data-permlink");var postAuthor = $(this).attr("data-author");
+    $(this).addClass('fas fa-spinner fa-spin like_loader');
+    console.log(postLink);console.log(postAuthor)
+    $.ajax({ type: "POST",url: "/upvote", data: {author: postAuthor, postLink: postLink},
+        success: function(data) {
+            if (data.error == false) {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['success']("Upvoted Successfully!");setTimeout(function(){window.location.href = '/';}, 400);
+            } else {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['error'](data.message);return false}
+        }
+    });
+}); 

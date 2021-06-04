@@ -50,72 +50,61 @@ loadCSS("https://fonts.googleapis.com/css?family=Quicksand");loadCSS("https://cd
             </div>
         </li></ul>
     </div>
-</div></nav>
-</div><!-- head -->
+</div></nav><!-- main-nav-block -->
+</div>
 
 
-<div class="container"><div class="user-login-signup-form-wrap" style="padding: 9rem 0rem;">
-    <div class="modal-content" style="background: #1b1e63;border-radius: 14px;">
-        <div class="modal-body login_section">
-            <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
-            <div class="user-connected-form-block" style="background: #1b1e63;">
-                <form class="user-connected-from">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="fa fas fa-user"></span>
-                    </div></div>
-                    <input type="text" name="login_user" id="login_user_id" placeholder="Username" class="form-control" />
+
+<div class="container share_link"><div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
+    <div class="modal-content" style="background: #1b1e63;border-radius: 14px;"><div class="modal-body">
+        <div class="share-block">=<p>Share To Get Rewarded</p></div>
+        <div class="user-connected-form-block" style="background: #1b1e63;">
+            <form class="user-connected-from share-form">
+                <div class="form-group"><input type="text" class="form-control" id="url_field" required="true" placeholder="Enter URL" style="border-radius: 20px;"></div>
+                <center><button type="button" class="btn btn-default share_me" style="width: 40%;padding-top: 5px;" id="dlike_share"><i class="fas fa-spinner fa-spin share_loader" style="display:none;"></i><span id="share_plus">Share</span></button></center>
+            </form>
+            <p style="color: #fff;">Must read  <a href="/help" style="color: #e1ec31;"> Terms &amp; Conditions</a> for sharing!</p>
+        </div>
+    </div></div>
+</div></div>  
+
+<div class="container edit_psot" style="display: none;">
+    <div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
+        <div class="modal-content" style="border:none;"><div class="modal-body">
+            <input type="hidden" name="url_link" class="url_link" value="">
+            <div class="post_img"><img class="img-fluid d-flex flex-column link_image" src="" alt="dlike"/></div>
+            <div class="modal-info-block link_box">
+                <p class="data-title"></p>
+                <textarea class="data-desc" rows="2" style="width: 100%;border: none;" id="post_desc"></textarea>
+                <div class="link_bottom">
+                    <p style="margin-bottom: 1px;"><i class="fas fa-link link_icon"></i><span id="domain_name"></span></p>
+                    <select  style="border:none;" name="category" class="dlike_cat">
+                        <option value="0">Select Category</option>
+                        <option value="1">News</option>
+                        <option value="2">Cryptocurrency</option>
+                        <option value="3">Food</option>
+                        <option value="4">Sports</option>
+                        <option value="5">Technology</option>
+                        <option value="6">LifeStyle</option>
+                        <option value="7">Health</option>
+                        <option value="8">Gaming</option>
+                        <option value="9">Business</option>
+                        <option value="10">General</option>
+                    </select>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="fa fas fa-lock"></span>
-                    </div></div>
-                    <input type="password" name="email_pass" id="login_pass" placeholder="Private Key" class="form-control" />
+                <div class="link_bottom_section">
+                    <input type="text" placeholder="Tags separated by space" style="width: 60%;border: none;color: rgb(27, 149, 224);" class="dlike_tags" />
+                    <button type="button" class="btn btn-primary dlike_share_post">SHARE</button>
                 </div>
-                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default login_btn" style="width: 40%;padding-top: 5px;"><i class="fas fa-spinner fa-spin login_loader" style="display:none;"></i><span id="login_txt">Log In</span></button></div>
-                </form>
-                <div style="color: #fff;text-align:center;">Don't have an account?<span class="register_btn" style="color: #e1ec31;cursor: pointer;"> Register</span></div>
             </div>
-        </div>
-
-        <div class="modal-body signup_section" style="display:none;">
-            <div class="contact-info-block signup_block"><div class="contact-info-inner signup_inner" style="margin: 3%;padding-bottom: 10px;">
-                <h4 class="sign_head" style="color: #f5f5f5;"></h4>
-                <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
-                <form name="signup" style="margin-top: 15px;">
-                    <div class="form-group input-username">
-                    <input type="text" name="username" class="form-control" id="user_name" placeholder="username">
-                    </div>
-                    <button type="button" class="next btn btn-default signup_btn" style="background: #1652f0;color: #fff;font-weight: 700;font-size: 15px;min-height: 50px;padding: 0px 40px;margin:12px;"><span class="signup_txt">Signup</span></button>
-                </form>
-                <div style="color: #fff;text-align:center;">Already a user?<span class="loginNow_btn" style="color: #e1ec31;cursor: pointer;"> Login</span></div>
-            </div></div>
-        </div>
-
-        <div class="modal-body key_section" style="display:none;">
-            <div class="user-connected-from-block" style="text-align:center;margin:25px 0px;">
-                <span class="signup-signup-icon"><span class="fas fa-user"></span></span>
-                <h4 style="color: #f5f5f5;">You're all set up!</h4>
-                <p class="signup-signup-description" style="margin-bottom: 20px;color: #f5f5f5;">This is the private key (password) of your account<br><span style="color: #e1ec31;">Copy and save it securely!</span></p>
-                <form class="user-connected-from">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
-                        <span class="copy_pass" style="cursor:pointer;">Copy</a>
-                    </div></div>
-                    <input type="text" name="user_key" id="acct_priv_key" style="min-width:80%;" />
-                </div>
-                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default signin_btn" style="width: 40%;padding-top: 5px;">Log In</button></div>
-                </form>
-
-            </div>
-        </div>
+        </div></div>
     </div>
-</div></div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-<script src="./js/toaster.js"></script><script src="./js/loader.js"></script><script src="./js/javalon.min.js"></script>
+<script src="/js/toaster.js"></script><script src="/js/loader.js"></script><script src="/js/javalon.min.js"></script>
 
 
 <footer class="footer" style="background: #0C090D;">
