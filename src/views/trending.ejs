@@ -7,13 +7,11 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 <%- include('./common/navbar.ejs') %>
-<div class="latest-post-section">
-<div class="container">
-	1. we need to get post by category by time new -- latest<br>
-	2. we need to get posts by category by top upvotes<br>
-	3. we need the check to limit posts by number means if we want to show 50 or 80 or 200 etc, and this limit for both above calls<br>
-	4. we need trending posts by category (top in last 24 hours from now)<br>
 
+<div class="latest-post-section"><div class="container">
+<div class="row main_top"><%- include('./common/trending.ejs') %></div>
+<div class="row">
+    we need trending posts by upvotes (top in last 24 hours from now)<br>
 </div>
-</div>
+</div></div>
 <%- include('./common/footer.ejs') %>

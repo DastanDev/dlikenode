@@ -9,7 +9,7 @@
 <%- include('./common/navbar.ejs') %>
 
 <div class="latest-post-section"><div class="container">
-<div class="row main_top"></div>
+<div class="row main_top"><%- include('./common/trending.ejs') %></div>
 <div class="row"><% articles.forEach(function(article) { 
     let tags = (article.json.tags).toLowerCase();
     let metatags = tags.split(' ').map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');

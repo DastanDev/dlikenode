@@ -63,6 +63,9 @@ router.get('/profile/:name', function (req, res){
 	res.render('profile', {name: req.params.name})
 })
 
+router.get('/trending', function (req, res){
+    res.render('trending')
+})
 
 router.post('/loginuser', function(req, res){
   var user = req.body; console.log(user)
@@ -108,13 +111,10 @@ router.post('/post', function(req, res){
   })
 });
 
-
 router.post('/share', function(req, res){
   var post = req.body;var sharedUrl = post.url
   Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);})
 });
-
-
 
 router.post('/upvote', function(req, res){
   let post = req.body;
@@ -134,7 +134,6 @@ router.post('/upvote', function(req, res){
     }
   })
 });
-
 
 router.post('/signup', function(req, res){
   let post = req.body;
