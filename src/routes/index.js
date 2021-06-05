@@ -45,12 +45,11 @@ router.get('/post/:name/:link', async(req, res) => {
 
 router.get('/profile/:name', async(req, res) => {
     let name = req.params.name
-    //try {
-        const userAPI = await axios.get(`https://api.dlike.network/account/${name}`)
-        res.render('profile', { user : userAPI.data, moment: moment })
-    //} catch (err) {
 
-    //} 
+        let userAPI = await axios.get(`https://api.dlike.network/account/${name}`)
+        let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);
+        res.render('profile', { user : userAPI.data, articles: blogAPI.data, moment: moment })
+
 })
 
 router.get('/trending',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/trending`);res.render('trending', { articles : postsAPI.data, moment: moment }) })
