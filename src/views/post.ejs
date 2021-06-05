@@ -28,6 +28,7 @@ function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i
 }
 let tags = article.json.tags;
 let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + catg.slice(1);
 %>
 
 <div class="latest-post-section"><div class="container">

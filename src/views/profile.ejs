@@ -38,10 +38,7 @@ let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
     </ul>
 </div>
 <div class="market-ticker-block"><div class="tab-content">
-<div role="tabpanel" class="tab-pane fade in active show" id="user_posts"><div class="container"><div class="row" style="margin-top: 30px;">
-
-<div class="col-lg-4 col-md-6 postsMainDiv"></div> 
-<%- include('./common/blog.ejs') %>
+<div role="tabpanel" class="tab-pane fade in active show" id="user_posts"><div class="container"><div class="row" style="margin-top: 30px;"><%- include('./common/blog.ejs') %>
 </div></div></div>
 <div role="tabpanel" class="tab-pane fade" id="user_likes"><div class="container"><div class="row" style="margin-top: 30px;">
 
@@ -49,6 +46,5 @@ let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
 
 </div></div></div>
 </div>
-<!--<div role="tabpanel" class="tab-pane fade p_tab_pad" id="user_replies"><div id="replies_content"></div>-->
 </div></div></div></div></div>
 <%- include('./common/footer.ejs') %>

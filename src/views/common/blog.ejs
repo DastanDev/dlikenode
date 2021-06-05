@@ -2,8 +2,7 @@
     articles.forEach(function(article) { 
     let tags = article.json.tags;
     let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
-    let catg = article.json.category
-    let category = catg.charAt(0).toUpperCase() + catg.slice(1);
+    let catg = article.json.category; let category = catg.charAt(0).toUpperCase() + catg.slice(1);
 %>
     <div class="col-lg-4 col-md-6 postsMainDiv">
         <article class="post-style-two"><div class="post-contnet-wrap-top">
