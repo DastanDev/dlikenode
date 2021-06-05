@@ -12,9 +12,8 @@
 <div class="row">
     <% 
     articles.forEach(function(article) { 
-    let tags = JSON.parse(article.json.tags);
+    let tags = article.json.tags;
     let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
-    console.log(metatags.toString())
     %>
     <div class="col-lg-4 col-md-6 postsMainDiv">
         <article class="post-style-two"><div class="post-contnet-wrap-top">
@@ -31,7 +30,7 @@
                         <h4 class="post-title single_title"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></h4>
                         <p class="post-entry post-tags"><%- metatags.toString() %></p>
                         <div class="post-comments bottom_block">
-                        <div><img src="./images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
+                        <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
                 <div><span class="dlike_tokens"><%- (article.likes)*0.1 %></span> <b>DLIKE</b>
                 </div></div>
         </article>

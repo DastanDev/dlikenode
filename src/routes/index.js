@@ -55,15 +55,10 @@ router.get('/profile/:name', async(req, res) => {
 
 router.get('/trending',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/trending`);res.render('trending', { articles : postsAPI.data, moment: moment }) })
 
-router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tags=${tag}`);res.render('tags', { articles: postsAPI.data, moment: moment }) })
+router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);res.render('tags', { articles: postsAPI.data, moment: moment }) })
 
-//router.get('/tags/:tag', function (req, res){
-//    res.render('tags', {tag: req.params.tag})
-//})
+router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);res.render('category', { articles: postsAPI.data, moment: moment }) })
 
-router.get('/category/:catg', function (req, res){
-    res.render('category', {catg: req.params.catg})
-})
 
 router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}

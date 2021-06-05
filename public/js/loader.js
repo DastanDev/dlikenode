@@ -171,11 +171,11 @@ $('.share_me').click(function() {
 $('.dlike_share_post').click(function(clickEvent) {
         let urlInput = $('.url_link').val();
         if($('.dlike_cat').val() == "0") {$('.dlike_cat').css("border-color", "RED");toastr.error('Please Select an appropriate Category');return false;}
-        var tags = $.trim($('.dlike_tags').val());let newtags = $.trim(tags).split(' ');
+        var tags = $.trim($('.dlike_tags').val()).toLowerCase();let newtags = $.trim(tags).split(' ');
         if (newtags.length < 2) {$('.tags').css("border-color", "RED");toastr.error('Please add at least two related tags');return false;}
         var allowed_tags_type = /^[a-z\d\s]+$/i;
         if (!allowed_tags_type.test(tags)) {$('.tags').css("border-color", "RED");toastr.error('Only alphanumeric tags, no Characters.');return false;}
-        var vtags = tags.replace(/([a-zA-Z0-9-]+)/g, "\"$1\"");var qtags = vtags.replace(/\s+/g, ', ').toLowerCase();var post_tags = '['+ qtags +']';
+        var post_tags = tags.split(' ');
         var description = $('textarea#post_desc').val();
         var post_description = $.trim(description).split(' ');console.log(post_description.length)
         if (post_description.length < 10) {$('.data-desc').css("border-color", "RED");toastr.error('Please add description of minimum 30 words');return false;}
@@ -184,7 +184,7 @@ $('.dlike_share_post').click(function(clickEvent) {
         if (title=="") {toastr.error('Some error in this link!');return false;}
         var post_body = description.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
         var urlImage =  $('.post_img img').attr('src');
-        var post_category = $( ".dlike_cat option:selected" ).text();
+        var category = $( ".dlike_cat option:selected" ).text(); var post_category=category.toLowerCase();
         $(".dlike_share_post").attr("disabled", true);$('.dlike_share_post').html('Publishing...');
         $.ajax({type: "POST",url: "/post",data: {title: title,tags:post_tags,description:post_body,category: post_category,image:urlImage,exturl:urlInput},
             success: function(data) {console.log(data)

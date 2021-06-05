@@ -7,13 +7,34 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 <%- include('./common/navbar.ejs') %>
-<div class="latest-post-section">
-<div class="container">
-	1. we need to get post by category by time new -- latest<br>
-	2. we need to get posts by category by top upvotes<br>
-	3. we need the check to limit posts by number means if we want to show 50 or 80 or 200 etc, and this limit for both above calls<br>
-	4. we need trending posts by category (top in last 24 hours from now)<br>
-
+<div class="latest-post-section"><div class="container">
+<div class="row main_top"><%- include('./common/trending.ejs') %></div>
+<div class="row">
+    <% 
+    articles.forEach(function(article) { 
+    let tags = article.json.tags;
+    let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+    %>
+    <div class="col-lg-4 col-md-6 postsMainDiv">
+        <article class="post-style-two"><div class="post-contnet-wrap-top">
+            <div class="post-footer">
+                <div class="post-author-block">
+                    <div><a href="/profile/<%- article.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
+                    <div class="author-info">
+                        <h5><a href="/profile/<%- article.author %>"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
+                    </div></div>
+                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- article.json.category %></b></a></span></div>
+                    </div></div>
+                    <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
+                    <div class="post-contnet-wrap">
+                        <h4 class="post-title single_title"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></h4>
+                        <p class="post-entry post-tags"><%- metatags.toString() %></p>
+                        <div class="post-comments bottom_block">
+                        <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
+                <div><span class="dlike_tokens"><%- (article.likes)*0.1 %></span> <b>DLIKE</b>
+                </div></div>
+        </article>
+    </div><% }) %>
 </div>
-</div>
+</div></div>
 <%- include('./common/footer.ejs') %>
