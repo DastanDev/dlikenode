@@ -7,6 +7,10 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 <%- include('./common/navbar.ejs') %>
+<%
+let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
+
+%>
 
 
 <div id="profile_page">
@@ -22,7 +26,7 @@
         </div>
         <div class="row p_data_top"><span class="p_about"></span></div>
         <div class="row p_data_mid">
-            <span class="p_joined"><i class="fas fa-calendar-alt" style="line-height:0.1;color: #191d5d;"></i> Joined </span>
+            <span class="p_joined"><i class="fas fa-calendar-alt" style="line-height:0.1;color: #191d5d;"></i> Joined <%- activeTime %></span>
             <span class="p_location" style="margin-left:10px;"><i class="fas fa-map-marker-alt" style="color: #191d5d;padding-right:3px;"></i></span>
             <span class="web_site" style="margin-left:10px;"><i class="fas fa-link" style="color: #191d5d;padding-right:3px;"></i>
         </div>

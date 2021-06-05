@@ -171,8 +171,9 @@ $('.share_me').click(function() {
 $('.dlike_share_post').click(function(clickEvent) {
         let urlInput = $('.url_link').val();
         if($('.dlike_cat').val() == "0") {$('.dlike_cat').css("border-color", "RED");toastr.error('Please Select an appropriate Category');return false;}
-        var tags = $.trim($('.dlike_tags').val()).toLowerCase();let newtags = $.trim(tags).split(' ');
+        var inputtags = $.trim($('.dlike_tags').val()).toLowerCase();let tags=inputtags.replace(/\s\s+/g, ' ');let newtags = $.trim(tags).split(' ');
         if (newtags.length < 2) {$('.tags').css("border-color", "RED");toastr.error('Please add at least two related tags');return false;}
+        if (newtags.length > 5) {$('.tags').css("border-color", "RED");toastr.error('maximum 5 tags allowed');return false;}
         var allowed_tags_type = /^[a-z\d\s]+$/i;
         if (!allowed_tags_type.test(tags)) {$('.tags').css("border-color", "RED");toastr.error('Only alphanumeric tags, no Characters.');return false;}
         var post_tags = tags.split(' ');
