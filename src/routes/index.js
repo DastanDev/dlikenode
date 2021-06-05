@@ -52,9 +52,14 @@ router.get('/profile/:name', async(req, res) => {
 
     //} 
 })
-router.get('/tags/:tag', function (req, res){
-    res.render('tags', {tag: req.params.tag})
-})
+
+router.get('/trending',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/trending`);res.render('trending', { articles : postsAPI.data, moment: moment }) })
+
+router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tags=${tag}`);res.render('tags', { articles: postsAPI.data, moment: moment }) })
+
+//router.get('/tags/:tag', function (req, res){
+//    res.render('tags', {tag: req.params.tag})
+//})
 
 router.get('/category/:catg', function (req, res){
     res.render('category', {catg: req.params.catg})
@@ -68,13 +73,6 @@ router.get('/share', function (req, res){let token = req.cookies.token;
     if (!token) {res.redirect('/welcome');} else {res.render('share')}
 })
 
-//router.get('/profile/:name', function (req, res){
-//	res.render('profile', {name: req.params.name})
-//})
-
-router.get('/trending', function (req, res){
-    res.render('trending')
-})
 
 router.post('/loginuser', function(req, res){
   var user = req.body; console.log(user)
@@ -106,12 +104,14 @@ router.post('/post', function(req, res){
   let link = randomstring.generate({ length: 11, capitalization: 'lowercase'});
   let content = {title:post.title, permlink:permlink, body: post.description, category: post.category,url: post.exturl, image: post.image, tags: post.tags }; 
   let newTx = {type: 4,data: {link: link,json: content}}
+  console.log(newTx)
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
   javalon.getAccount(author, function(error, account) {
     if (javalon.privToPub(wifKey) !== account.pub) {res.send( {error: true} )
     }else{
       newTx = javalon.sign(wifKey, author, newTx)
+      console.log(newTx)
       javalon.sendTransaction(newTx, function(err, response) {
         //console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error'] });}
