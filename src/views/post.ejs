@@ -41,7 +41,7 @@ var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + 
                     <div class="author-info"><h5 class="auth_inf"><a href="/profile/<%- article.author %>"><%- article.author %></a></h5><span class="auth-time"><%- moment.utc(article.ts).fromNow()%></span>
                     </div>
                 </div>
-                <div class="post-comments post-com-cat"><a href="/category/<%- (article.json.category).toLowerCase() %>"><%- article.json.category %></a></div>
+                <div class="post-comments post-com-cat"><a href="/category/<%- (article.json.category).toLowerCase() %>"><%- category %></a></div>
             </div>
             <h1 class="post-title"><%- article.json.title %></h1>
             <p class="post-entry"><%- article.json.body %><br>
