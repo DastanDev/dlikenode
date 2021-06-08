@@ -54,10 +54,8 @@ router.get('/profile/:name', async(req, res) => {
 
 })
 
-router.get('/trending',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/trending`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
-
+router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
-
 router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
 
 
@@ -65,10 +63,7 @@ router.get('/welcome', function(req, res) {let token = req.cookies.token;let use
     if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}
 })
 
-router.get('/share', function (req, res){let token = req.cookies.token;
-    if (!token) {res.redirect('/welcome');} else {res.render('share')}
-})
-
+router.get('/share', function (req, res){let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share')}})
 
 router.post('/loginuser', function(req, res){
   var user = req.body; console.log(user)

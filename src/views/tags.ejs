@@ -24,7 +24,7 @@
                     <div class="author-info">
                         <h5><a href="/profile/<%- article.author %>"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
                     </div></div>
-                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- article.json.category %></b></a></span></div>
+                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- category %></b></a></span></div>
                     </div></div>
                     <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
                     <div class="post-contnet-wrap">
