@@ -19,9 +19,22 @@ javalon.init({api: 'https://api.dlike.network'})
 var msgkey = process.env.msgKey;
 var iv = "123456789"
 
-router.get('',  async(req, res) => {
-    let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();
-    res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
+router.get('',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
+router.get('/profile/:name', async(req, res) => {let name = req.params.name;let userAPI = await axios.get(`https://api.dlike.network/account/${name}`);let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);res.render('profile', { user : userAPI.data, articles: blogAPI.data, moment: moment }) })
+router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
+router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
+router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
+router.get('/share', function (req, res){let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share')}})
+
+router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
+    if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}
+})
+
+router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= []
+    if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;
+            javalon.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });
+    } else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();}
+})
 
 router.get('/post/:name/:link', async(req, res) => {
     let author = req.params.name
@@ -45,28 +58,9 @@ router.get('/post/:name/:link', async(req, res) => {
     } 
 })
 
-router.get('/profile/:name', async(req, res) => {
-    let name = req.params.name
-
-        let userAPI = await axios.get(`https://api.dlike.network/account/${name}`)
-        let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);
-        res.render('profile', { user : userAPI.data, articles: blogAPI.data, moment: moment })
-
-})
-
-router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
-router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
-router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
-
-
-router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}
-})
-
-router.get('/share', function (req, res){let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share')}})
 
 router.post('/loginuser', function(req, res){
-  var user = req.body; console.log(user)
+  var user = req.body;
   var key = user.pivkey
   var username = user.username
   var encrypted = CryptoJS.AES.encrypt(key, msgkey,{ iv: iv});
@@ -79,12 +73,6 @@ router.post('/loginuser', function(req, res){
 });
 
 
-router.post('/logout', function(req, res){
-  res.clearCookie('dlike_username');
-  res.clearCookie('token');
-  console.log('Logout');
-  res.send({ error: false  });
-});
 
 
 router.post('/post', function(req, res){
@@ -111,10 +99,8 @@ router.post('/post', function(req, res){
   })
 });
 
-router.post('/share', function(req, res){
-  var post = req.body;var sharedUrl = post.url
-  Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);})
-});
+router.post('/share', function(req, res){var post = req.body;var sharedUrl = post.url;Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);}) });
+router.post('/logout', function(req, res){res.clearCookie('dlike_username');res.clearCookie('token');console.log('Logout');res.send({ error: false  });});
 
 router.post('/upvote', function(req, res){
   let post = req.body;
@@ -148,17 +134,12 @@ router.post('/signup', function(req, res){
 });
 
 
-const fetchTags = async () => {
-    let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
-    let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`)
-    let posts = tagsAPI.data;let tags = {};
+const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
+    let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`);let posts = tagsAPI.data;let tags = {};
     for (let p in posts) if (posts[p].json && posts[p].json.tags) {
         let postTags = posts[p].json.tags
         for (let t in postTags)
-            if (!tags[postTags[t]])
-                tags[postTags[t]] = 1
-            else
-                tags[postTags[t]] += 1
+            if (!tags[postTags[t]]){tags[postTags[t]] = 1}else{tags[postTags[t]] += 1}
     }
     let tagArr = []
     for (let t in tags)
@@ -166,5 +147,7 @@ const fetchTags = async () => {
     let trendingTags = "";var i;for (i = 0; i < tagsArr.length; i++) {trendingTags +='<a class="nav-item nav-link" href="/tags/'+tagsArr[i].m+'">#' + tagsArr[i].m + '</a>';}
     return trendingTags
 }
+
+
 
 module.exports = router;

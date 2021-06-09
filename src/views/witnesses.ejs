@@ -1,0 +1,61 @@
+<!DOCTYPE html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLIKE - Share To Get Rewarded</title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+<%- include('./common/navbar.ejs') %>
+<style>
+body{counter-reset: Serial;}.witness_table tr td:first-child:before{counter-increment: Serial;content: counter(Serial);}
+.latest-tranjections-table thead th {color: #ffffff;background: #dc3545;border-bottom: 1px solid #e8e9eb;font-weight: 600;}.latest-tranjections-table tbody tr td {
+    font-weight: 600 !important;}</style>
+<div class="latest-post-section"><div class="container">
+<div class="latest-tranjections-area">
+        <div class="latest-tranjections-block">
+            <div class="container-fluid">
+                <div class="section-title-one">
+                    <h3>Witnesses</h3>
+                    <p>
+                        To ensure smooth serving of data from our side chain (breeze), We have 11 witnesses. This number will increase as system scales. These witnesses are in charge of producing new blocks and securing the infrastructure. 11% from reward pool goes to witnesses. Out of this 1% is for current block producer and 1% each for producers of last 10 blocks. If any witness misses block, it goes to previous producer. You can vote upto 5 witnesses. 
+                    </p>
+                </div>
+                <div class="latest-tranjections-block-inner">
+    
+                    <table class="table coin-list latest-tranjections-table witness_table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rank</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Voters</th>
+                                <th scope="col">Votes</th>
+                                <th scope="col">Produced</th>
+                                <th scope="col">Missed</th>
+                                <th scope="col" style="text-align: center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody><% witnesses.forEach(function(witness) { let appr = JSON.stringify(approved) %>
+                            <tr style="border-bottom: 1px solid #000000;">
+                                <td></td>
+                                <td><%- witness.name %></td>
+                                <td><%- witness.voters %></td>
+                                <td><%- witness.node_appr %></td>
+                                <td><%- witness.produced %></td>
+                                <td><%- witness.missed %></td>
+                                <td style="text-align: center;"><% if((appr) && appr.includes(witness.name)){ %>
+                                    <button class="btn btn-danger btn_unapp_wit">unapprove</button>
+                                    <%  }else{ %>
+                                    <button class="btn btn-success btn_app_wit">Approve</button>
+                                    <% } %>
+                                    </td>
+                            </tr><% }) %>
+                        </tbody>
+                    </table>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div></div>
+<%- include('./common/footer.ejs') %>
