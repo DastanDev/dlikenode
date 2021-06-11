@@ -148,8 +148,32 @@ $('.signup_btn').click(function() {
 
 
 
+$('.btn_app_wit').click(function() {
+    if (dlike_username != null) {var nodeName = $(this).attr("data-node");$(this).closest("tr").find(".btn_txt_app").hide();$(this).closest("tr").find(".wit_loader").show();
+        $.ajax({url: '/witup',type: 'POST',data: JSON.stringify({ nodeName: nodeName }),contentType: 'application/json', success: function(data)  {if (data.error == false) {toastr['success']("Approved Successfully!");setTimeout(function(){window.location.reload();}, 300);} else {toastr['error'](data.message);$(this).closest("tr").find(".btn_txt_app").show();$(this).closest("tr").find(".wit_loader").hide();return false}} });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
+$('.btn_unapp_wit').click(function() {
+    if (dlike_username) {var nodeName = $(this).attr("data-node");$(this).closest("tr").find(".btn_txt_unapp").hide();$(this).closest("tr").find(".unwit_loader").show();
+        $.ajax({url: '/witunup',type: 'POST',data: JSON.stringify({ nodeName: nodeName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("UnApproved Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(this).closest("tr").find(".btn_txt_unapp").show();$(this).closest("tr").find(".unwit_loader").hide();return false} } });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
+$('.btn_follow_user').click(function() {
+    if (dlike_username) {var followName = $(this).attr("data-username");$(".btn_txt_follow").html('Following...'); $('.btn_follow_user').attr("disabled", true);
+        $.ajax({url: '/follow',type: 'POST',data: JSON.stringify({ followName: followName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("Followed Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(".btn_txt_follow").html('Follow');$('.btn_follow_user').attr("disabled", false);return false} } });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
+$('.btn_unfollow_user').click(function() {
+    if (dlike_username) {var unfollowName = $(this).attr("data-username");$(".btn_txt_unfollow").html('UNFollowing...'); $('.btn_unfollow_user').attr("disabled", true);
+        $.ajax({url: '/unfollow',type: 'POST',data: JSON.stringify({ unfollowName: unfollowName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("UNFollowed Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(".btn_txt_unfollow").html('Following');$('.btn_unfollow_user').attr("disabled", false);return false} } });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
 $('.share_me').click(function() {
-    if (dlike_username != null) {$('#share_plus').hide();$('.share_loader').show();
+    if (dlike_username) {$('#share_plus').hide();$('.share_loader').show();
         let input_url = $("#url_field").val();
         if (input_url == ''){ $("#url_field").css("border-color", "RED");toastr.error('phew... You forgot to enter URL');$('#share_plus').show();$('.share_loader').hide();return false;}
         let verifyUrl = getDomain(input_url);
@@ -171,6 +195,7 @@ $('.share_me').click(function() {
 
 
 $('.dlike_share_post').click(function(clickEvent) {
+    if (dlike_username) {
         let urlInput = $('.url_link').val();
         if($('.dlike_cat').val() == "0") {$('.dlike_cat').css("border-color", "RED");toastr.error('Please Select an appropriate Category');return false;}
         var inputtags = $.trim($('.dlike_tags').val()).toLowerCase();let tags=inputtags.replace(/\s\s+/g, ' ');let newtags = $.trim(tags).split(' ');
@@ -195,6 +220,7 @@ $('.dlike_share_post').click(function(clickEvent) {
                 } else {toastr['error'](data.message);$(".dlike_share_post").attr("disabled", false);$('.dlike_share_post').html('Publish');return false}
             },
         });
+    } else { toastr.error('hmm... You must be login!'); return false; }
 })
 
 function isValidURL(url) {
@@ -218,15 +244,16 @@ function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i
 }
 
 $('.latest-post-section').on("click", ".hov_vote", function() {
-    var postLink = $(this).attr("data-permlink");var postAuthor = $(this).attr("data-author");
-    $(this).addClass('fas fa-spinner fa-spin like_loader');
-    console.log(postLink);console.log(postAuthor)
-    $.ajax({ type: "POST",url: "/upvote", data: {author: postAuthor, postLink: postLink},
-        success: function(data) {
-            if (data.error == false) {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['success']("Upvoted Successfully!");setTimeout(function(){window.location.href = '/';}, 400);
-            } else {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['error'](data.message);return false}
-        }
-    });
+    if (dlike_username) {var postLink = $(this).attr("data-permlink");var postAuthor = $(this).attr("data-author");
+        $(this).addClass('fas fa-spinner fa-spin like_loader');
+        console.log(postLink);console.log(postAuthor)
+        $.ajax({ type: "POST",url: "/upvote", data: {author: postAuthor, postLink: postLink},
+            success: function(data) {
+                if (data.error == false) {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['success']("Upvoted Successfully!");setTimeout(function(){window.location.href = '/';}, 400);
+                } else {$('.hov_vote').removeClass('fas fa-spinner fa-spin like_loader');toastr['error'](data.message);return false}
+            }
+        });
+    } else { toastr.error('hmm... You must be login!'); return false; }
 }); 
 
 

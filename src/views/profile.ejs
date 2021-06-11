@@ -9,7 +9,7 @@
 <%- include('./common/navbar.ejs') %>
 <%
 let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
-
+let followList = JSON.stringify(user.followers); console.log(followList)
 %>
 
 
@@ -18,18 +18,37 @@ let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
     <div style="background: #ededed;"><div class="container p-data">
         <div class="row p_data_inner">
             <div>
-                <span><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" id="p_img" class="img-fluid rounded-circle"></span><span class="p_data_names"><span class="name"></span><br><span class="p_name">@<%- user.name %></span></span>
+                <span><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" id="p_img" class="img-fluid rounded-circle"></span><span class="p_data_names" style="line-height: 1.4;"><span class="name" style="font-size: 1rem;"><i class="fas fa-caret-right" style="color: #fbbd08;padding-right: 3px"></i><%- (user.balance)/100 %>&nbsp;<span style="font-size: 0.6rem;padding-right: 4px;">DLIKE</span><i class="fas fa-bolt" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- vp %>&nbsp;<span style="font-size: 0.6rem;">VP</span> <i class="fas fa-database" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- bw %>&nbsp;<span style="font-size: 0.6rem;">BW</span></span><br><span class="p_name">@<%- user.name %></span></span>
             </div>
-            <div><button class="btn btn-danger btn_edit btn-follow">Edit Profile</button>
-                    <button class="btn btn-danger btn_verify_email">Verify Email</button>
+            <div>
+                <span>
+                    <% if(user.name == loguser) { %>
+                    <button class="btn btn-danger btn_edit btn-follow">Edit Profile</button>
+                    <% }else{ %>
+                        <% if(followList.includes(loguser)) { %>
+                        <button class="btn btn-danger btn_unfollow_user btn-follow" data-username="<%- user.name %>"><span class="btn_txt_unfollow">Following</span></button>
+                        <% }else{ %>
+                        <button class="btn btn-danger btn_follow_user btn-follow" data-username="<%- user.name %>"><span class="btn_txt_follow">Follow</span></button>
+                        
+                        <button class="btn btn-danger btn_verify_email">Verify Email</button>
+                        <% } %>
+                    <% } %>
+                </span><br>
+                <span style="display: flex;justify-content: center;font-size: 1rem;">
+                    <span style="font-weight: 700;"><%- user.followers.length %></span>&nbsp;Followers&nbsp;&nbsp;&nbsp;<span style="font-weight: 700;"><%- user.follows.length %></span>&nbsp;Following&nbsp;</span>
             </div>
         </div>
-        <div class="row p_data_top"><span class="p_about"></span></div>
         <div class="row p_data_mid">
             <span class="p_joined"><i class="fas fa-calendar-alt" style="line-height:0.1;color: #191d5d;"></i> Joined <%- activeTime %></span>
+            <% if(user.json && user.jaon.location){ %>
             <span class="p_location" style="margin-left:10px;"><i class="fas fa-map-marker-alt" style="color: #191d5d;padding-right:3px;"></i></span>
+            <% }else{} %>
+            <% if(user.json && user.jaon.website){ %>
             <span class="web_site" style="margin-left:10px;"><i class="fas fa-link" style="color: #191d5d;padding-right:3px;"></i>
+            <% }else{} %>
         </div>
+        <div class="row p_data_top"><span class="p_about"></span></div>
+        
     </div>
 <div class="new-ticker-block new-ticker-block-section" style="min-height:50vh;"><div class="container"><div class="new-ticker-block-wrap">
 <div class="ticker-head">

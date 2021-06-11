@@ -20,7 +20,14 @@ var msgkey = process.env.msgKey;
 var iv = "123456789"
 
 router.get('',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
-router.get('/profile/:name', async(req, res) => {let name = req.params.name;let userAPI = await axios.get(`https://api.dlike.network/account/${name}`);let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);res.render('profile', { user : userAPI.data, articles: blogAPI.data, moment: moment }) })
+router.get('/profile/:name', async(req, res) => {
+    let name = req.params.name;
+    let userAPI = await axios.get(`https://api.dlike.network/account/${name}`);
+    let act = userAPI.data;let vp=javalon.votingPower(act);let bw=javalon.bandwidth(act);
+    let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);
+    let likesAPI = await axios.get(`https://api.dlike.network/votes/all/${name}/null}`);
+    if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else(loguser="")
+    res.render('profile', { user : userAPI.data, articles: blogAPI.data, likes: likesAPI.data, moment: moment, bw: bw, vp: vp, loguser: loguser }) })
 router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
@@ -102,11 +109,8 @@ router.post('/post', function(req, res){
 router.post('/share', function(req, res){var post = req.body;var sharedUrl = post.url;Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);}) });
 router.post('/logout', function(req, res){res.clearCookie('dlike_username');res.clearCookie('token');console.log('Logout');res.send({ error: false  });});
 
-router.post('/upvote', function(req, res){
-  let post = req.body;
-  let token = req.cookies.token;
-  let voter = req.cookies.dlike_username;
-  let newTx = {type: 5,data: {link: post.postLink,author: post.author}}
+router.post('/upvote', function(req, res){let post = req.body;let token = req.cookies.token;let voter = req.cookies.dlike_username;
+  let newTx = {type: 5,data: {link: post.postLink,author: post.author}}; 
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
   let pubKey = javalon.privToPub(wifKey);
@@ -121,33 +125,62 @@ router.post('/upvote', function(req, res){
   })
 });
 
-router.post('/signup', function(req, res){
-  let post = req.body;
-  let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}
-  let priv = process.env.privKey;
-  let signedTx = javalon.sign(priv,'dlike',newTx)
-  javalon.sendTransaction(signedTx, (error,result) => {
-    //console.log(error,result)
-    if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });}
-  })
+router.post('/witup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
+    let newTx = {type: 1,data: {target: post.nodeName}};let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
+    javalon.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, voter, newTx)
+    javalon.sendTransaction(newTx, function(err, response) {if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  }); } }) } })
+});
 
+
+router.post('/witunup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
+    let newTx = {type: 2,data: {target: post.nodeName}};
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
+    javalon.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, voter, newTx)
+    javalon.sendTransaction(newTx, function(err, response) { 
+        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
+    })
+    }
+  })
+});
+
+
+router.post('/follow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;console.log(loguser)
+    let newTx = {type: 7,data: {target: post.followName}}; 
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
+    javalon.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, loguser, newTx)
+    javalon.sendTransaction(newTx, function(err, response) { 
+        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
+    })
+    }
+  })
+});
+
+
+router.post('/unfollow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;console.log(loguser)
+    let newTx = {type: 8,data: {target: post.unfollowName}};
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
+    javalon.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, loguser, newTx)
+    javalon.sendTransaction(newTx, function(err, response) { 
+        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
+    })
+    }
+  })
+});
+
+
+router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey; let signedTx = javalon.sign(priv,'dlike',newTx)
+    javalon.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
 });
 
 
 const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
     let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`);let posts = tagsAPI.data;let tags = {};
-    for (let p in posts) if (posts[p].json && posts[p].json.tags) {
-        let postTags = posts[p].json.tags
-        for (let t in postTags)
-            if (!tags[postTags[t]]){tags[postTags[t]] = 1}else{tags[postTags[t]] += 1}
-    }
+    for (let p in posts) if (posts[p].json && posts[p].json.tags) {let postTags = posts[p].json.tags;
+        for (let t in postTags) if (!tags[postTags[t]]){tags[postTags[t]] = 1}else{tags[postTags[t]] += 1} }
     let tagArr = []
-    for (let t in tags)
-        tagArr.push({ m: t, v: tags[t]});tagsArr = tagArr.sort((a,b) => b.v - a.v);tagsArr = tagsArr.slice(0,4)
+    for (let t in tags) tagArr.push({ m: t, v: tags[t]});tagsArr = tagArr.sort((a,b) => b.v - a.v);tagsArr = tagsArr.slice(0,4)
     let trendingTags = "";var i;for (i = 0; i < tagsArr.length; i++) {trendingTags +='<a class="nav-item nav-link" href="/tags/'+tagsArr[i].m+'">#' + tagsArr[i].m + '</a>';}
     return trendingTags
 }
-
-
 
 module.exports = router;

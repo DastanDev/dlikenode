@@ -26,7 +26,7 @@ body{counter-reset: Serial;}.witness_table tr td:first-child:before{counter-incr
                     <table class="table coin-list latest-tranjections-table witness_table">
                         <thead>
                             <tr>
-                                <th scope="col">Rank</th>
+                                <th scope="col" style="text-align: center;">Rank</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Voters</th>
                                 <th scope="col">Votes</th>
@@ -37,16 +37,16 @@ body{counter-reset: Serial;}.witness_table tr td:first-child:before{counter-incr
                         </thead>
                         <tbody><% witnesses.forEach(function(witness) { let appr = JSON.stringify(approved) %>
                             <tr style="border-bottom: 1px solid #000000;">
-                                <td></td>
+                                <td style="text-align: center;"></td>
                                 <td><%- witness.name %></td>
                                 <td><%- witness.voters %></td>
-                                <td><%- witness.node_appr %></td>
+                                <td><%- (witness.node_appr)/100 %></td>
                                 <td><%- witness.produced %></td>
                                 <td><%- witness.missed %></td>
                                 <td style="text-align: center;"><% if((appr) && appr.includes(witness.name)){ %>
-                                    <button class="btn btn-danger btn_unapp_wit">unapprove</button>
+                                    <button class="btn btn-danger btn_unapp_wit" data-node="<%- witness.name %>"><i class="fas fa-spinner fa-spin unwit_loader" style="display:none;"></i><span class="btn_txt_unapp">unapprove</span></button>
                                     <%  }else{ %>
-                                    <button class="btn btn-success btn_app_wit">Approve</button>
+                                    <button class="btn btn-success btn_app_wit" data-node="<%- witness.name %>"><i class="fas fa-spinner fa-spin wit_loader" style="display:none;"></i><span class="btn_txt_app">Approve</span></button>
                                     <% } %>
                                     </td>
                             </tr><% }) %>

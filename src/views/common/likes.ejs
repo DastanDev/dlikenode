@@ -1,21 +1,9 @@
-<!DOCTYPE html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DLIKE - Share To Get Rewarded</title>
-<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
-
-<meta property="og:url" content="https://dlike.io" />
-<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
-<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
-<meta property="og:image" content="/images/dlike-main.jpg" />
-<%- include('./common/navbar.ejs') %>
-<div class="latest-post-section"><div class="container">
-<div class="row main_top"><%- include('./common/trendingtags.ejs') %></div>
-<div class="row">
-    <% 
-    articles.forEach(function(article) { 
-    let tags = article.json.tags;
-    let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
-    let catg = article.json.category; let category = catg.charAt(0).toUpperCase() + catg.slice(1);
-    %>
+<% 
+    likes.forEach(function(like) { 
+    let auth = like.author;
+    let link = auth.link;
+    
+%>
     <div class="col-lg-4 col-md-6 postsMainDiv">
         <article class="post-style-two"><div class="post-contnet-wrap-top">
             <div class="post-footer">
@@ -36,7 +24,3 @@
                 </div></div>
         </article>
     </div><% }) %>
-</div>
-</div></div>
-
-<%- include('./common/footer.ejs') %>

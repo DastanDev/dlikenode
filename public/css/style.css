@@ -209,7 +209,7 @@ input:not([type=submit]):not([type=radio]):not([type=checkbox]):focus,select:foc
 .p_data_top{padding:15px 40px 1px;font-weight:700}
 .p_data_mid{padding:5px 40px;font-weight:700}
 .p_data_bot{padding:5px 40px 15px;font-weight:700}
-.btn-follow{margin:10px;background:#191d5d;border-radius:14px;padding:8px 16px;border-color:#191d5d}
+.btn-follow{margin:10px;background:#191d5d;border-radius:5px;padding:8px 16px;border-color:#191d5d}
 .p_tab_pad{padding:40px 20px}
 .foll_count{font-weight:700;font-size:16px;padding-right:2px;font-family:sans-serif}
 #profposts{padding-top:40px}
