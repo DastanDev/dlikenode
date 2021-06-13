@@ -1,105 +1,46 @@
 function openNav(){document.getElementById("mySidenav").style.width="250px"}function closeNav(){document.getElementById("mySidenav").style.width="0"}function popup(e){var n=(screen.width-700)/2,t="width=700, height=400";return t+=", top="+(screen.height-400)/2+", left="+n,t+=", directories=no",t+=", location=no",t+=", menubar=no",t+=", resizable=no",t+=", scrollbars=no",t+=", status=no",t+=", toolbar=no",newwin=window.open(e,"windowname5",t),window.focus&&newwin.focus(),!1}
-
-$('#logout_btn').click(function(){
-	$.ajax({type: 'POST',data: JSON.stringify({}),contentType: 'application/json',url: '/logout',            
-        success: function(data) {if (data.error == false);toastr['success']("Logout Success");setTimeout(function(){window.location.href = '/';}, 300);}
-    });
-})
-
-
-function getCookie(name) {var cookieArr = document.cookie.split(";");
-    for(var i = 0; i < cookieArr.length; i++) {var cookiePair = cookieArr[i].split("=");
-        if(name == cookiePair[0].trim()) {return decodeURIComponent(cookiePair[1]);}
-    }
+$('#logout_btn').click(function(){$.ajax({type: 'POST',data: JSON.stringify({}),contentType: 'application/json',url: '/logout',success: function(data) {if (data.error == false);toastr['success']("Logout Success");setTimeout(function(){window.location.href = '/';}, 300);} }); })
+function getCookie(name) {var cookieArr = document.cookie.split(";");for(var i = 0; i < cookieArr.length; i++) {var cookiePair = cookieArr[i].split("="); if(name == cookiePair[0].trim()) {return decodeURIComponent(cookiePair[1]);} }
     return null;
 }
 var dlike_user_img = 'https://i.postimg.cc/rwbTkssy/dlike-user-profile.png';
+$("#user_img, #p_img, .my_img").attr("src", dlike_user_img).show();
 var Username = getCookie("dlike_username");
-if(Username) {console.log(Username); 
-    //javalon.getAccount('misasa', (err, account) => {})
-    var dlike_username  = Username;$("#user_img, #p_img, .my_img").attr("src", dlike_user_img).show();$("#logout_btn").show();$(".icon_profile").hide();$(".img_profile").show();} else {console.log('not a valid user')}
+if(Username) {console.log(Username);var dlike_username  = Username; 
+    $("#logout_btn").show();$(".icon_profile").hide();$(".img_profile").show()
+    javalon.getAccount(dlike_username, (err, account) => {
+        if(account && account.json.profile.cover_image){var prof_cov_img=account.json.profile.cover_image;}else{ var prof_cov_img=""}
+        if(account && account.json.profile.avatar){var dlike_user_img=account.json.profile.avatar;}else{var dlike_user_img="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png"}
+        if(account && account.json.profile.location){var user_location=account.json.profile.location;}else{var user_location=""}
+        if(account && account.json.profile.website){var user_website=account.json.profile.website;}else{var user_website=""}
+        if(account && account.json.profile.about){var user_about=account.json.profile.about;}else{var user_about=""}
+        $('#profile_img').val(dlike_user_img);$('#cover_img').val(prof_cov_img);$('#profile_location').val(user_location);$('#profile_website').val(user_website);$('#profile_about').val(user_about);
+    })
+} else {console.log('not a valid user')}
 
 
 $('.signin_btn').click(function() {signinNOw();})
-function accountKeys() {
-    var signup_block  = document.querySelector('.signup_section');
-    var key_section = document.querySelector('.key_section');
-    jQuery(signup_block).animate({
-        opacity: 0,
-        top    : -20
-    }, 300, function () {
-        signup_block.style.display = 'none';
-        key_section.style.opacity = 0;
-        key_section.style.display = '';
-        jQuery(key_section).animate({
-            opacity: 1,
-            top    : 0
-        }, 300);
-    });
-}
-
-$('.copy_pass').click(function() {
-    var copyText = document.getElementById("acct_priv_key");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999); /* For mobile devices */
-    document.execCommand("copy");$('.copy_pass').html('Copied!');
-    toastr['success']("Key copied to clipboard.");return false;
-})
-
-
-
 $('.loginNow_btn').click(function() {loginNOw();});
 $('.register_btn').click(function() {registerNow();});
 
-function registerNow() {
-    var main_login_block  = document.querySelector('.login_section');
-    var signup_block = document.querySelector('.signup_section');
-    jQuery(main_login_block).animate({
-        opacity: 0,
-        top    : -20
-    }, 300, function () {
-        main_login_block.style.display = 'none';
-        signup_block.style.opacity = 0;
-        signup_block.style.display = '';
-        jQuery(signup_block).animate({
-            opacity: 1,
-            top    : 0
-        }, 300);
-    });
+function accountKeys() {var signup_block  = document.querySelector('.signup_section');var key_section = document.querySelector('.key_section');
+    jQuery(signup_block).animate({opacity: 0,top : -20}, 300, function () {signup_block.style.display = 'none';key_section.style.opacity = 0;key_section.style.display = ''; jQuery(key_section).animate({opacity: 1,top: 0}, 300);});
 }
 
-function loginNOw() {
-    var main_login_block  = document.querySelector('.login_section');
-    var signup_block = document.querySelector('.signup_section');
-    jQuery(signup_block).animate({
-        opacity: 0,
-        top    : -20
-    }, 300, function () {
-        signup_block.style.display = 'none';
-        main_login_block.style.opacity = 0;
-        main_login_block.style.display = '';
-        jQuery(main_login_block).animate({
-            opacity: 1,
-            top    : 0
-        }, 300);
-    });
+$('.copy_pass').click(function() {var copyText = document.getElementById("acct_priv_key");copyText.select();copyText.setSelectionRange(0, 99999); /* For mobile devices */
+    document.execCommand("copy");$('.copy_pass').html('Copied!');toastr['success']("Key copied to clipboard.");return false;
+})
+
+function registerNow() {var main_login_block  = document.querySelector('.login_section');var signup_block = document.querySelector('.signup_section');
+    jQuery(main_login_block).animate({opacity: 0,top    : -20}, 300, function () {main_login_block.style.display = 'none';signup_block.style.opacity = 0;signup_block.style.display = '';jQuery(signup_block).animate({opacity: 1,top    : 0}, 300);});
 }
 
-function signinNOw() {
-    var keys_block  = document.querySelector('.key_section');
-    var login_block = document.querySelector('.login_section');
-    jQuery(keys_block).animate({
-        opacity: 0,
-        top    : -20
-    }, 300, function () {
-        keys_block.style.display = 'none';
-        login_block.style.opacity = 0;
-        login_block.style.display = '';
-        jQuery(login_block).animate({
-            opacity: 1,
-            top    : 0
-        }, 300);
-    });
+function loginNOw() {var main_login_block  = document.querySelector('.login_section');var signup_block = document.querySelector('.signup_section');
+    jQuery(signup_block).animate({opacity: 0,top    : -20}, 300, function () {signup_block.style.display = 'none';main_login_block.style.opacity = 0;main_login_block.style.display = ''; jQuery(main_login_block).animate({opacity: 1,top    : 0}, 300); });
+}
+
+function signinNOw() {var keys_block  = document.querySelector('.key_section');var login_block = document.querySelector('.login_section');
+    jQuery(keys_block).animate({opacity: 0,top    : -20}, 300, function () {keys_block.style.display = 'none';login_block.style.opacity = 0;login_block.style.display = '';jQuery(login_block).animate({opacity: 1,top    : 0}, 300);});
 }
 
 $('.login_btn').click(function() {
@@ -126,23 +67,16 @@ $('.login_btn').click(function() {
 
 });
 
-$('.signup_btn').click(function() {
-    let input_username = $('#user_name').val();
-    if (input_username=="") {toastr.error('phew.. Username should not be empty');return false;}
-    $('.signup_txt').html('Creating...'); $('.signup_btn').attr("disabled", true); 
+$('.signup_btn').click(function() {let input_username = $('#user_name').val();if (input_username=="") {toastr.error('phew.. Username should not be empty');return false;}; $('.signup_txt').html('Creating...'); $('.signup_btn').attr("disabled", true); 
     javalon.getAccounts([input_username], function(error, accounts) {
-        if (!accounts || accounts.length === 0) {
-            var key=javalon.keypair(); var pub=key.pub;var priv=key.priv;
+        if (!accounts || accounts.length === 0) {var key=javalon.keypair(); var pub=key.pub;var priv=key.priv;
             $.ajax({type: 'POST',data: JSON.stringify({name: input_username,pub: pub,ref: 'dlike'}),contentType: 'application/json',url: '/signup',            
                 success: function(data) {console.log(data)
                     if (data.error == true) {toastr['error'](data.message);$('.signup_btn').attr("disabled", false);return false;
                     } else {toastr['success']("Account cteared Successfully!");accountKeys();$('#acct_priv_key').val(priv);}
                 }
             });
-            
-        } else {
-            toastr.error('phew.. Username already exist');$('.signup_txt').html('Signup'); $('.signup_btn').attr("disabled", false); return false;
-        }
+        } else {toastr.error('phew.. Username already exist');$('.signup_txt').html('Signup'); $('.signup_btn').attr("disabled", false); return false;}
     })
 });   
 
@@ -223,8 +157,7 @@ $('.dlike_share_post').click(function(clickEvent) {
     } else { toastr.error('hmm... You must be login!'); return false; }
 })
 
-function isValidURL(url) {
-    var RegExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+function isValidURL(url) {var RegExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
     if (RegExp.test(url)) {return true;} else {toastr.error('phew... Enter a valid url');return false;}
 }
 function getDomain(url) {let hostName = getHostName(url);let domain = hostName;
