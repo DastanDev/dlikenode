@@ -74,9 +74,9 @@ router.post('/post', function(req, res){
   var permlink = getSlug(post.title);
   let token = req.cookies.token;
   let author = req.cookies.dlike_username;
-  let link = randomstring.generate({ length: 11, capitalization: 'lowercase'});
-  let content = {title:post.title, permlink:permlink, body: post.description, category: post.category,url: post.exturl, image: post.image, tags: post.tags }; 
-  let newTx = {type: 4,data: {link: link,json: content}}
+  //let link = randomstring.generate({ length: 11, capitalization: 'lowercase'});
+  let content = {title:post.title, body: post.description, category: post.category,url: post.exturl, image: post.image, tags: post.tags }; 
+  let newTx = {type: 4,data: {link: permlink,json: content}}
   console.log(newTx)
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
