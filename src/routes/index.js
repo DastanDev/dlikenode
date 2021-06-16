@@ -16,7 +16,11 @@ var randomstring = require("randomstring");
 router.use(cookieParser());
 
 javalon.init({api: 'https://api.dlike.network'})
-
+breej.init({
+    api: 'https://api.dlike.network',
+    bwGrowth: 3600000,
+    vtGrowth: 6000000
+})
 var msgkey = process.env.msgKey;
 var iv = "123456789"
 
