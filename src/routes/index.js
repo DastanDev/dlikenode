@@ -39,7 +39,9 @@ router.get('/post/:name/:link', async(req, res) => {
     let link = req.params.link
     try {
         const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`)
-        res.render('post', { article : postAPI.data, moment: moment })
+        let category = postAPI.data.json.category
+        let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);
+        res.render('post', { article : postAPI.data, simPosts : simAPI.data, moment: moment })
     } catch (err) {
         if(err.response) {
             res.render('post', { article : null })
