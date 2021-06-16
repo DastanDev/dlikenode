@@ -5,15 +5,6 @@
     let link = auth.link;
     console.log(auth)
 
-const fetchPosts = async (auth, link) => {
-    let likesP =[]
-    let likesPostsAPI = await axios.get(`https://api.dlike.network/content/${auth}/${link}`);
-    let posts = likesPostsAPI.data;
-    
-    likesP.push(posts); console.log(likesP)
-    return likesP
-
-}
 
 %>
     <div class="col-lg-4 col-md-6 postsMainDiv">
@@ -36,24 +27,3 @@ const fetchPosts = async (auth, link) => {
                 </div></div>
         </article>
     </div><% }) %>
-
-    <script type="text/javascript">$('.dlike_tokens').html('aaaa');</script>
-            <% if(user.json.profile && user.jaon.profile.location){ %>
-            <span class="p_location" style="margin-left:10px;"><i class="fas fa-map-marker-alt" style="color: #191d5d;padding-right:3px;"></i></span>
-            <% }else{} %>
-            <% if(user.json.profile && user.jaon.profile.website){ %>
-            <span class="web_site" style="margin-left:10px;"><i class="fas fa-link" style="color: #191d5d;padding-right:3px;"></i>
-            <% }else{} %>
-
-
-
-
-            if(user.json && user.json.profile && user.json.profile.cover_image){
-var prof_cov_img="<%- user.json.profile.cover_image %>";}else{ var prof_cov_img=""}
-if(user.json && user.json.profile && user.json.profile.avatar){var dlike_user_img=user.json.profile.avatar;}else{var dlike_user_img="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png"}
-if(user.json && user.json.profile && user.json.profile.website){var user_website=user.json.profile.website;}else{ var user_website=""}
-if(user.json && user.json.profile && user.json.profile.location){var user_location=user.json.profile.location;}else{ var user_location=""}
-if(user.json && user.json.profile && user.json.profile.about){var user_about=user.json.profile.about;}else{ var user_about=""}
-    
-    console.log(prof_cov_img)
-    console.log(dlike_user_img)
