@@ -6,7 +6,8 @@
 <meta property="og:title" content="DLIKE - Share To Get Rewarded" />
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
-<%- include('./common/navbar.ejs') 
+<%- include('./common/navbar.ejs') %>
+<%
 let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
 let followList = JSON.stringify(user.followers);
 %>
