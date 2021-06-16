@@ -67,10 +67,10 @@ $('.login_btn').click(function() {
 
 });
 
-$('.signup_btn').click(function() {let input_username = $('#user_name').val();if (input_username=="") {toastr.error('phew.. Username should not be empty');return false;}; $('.signup_txt').html('Creating...'); $('.signup_btn').attr("disabled", true); 
+$('.signup_btn').click(function() {let input_username = $('#user_name').val();let referrer = $('#refer_by').val();if (input_username=="") {toastr.error('phew.. Username should not be empty');return false;}; $('.signup_txt').html('Creating...'); $('.signup_btn').attr("disabled", true); 
     breej.getAccounts([input_username], function(error, accounts) {
         if (!accounts || accounts.length === 0) {var key=breej.keypair(); var pub=key.pub;var priv=key.priv;
-            $.ajax({type: 'POST',data: JSON.stringify({name: input_username,pub: pub,ref: 'dlike'}),contentType: 'application/json',url: '/signup',            
+            $.ajax({type: 'POST',data: JSON.stringify({name: input_username,pub: pub,ref: referrer}),contentType: 'application/json',url: '/signup',            
                 success: function(data) {console.log(data)
                     if (data.error == true) {toastr['error'](data.message);$('.signup_btn').attr("disabled", false);return false;
                     } else {toastr['success']("Account cteared Successfully!");accountKeys();$('#acct_priv_key').val(priv);}
