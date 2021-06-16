@@ -8,7 +8,7 @@ $("#user_img, #p_img, .my_img").attr("src", dlike_user_img).show();
 var Username = getCookie("dlike_username");
 if(Username) {console.log(Username);var dlike_username  = Username; 
     $("#logout_btn").show();$(".icon_profile").hide();$(".img_profile").show()
-    javalon.getAccount(dlike_username, (err, account) => {
+    breej.getAccount(dlike_username, (err, account) => {
         if(account && account.json.profile.cover_image){var prof_cov_img=account.json.profile.cover_image;}else{ var prof_cov_img=""}
         if(account && account.json.profile.avatar){var dlike_user_img=account.json.profile.avatar;}else{var dlike_user_img="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png"}
         if(account && account.json.profile.location){var user_location=account.json.profile.location;}else{var user_location=""}
@@ -48,12 +48,12 @@ $('.login_btn').click(function() {
     let login_user = $('#login_user_id').val();let login_pass = $('#login_pass').val();
     if (login_user=="") {toastr.error('phew.. Username should not be empty');$(".login_btn").attr("disabled", false);return false;}
     if (login_pass=="") {toastr.error('phew... Private key should not be empty');$(".login_btn").attr("disabled", false);return false;}
-    javalon.getAccount(login_user, function(error, account) {const pivkey = login_pass;
+    breej.getAccount(login_user, function(error, account) {const pivkey = login_pass;
         if (!account || account.length === 0) {
             toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
-        if (javalon.privToPub(pivkey) !== account.pub) {
+        if (breej.privToPub(pivkey) !== account.pub) {
             toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
@@ -68,8 +68,8 @@ $('.login_btn').click(function() {
 });
 
 $('.signup_btn').click(function() {let input_username = $('#user_name').val();if (input_username=="") {toastr.error('phew.. Username should not be empty');return false;}; $('.signup_txt').html('Creating...'); $('.signup_btn').attr("disabled", true); 
-    javalon.getAccounts([input_username], function(error, accounts) {
-        if (!accounts || accounts.length === 0) {var key=javalon.keypair(); var pub=key.pub;var priv=key.priv;
+    breej.getAccounts([input_username], function(error, accounts) {
+        if (!accounts || accounts.length === 0) {var key=breej.keypair(); var pub=key.pub;var priv=key.priv;
             $.ajax({type: 'POST',data: JSON.stringify({name: input_username,pub: pub,ref: 'dlike'}),contentType: 'application/json',url: '/signup',            
                 success: function(data) {console.log(data)
                     if (data.error == true) {toastr['error'](data.message);$('.signup_btn').attr("disabled", false);return false;
