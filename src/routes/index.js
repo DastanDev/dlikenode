@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path')
-const javalon = require('javalon')
 const breej = require('breej')
 const CryptoJS = require("crypto-js");
 const cookieParser = require('cookie-parser');
@@ -14,8 +13,6 @@ var getSlug = require('speakingurl');
 var randomstring = require("randomstring");
 
 router.use(cookieParser());
-
-javalon.init({api: 'https://api.dlike.network'})
 breej.init({
     api: 'https://api.dlike.network',
     bwGrowth: 3600000,
@@ -30,7 +27,7 @@ router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();
 router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/share', function (req, res){let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share')}})
-router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;javalon.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
+router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;breej.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
 
 router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (!token) {res.render('welcome')}else {res.redirect('/profile/'+user);}
@@ -84,10 +81,10 @@ router.post('/post', function(req, res){
   let newTx = {type: 4,data: {link: permlink,json: content}}
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
-  javalon.getAccount(author, function(error, account) {
-    if (javalon.privToPub(wifKey) !== account.pub) {res.send( {error: true} )
-    }else{newTx = javalon.sign(wifKey, author, newTx)
-      javalon.sendTransaction(newTx, function(err, response) {//console.log(err,response)
+  breej.getAccount(author, function(error, account) {
+    if (breej.privToPub(wifKey) !== account.pub) {res.send( {error: true} )
+    }else{newTx = breej.sign(wifKey, author, newTx)
+      breej.sendTransaction(newTx, function(err, response) {//console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error'] });}
       })
     }
@@ -101,11 +98,11 @@ router.post('/upvote', function(req, res){let post = req.body;let token = req.co
   let newTx = {type: 5,data: {link: post.postLink,author: post.author}}; 
   let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
-  let pubKey = javalon.privToPub(wifKey);
-  javalon.getAccount(voter, function(error, account) {
+  let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(voter, function(error, account) {
     if (pubKey !== account.pub) {res.send( {error: true } )
-    }else{newTx = javalon.sign(wifKey, voter, newTx)
-      javalon.sendTransaction(newTx, function(err, response) {//console.log(err,response)
+    }else{newTx = breej.sign(wifKey, voter, newTx)
+      breej.sendTransaction(newTx, function(err, response) {//console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
       })
     }
@@ -113,17 +110,17 @@ router.post('/upvote', function(req, res){let post = req.body;let token = req.co
 });
 
 router.post('/witup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
-    let newTx = {type: 1,data: {target: post.nodeName}};let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
-    javalon.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, voter, newTx)
-    javalon.sendTransaction(newTx, function(err, response) {if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  }); } }) } })
+    let newTx = {type: 1,data: {target: post.nodeName}};let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    breej.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx)
+    breej.sendTransaction(newTx, function(err, response) {if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  }); } }) } })
 });
 
 
 router.post('/witunup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
     let newTx = {type: 2,data: {target: post.nodeName}};
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
-    javalon.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, voter, newTx)
-    javalon.sendTransaction(newTx, function(err, response) { 
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    breej.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx)
+    breej.sendTransaction(newTx, function(err, response) { 
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
     })
     }
@@ -133,9 +130,9 @@ router.post('/witunup', function(req, res){let post = req.body;let token = req.c
 
 router.post('/follow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
     let newTx = {type: 7,data: {target: post.followName}}; 
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
-    javalon.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, loguser, newTx)
-    javalon.sendTransaction(newTx, function(err, response) { 
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
+    breej.sendTransaction(newTx, function(err, response) { 
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
     })
     }
@@ -145,9 +142,9 @@ router.post('/follow', function(req, res){let post = req.body;let token = req.co
 
 router.post('/unfollow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
     let newTx = {type: 8,data: {target: post.unfollowName}};
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
-    javalon.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, loguser, newTx)
-    javalon.sendTransaction(newTx, function(err, response) { 
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
+    breej.sendTransaction(newTx, function(err, response) { 
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
     })
     }
@@ -157,17 +154,17 @@ router.post('/unfollow', function(req, res){let post = req.body;let token = req.
 router.post('/pupdate', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
     let content = {about:post.acc_about, website:post.acc_website, location: post.acc_location, cover_image: post.acc_cover_img,avatar: post.acc_img }; 
     let newTx = {type: 6,data: {json: {profile: content}}}; 
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = javalon.privToPub(wifKey);
-    javalon.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = javalon.sign(wifKey, loguser, newTx)
-    javalon.sendTransaction(newTx, function(err, response) { 
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
+    breej.sendTransaction(newTx, function(err, response) { 
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
     })
     }
   })
 });
 
-router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey; let signedTx = javalon.sign(priv,'dlike',newTx)
-    javalon.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
+router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey; let signedTx = breej.sign(priv,'dlike',newTx)
+    breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
 });
 
 
