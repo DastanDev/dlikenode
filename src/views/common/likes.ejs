@@ -1,29 +1,24 @@
 <% 
-
     likes.forEach(function(like) { 
-    let auth = like.author;
-    let link = auth.link;
-    console.log(auth)
-
-
-%>
-    <div class="col-lg-4 col-md-6 postsMainDiv">
-        <article class="post-style-two"><div class="post-contnet-wrap-top">
-            <div class="post-footer">
-                <div class="post-author-block">
-                    <div><a href="/profile/<%-  %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
-                    <div class="author-info">
-                        <h5><a href="/profile/<%-  %>"><%- auth %></a><div class="time"><%- %></div></h5>
-                    </div></div>
-                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- %>"><b><%-  %></b></a></span></div>
-                    </div></div>
-                    <div class="post-thumb img-fluid"><a href="/post/<%-  %>/<%-  %>"><img src="<%-  %>" class="card-img-top"></a></div>
-                    <div class="post-contnet-wrap">
-                        <h4 class="post-title single_title"><a href="/post/<%-  %>/<%-  %>"><%- link %></a></h4>
-                        <p class="post-entry post-tags"><%-  %></p>
-                        <div class="post-comments bottom_block">
-                        <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%-  %>" data-author="<%-  %>"> | <span id="post_likes" class="post_likes"><%-  %></span>LIKES</div>
-                <div><span class="dlike_tokens"><%-  %></span> <b>DLIKE</b>
-                </div></div>
-        </article>
-    </div><% }) %>
+    let tags = like.json.tags;
+    let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+    let catg = like.json.category; let category = catg.charAt(0).toUpperCase() + catg.slice(1);
+%>    
+<div class="col-lg-4 col-md-6 postsMainDiv"><article class="post-style-two"><div class="post-contnet-wrap-top">
+    <div class="post-footer">
+        <div class="post-author-block">
+            <div><a href="/profile/<%- like.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
+            <div class="author-info">
+                <h5><a href="/profile/<%- like.author %>"><%- like.author %></a><div class="time"><%- moment.utc(like.ts).fromNow()%></div></h5>
+            </div></div>
+            <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (like.json.category).toLowerCase() %>"><b><%- category %></b></a></span></div>
+            </div></div>
+            <div class="post-thumb img-fluid"><a href="/post/<%- like.author %>/<%- like.link %>"><img src="<%- like.json.image %>" class="card-img-top"></a></div>
+            <div class="post-contnet-wrap">
+                <h4 class="post-title single_title"><a href="/post/<%- like.author %>/<%- like.link %>"><%- like.json.title %></a></h4>
+                <p class="post-entry post-tags"><%- metatags.toString() %></p>
+                <div class="post-comments bottom_block">
+                <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- like.link %>" data-author="<%- like.author %>"> | <span id="post_likes" class="post_likes"><%- like.likes %></span>LIKES</div>
+        <div><span class="dlike_tokens"><%- (like.likes)*0.1 %></span> <b>DLIKE</b>
+        </div></div>
+</article></div><% }) %>
