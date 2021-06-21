@@ -7,35 +7,30 @@
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 <%- include('./common/navbar.ejs') %>
-<div class="latest-post-section"><div class="container">
-<div class="row main_top"><%- include('./common/trendingtags.ejs') %></div>
-<div class="row">
-    <% 
-    articles.forEach(function(article) { 
-    let tags = article.json.tags;
-    let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
-    let catg = article.json.category; let category = catg.charAt(0).toUpperCase() + catg.slice(1);
-    %>
-    <div class="col-lg-4 col-md-6 postsMainDiv">
-        <article class="post-style-two"><div class="post-contnet-wrap-top">
-            <div class="post-footer">
-                <div class="post-author-block">
-                    <div><a href="/profile/<%- article.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
-                    <div class="author-info">
-                        <h5><a href="/profile/<%- article.author %>"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
-                    </div></div>
-                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- category %></b></a></span></div>
-                    </div></div>
-                    <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
-                    <div class="post-contnet-wrap">
-                        <h4 class="post-title single_title"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></h4>
-                        <p class="post-entry post-tags"><%- metatags.toString() %></p>
-                        <div class="post-comments bottom_block">
-                        <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
-                <div><span class="dlike_tokens"><%- (article.likes)*0.1 %></span> <b>DLIKE</b>
-                </div></div>
-        </article>
-    </div><% }) %>
+<div class="latest-post-section" style="padding: 60px 0!important;"><div class="container">
+<div class="row" style="border-bottom: 1px solid #eee;background: #fff;"><div class="col" style="text-align: center;padding: 20px;font-weight: 600;font-size: 1.2rem;">WALLET</div></div>
+<div class="row" style="background: #ffffff;min-height:70vh;">
+    <div class="col" style="font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;text-align: center;">
+        <div style="padding-top:50px;color: #000;font-size: 1.7rem;"><%- (act.balance)/100 %><span style="padding-left:5px;">DLIKE</span></div>
+        <div class="col" style="padding-top:18px;display: flex;justify-content: center;">
+            <span style="padding: 12px;">
+                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
+                <span>Withdraw</span>
+            </span>
+            <span style="padding: 12px;">
+                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
+                <span>Transfer</span>
+            </span>
+            <span style="padding: 12px;">
+                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
+                <span>Stake</span>
+            </span>
+            <span style="padding: 12px;">
+                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
+                <span>Boost</span>
+            </span>
+        </div>
+    </div>
 </div>
 </div></div>
 
