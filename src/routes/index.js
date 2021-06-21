@@ -42,7 +42,7 @@ router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user
 })
 
 router.get('/profile', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (token) {res.redirect('/index')}else {res.redirect('/welcome');}
+    if (token) {res.redirect('index')}else {res.redirect('welcome');}
 })
 
 router.get('/post/:name/:link', async(req, res) => {
