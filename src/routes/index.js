@@ -30,7 +30,8 @@ router.get('/share', function (req, res){let token = req.cookies.token;if (!toke
 router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;breej.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
 
 router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (!token) {let ref='';res.render('welcome',{ref: ref})}else {res.redirect('/profile/'+user);}
+    //if (!token) {let ref='';res.render('welcome',{ref: ref})}else {res.redirect('/profile/'+user);}
+    if (token) {res.redirect('/profile/'+user);}else {let ref='';res.render('welcome',{ref: ref})}
 })
 
 router.get('/welcome/:name', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
