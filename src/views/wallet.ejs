@@ -1,37 +1,106 @@
 <!DOCTYPE html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DLIKE - Share To Get Rewarded</title>
 <meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
-
 <meta property="og:url" content="https://dlike.io" />
 <meta property="og:title" content="DLIKE - Share To Get Rewarded" />
 <meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
 <meta property="og:image" content="/images/dlike-main.jpg" />
 <%- include('./common/navbar.ejs') %>
-<div class="latest-post-section" style="padding: 60px 0!important;"><div class="container">
-<div class="row" style="border-bottom: 1px solid #eee;background: #fff;"><div class="col" style="text-align: center;padding: 20px;font-weight: 600;font-size: 1.2rem;">WALLET</div></div>
-<div class="row" style="background: #ffffff;min-height:70vh;">
-    <div class="col" style="font-family: Euclid, Roboto, Helvetica, Arial, sans-serif;text-align: center;">
-        <div style="padding-top:50px;color: #000;font-size: 1.7rem;"><%- (act.balance)/100 %><span style="padding-left:5px;">DLIKE</span></div>
-        <div class="col" style="padding-top:18px;display: flex;justify-content: center;">
-            <span style="padding: 12px;">
-                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
-                <span>Withdraw</span>
-            </span>
-            <span style="padding: 12px;">
-                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
-                <span>Transfer</span>
-            </span>
-            <span style="padding: 12px;">
-                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
-                <span>Stake</span>
-            </span>
-            <span style="padding: 12px;">
-                <button style="border: none;border-radius: 50%;background: #037dd6;cursor: pointer;"><i class="fas fa-external-link-alt" style="color: #fff;"></i></i></button><br>
-                <span>Boost</span>
-            </span>
+<div class="working-process-section" style="padding-top: 130px;">
+    <div class="container"><div class="row">
+        <div class="offset-lg-1 col-lg-5 col-md-6">
+            <div class="user-connected-form-block" style="box-shadow: 0px 0px 10px 1px #cccccc;">
+                <h3 style="text-align: center;"><div style="font-size: 1.1rem;">DLIKE Wallet</div></h3>
+                <form class="user-connected-from create-account-form reward_form" />
+                <div class="form-group reward_fileds">
+                    <input type="text" class="form-control reward_input" value=" | My Balance" readonly>
+                    <span class="fas fa-database inp_icon"></span>
+                    <span class="inp_text user_bal_amt"><%- (act.balance)/100 %></span>
+                </div>
+                <div class="form-group reward_fileds">
+                    <input type="text" class="form-control reward_input" value=" | Income Today" readonly>
+                    <span class="fas fa-bolt inp_icon"></span>
+                    <span class="inp_text">0</span>
+                </div>
+                <div class="form-group reward_fileds">
+                    <input type="text" class="form-control reward_input" value=" | My Affiliates" readonly>
+                    <span class="fas fa-flask inp_icon"></span>
+                    <span class="inp_text">0</span>
+                </div><br>
+                <button type="button" class="btn btn-default withd_btn">Withdraw</button>
+                </form>
+            </div>
         </div>
-    </div>
+        <div class="col-lg-6  col-md-6">
+            <div class="working-process">
+                <h4 class="pool_head">Tools</h4>
+                <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
+                    <div class="queue-stats card p-3">
+                        <div class="d-flex align-items-center">
+                            <span class="stamp stamp-md bg-orange mr-3"><i class="fas fa-money-bill-alt"></i></span>
+                            <div>
+                                <h4 class="m-0"><small>Tron Wallet Address</small></h4>
+                                <small class="row queue-stats-display text-muted wallet_address" style="margin: 0px !important;">
+                                    <?php if(!empty($offchain_address)){ echo $offchain_address; } else { ?>
+                                    <span><a href="https://dlike.zendesk.com/hc/en-us/articles/900002726623-Which-Tron-Wallet-is-recomended-"><i class="far fa-question-circle" style="color: #c51d24;" target="_blank"></i></a><input type="text" class="form-control" style="border:none;border-bottom: 1px solid #ccc;" id="offchain_add" value="" /></span><span class="stamp stamp-md bg-green mr-3" style="margin-left: 10px;"><i class="fa fa-plus add_address" style="cursor: pointer;"></i></span> <? } ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
+                    <div class="queue-stats card p-3">
+                        <div class="d-flex align-items-center">
+                            <span class="stamp stamp-md bg-blue mr-3"><i class="fa fa-list"></i></span>
+                            <div>
+                                <h4 class="m-0"><small>My Affiliate Link</small></h4>
+                                <small class="queue-stats-display text-muted"><b><a href="https://dlike.io/welcome/" style="color: #467fcf;">https://dlike.io/welcome/<%- act.name %></a></b></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
+                    <div class="queue-stats card p-3"><div class="d-flex align-items-center">
+                            <span class="stamp stamp-md bg-green mr-3"><i class="fa fa-battery-full"></i></span>
+                            <div>
+                                <h4 class="m-0"><small>Boost Posts</small></h4>
+                                <small class="queue-stats-display text-muted">Post boost feature will be available soon</small>
+                            </div>
+                    </div></div>
+                </div>
+            </div>
+        </div>
+    </div></div>
 </div>
+<div class="container"><div class="row">
+<div class="col-md-6"><div class="latest-tranjections-area"><div class="latest-tranjections-block"><div class="container">
+    <div class="latest-tranjections-block-inner">
+        <div class="panel-heading-block"><h5>Transactions</h5></div>
+        <table class="table coin-list latest-tranjections-table">
+            <thead><tr>
+                <th scope="col">Amount</th><th scope="col">Type</th><th scope="col">For</th><th scope="col" style="float:right;">Time</th>
+            </tr></thead>
+            <tbody>
+                <?php $sql_T = $conn->query("SELECT * FROM dlike_transactions where username ='$dlike_user' ORDER BY trx_time DESC LIMIT 30");
+                    if ($sql_T->num_rows > 0) { while($row_T = $sql_T->fetch_assoc()) { 
+                        $entry_date = strtotime($row_T["trx_time"]);$tx_type = $row_T["type"];
+                        if($tx_type == 'a'){$trx_type = 'author';}elseif($tx_type == 'b'){$trx_type = 'curation';}elseif($tx_type == 'c'){$trx_type = 'affiliate';}?> 
+                <tr><td><?php echo $row_T["amount"]; ?></td><td><?php echo $trx_type ?></td><td><?php echo '<a href="https://dlike.io/post/'.$row_T["post_author"].'/'.$row_T["reason"].'"><i class="fas fa-globe"></i></a>'; ?></td><td style="float:right;"><?php echo time_ago($entry_date); ?></td></tr><? } }?>
+            </tbody>
+        </table>
+    </div>
+</div></div></div></div>
+<div class="col-md-6"><div class="latest-tranjections-area"><div class="latest-tranjections-block"><div class="container">
+    <div class="latest-tranjections-block-inner">
+        <div class="panel-heading-block"><h5>Withdrawals</h5></div>
+        <table class="table coin-list latest-tranjections-table">
+            <thead><tr> <th scope="col">Amount</th><th scope="col">Status</th><th scope="col" style="float:right;">Time</th></tr></thead>
+            <tbody>
+                <?php $sql_P = $conn->query("SELECT * FROM dlike_withdrawals where username ='$dlike_user' ORDER BY req_on DESC LIMIT 30");
+                    if ($sql_P->num_rows > 0) { while($row_P = $sql_P->fetch_assoc()) {$entry_date = strtotime($row_P["req_on"]); ?> 
+                <tr><td><?php echo $row_P["amount"]; ?></td><td><?php echo '<a href="https://tronscan.org/#/transaction/'.$row_P["status"].'" target="_blank"><i class="fas fa-exchange-alt"></i></a>'; ?></td><td style="float:right;"><?php echo time_ago($entry_date); ?></td></tr><? } }?>
+            </tbody>
+        </table>
+    </div>
+</div></div></div></div>
 </div></div>
-
 <%- include('./common/footer.ejs') %>
