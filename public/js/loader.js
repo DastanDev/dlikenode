@@ -3,6 +3,7 @@ $('#logout_btn').click(function(){$.ajax({type: 'POST',data: JSON.stringify({}),
 function getCookie(name) {var cookieArr = document.cookie.split(";");for(var i = 0; i < cookieArr.length; i++) {var cookiePair = cookieArr[i].split("="); if(name == cookiePair[0].trim()) {return decodeURIComponent(cookiePair[1]);} }
     return null;
 }
+
 var dlike_user_img = 'https://i.postimg.cc/rwbTkssy/dlike-user-profile.png';
 $("#user_img, #p_img, .my_img").attr("src", dlike_user_img).show();
 var Username = getCookie("dlike_username");

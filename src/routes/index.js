@@ -75,7 +75,7 @@ router.post('/loginuser', function(req, res){
   var token = encrypted.toString();
   var decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
   var wifKey = decrypted.toString(CryptoJS.enc.Utf8)
-  if(key == wifKey){res.cookie('dlike_username', username, { expires: new Date(Date.now() + 86400000000), httpOnly: true });res.cookie('token', token, { expires: new Date(Date.now() + 86400000000), httpOnly: true });res.send({ error: false });
+  if(key == wifKey){res.cookie('dlike_username', username, { expires: new Date(Date.now() + 86400000000), httpOnly: false });res.cookie('token', token, { expires: new Date(Date.now() + 86400000000), httpOnly: true });res.send({ error: false });
     //res.send({ message: 'Login success' });
   }else{res.send({ error: false  });}
 });
