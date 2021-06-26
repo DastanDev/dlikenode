@@ -1,34 +1,6 @@
 <div class="Home-wrapper">
 	<div class="Home-header-wrapper">
 		<h2 class="Home-header">Latest Tweets</h2></div>
-	<div class="Tweet-input-wrapper">
-		<div class="Tweet-profile-wrapper">
-			<a href="/profile/cert"><img alt="" width="100%" height="49px" src="https://i.imgur.com/iV7Sdgm.jpg" style="border-radius: 50%; min-width: 49px;"></a>
-		</div>
-		<div class="Tweet-input-side">
-			<div class="inner-input-box">
-				<div id="tweet-box" placeholder="What's happening?" contenteditable="true"></div>
-			</div>
-			<div></div>
-			<div class="inner-input-links">
-				<div class="input-links-side">
-					<div class="input-attach-wrapper" style="margin-left: -10px;">
-						<svg viewBox="0 0 24 24" style="fill: rgb(29, 161, 242);">
-							<g>
-								<path d="M19.75 2H4.25C3.01 2 2 3.01 2 4.25v15.5C2 20.99 3.01 22 4.25 22h15.5c1.24 0 2.25-1.01 2.25-2.25V4.25C22 3.01 20.99 2 19.75 2zM4.25 3.5h15.5c.413 0 .75.337.75.75v9.676l-3.858-3.858c-.14-.14-.33-.22-.53-.22h-.003c-.2 0-.393.08-.532.224l-4.317 4.384-1.813-1.806c-.14-.14-.33-.22-.53-.22-.193-.03-.395.08-.535.227L3.5 17.642V4.25c0-.413.337-.75.75-.75zm-.744 16.28l5.418-5.534 6.282 6.254H4.25c-.402 0-.727-.322-.744-.72zm16.244.72h-2.42l-5.007-4.987 3.792-3.85 4.385 4.384v3.703c0 .413-.337.75-.75.75z"></path>
-								<circle cx="8.868" cy="8.309" r="1.542"></circle>
-							</g>
-						</svg>
-						<input title=" " id="file" type="file" style="opacity: 0;">
-					</div>
-				</div>
-				<div class="tweet-btn-holder">
-					<div style="font-size: 13px;"></div>
-					<div class="tweet-btn-side">Tweet</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	<div class="Tweet-input-divider"></div>
     <% 
     articles.forEach(function(article) { 
@@ -46,7 +18,7 @@
 					<div class="card-header-more"></div>
 				</div>
 				<div class="card-content-info" style="font-weight: 600"><%- article.json.title %></div>
-				<div class="card-content-info"><%- metatags.toString() %></div>
+				<div class="card-content-info" style="color:#45b1f3;"><%- metatags.toString() %></div>
 				<div class="card-content-images">
 					<div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div>
 				</div>
