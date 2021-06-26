@@ -50,19 +50,14 @@ $('.login_btn').click(function() {
     if (login_user=="") {toastr.error('phew.. Username should not be empty');$(".login_btn").attr("disabled", false);return false;}
     if (login_pass=="") {toastr.error('phew... Private key should not be empty');$(".login_btn").attr("disabled", false);return false;}
     breej.getAccount(login_user, function(error, account) {const pivkey = login_pass;
-        if (!account || account.length === 0) {
-            toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
+        if (!account || account.length === 0) {toastr.error('phew.. Username does not exist');$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
-        if (breej.privToPub(pivkey) !== account.pub) {
-            toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
+        if (breej.privToPub(pivkey) !== account.pub) {toastr.error('phew.. Private key does not match for account @'+login_user);$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();
             return
         }
         $.ajax({type: 'POST',data: JSON.stringify({ pivkey: pivkey,  username: login_user}),contentType: 'application/json',url: '/loginuser',            
-            success: function(data) {
-                if (data.error == true) {toastr['error']("Login Fail");$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();return false;
-                } else {toastr['success']("Login Success");setTimeout(function(){window.location.href = '/';}, 300);}
-            }
+            success: function(data) {if (data.error == true) {toastr['error']("Login Fail");$(".login_btn").attr("disabled", false);$('#login_txt').show();$('.login_loader').hide();return false;} else {toastr['success']("Login Success");setTimeout(function(){window.location.href = '/';}, 300);}}
         });
     })
 

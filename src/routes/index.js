@@ -40,6 +40,7 @@ router.get('/welcome/:name', function(req, res) {let token = req.cookies.token;l
 router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (token) {let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);res.render('wallet', { act : userAPI.data})}else {res.redirect('/welcome');}
 })
+router.get('/new', async(req, res) => {res.render('new')})
 
 
 router.get('/post/:name/:link', async(req, res) => {
@@ -67,16 +68,10 @@ router.get('/post/:name/:link', async(req, res) => {
 })
 
 
-router.post('/loginuser', function(req, res){
-  var user = req.body;
-  var key = user.pivkey
-  var username = user.username
-  var encrypted = CryptoJS.AES.encrypt(key, msgkey,{ iv: iv});
-  var token = encrypted.toString();
-  var decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
-  var wifKey = decrypted.toString(CryptoJS.enc.Utf8)
+router.post('/loginuser', function(req, res){var user = req.body;var key = user.pivkey;var username = user.username;
+  var encrypted = CryptoJS.AES.encrypt(key, msgkey,{ iv: iv});var token = encrypted.toString();
+  var decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});var wifKey = decrypted.toString(CryptoJS.enc.Utf8);
   if(key == wifKey){res.cookie('dlike_username', username, { expires: new Date(Date.now() + 86400000000), httpOnly: false });res.cookie('token', token, { expires: new Date(Date.now() + 86400000000), httpOnly: true });res.send({ error: false });
-    //res.send({ message: 'Login success' });
   }else{res.send({ error: false  });}
 });
 
