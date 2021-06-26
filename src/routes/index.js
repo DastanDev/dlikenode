@@ -40,7 +40,8 @@ router.get('/welcome/:name', function(req, res) {let token = req.cookies.token;l
 router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (token) {let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);res.render('wallet', { act : userAPI.data})}else {res.redirect('/welcome');}
 })
-router.get('/new', async(req, res) => {res.render('new')})
+
+router.get('/new',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('new', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
 
 
 router.get('/post/:name/:link', async(req, res) => {
