@@ -2,7 +2,7 @@
 	<div class="Home-header-wrapper" style="justify-content:space-between">
 		<span><img src="https://img.icons8.com/material-rounded/36/1da1f2/cafe--v1.png"/></span>
 		<span><h2 class="Home-header">TipMeACoffe</h2></span>
-		<span></span>
+		<span><img src="https://img.icons8.com/material-outlined/36/1da1f2/plus--v1.png"/></span>
 	</div>
 	<div class="Tweet-input-divider"></div>
     <% 
@@ -20,8 +20,8 @@
 					<div class="card-header-detail"><span class="card-header-user"><a href="/profile/<%- article.author %>"><%- article.author %></a></span><span class="card-header-username"><a href="/profile/<%- article.author %>">@<%- article.author %></a></span><span class="card-header-dot">·</span><span class="card-header-date">a year</span></div>
 					<div class="card-header-more"></div>
 				</div>
-				<div class="card-content-info" style="font-weight: 600"><%- article.json.title %></div>
-				<div class="card-content-info" style="color:#45b1f3;"><%- metatags.toString() %></div>
+				<div class="card-content-info" style="font-weight: 600;padding-top: 10px"><%- article.json.title %></div>
+				<div class="card-content-info" style="color:#45b1f3;padding: 8px 0 4px 0;"><%- metatags.toString() %></div>
 				<div class="card-content-images">
 					<div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div>
 				</div>
