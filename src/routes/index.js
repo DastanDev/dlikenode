@@ -43,6 +43,12 @@ router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user
 
 router.get('/new',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('new', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
 
+router.get('/postit/:name/:link', async(req, res) => {let author = req.params.name;let link = req.params.link
+  const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`)
+  let category = postAPI.data.json.category
+  let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);
+  res.render('postit', { article : postAPI.data, simPosts : simAPI.data, moment: moment })
+})
 
 router.get('/post/:name/:link', async(req, res) => {
     let author = req.params.name

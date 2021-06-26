@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#1da1f2">
+    <meta nam="description" content="DLKWEB">
+    <meta name="og:title" content="DLKWEB">
+    <meta name="og:description" content="DLKWEB">
+
+    <link href="https://fonts.googleapis.com/css2?family=Assistant&amp;display=swap" rel="stylesheet">
+
+    <title>DLKWEB</title>
+    <link rel="stylesheet" type="text/css" href="/css/style2.css">
+</head>
+<body style=""><noscript>You need to enable JavaScript to run this app.</noscript>
+<%
+function getDomain(url) {let hostName = getHostName(url);let domain = hostName;
+    if (hostName != null) {
+        let parts = hostName.split('.').reverse();
+        if (parts != null && parts.length > 1) {
+            domain = parts[1] + '.' + parts[0];
+            if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) { domain = parts[2] + '.' + domain;}
+        }
+    }
+    return domain;
+}
+function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+    if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+        return match[2];
+    } else {return false;}
+}
+let tags = article.json.tags;
+let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + catg.slice(1);
+%>
+<div id="root">
+    <div class="alert-wrapper" style="top: -100px;"><div class="alert-content"></div></div>
+    <div class="body-wrap" style="">
+        <main class="main">
+            <div class="middle-section ms-width">
+                <div class="Home-wrapper">
+                    <div class="Home-header-wrapper" style="justify-content:space-between">
+                        <span><img src="https://img.icons8.com/material-rounded/36/1da1f2/cafe--v1.png"/></span>
+                        <span><h2 class="Home-header">TipMeACoffe</h2></span>
+                        <span><img src="https://img.icons8.com/material-outlined/36/1da1f2/plus--v1.png"/></span>
+                    </div>
+                    <div class="Tweet-input-divider"></div>
+                    <div>
+                        <div class="Tweet-card-wrapper">
+                            <div class="card-userPic-wrapper">
+                                <a href="/profile/RashHD"><img alt="" width="100%" height="49px" src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" style="border-radius: 50%; min-width: 49px;"></a>
+                            </div>
+                            <div class="card-content-wrapper">
+                                <div class="card-content-header">
+                                    <div class="card-header-detail"><span class="card-header-username"><a href="/profile/<%- article.author %>">@<b><%- article.author %></b></a></span><span> <small style="color: #657786;">in</small> <a href="/category/<%- (article.json.category).toLowerCase() %>" style="color:#45b1f3;"><%- category %></a></span><span class="card-header-dot">·</span><span class="card-header-date"><%- moment.utc(article.ts).fromNow()%></span></div>
+                                    <div class="card-header-more"></div>
+                                </div>
+                                <div class="card-content-info" style="font-weight: 600;padding-top: 10px"><a href="/postit/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></div>
+                                <div class="post-content"><%- article.json.body %></div>
+                                <div class="card-content-info" style="color:#45b1f3;padding: 8px 0 4px 0;"><%- metatags.toString() %></div>
+                                <div class="card-content-images">
+                                    <a href="/postit/<%- article.author %>/<%- article.link %>"><div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div></a>
+                                </div>
+                                <div class="card-buttons-wrapper">
+                                    <div class="card-button-wrap heart-wrap" style="justify-content: space-between;">
+                                        <div class="card-icon heart-icon">
+                                            <img src="https://img.icons8.com/material-outlined/20/000000/like--v1.png"/>
+                                        </div>
+                                        <div class="card-icon-value" style="opacity: 1;"><%- article.likes %></div>
+                                    </div>
+                                    <div class="card-button-wrap"><%- (article.likes)*0.1 %> TOK</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-edit" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+            <%- include('./common/rnav') %>
+        </main>
+        <%- include('./common/lnav') %>
+    </div>
+</div>
