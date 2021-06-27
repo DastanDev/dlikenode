@@ -14,10 +14,10 @@ var catg = article.json.category;var category = catg.charAt(0).toUpperCase() + c
 				<div class="card-header-detail"><span class="card-header-username"><a href="/profile/<%- article.author %>">@<b><%- article.author %></b></a></span><span> <small style="color: #657786;">in</small> <a href="/category/<%- (article.json.category).toLowerCase() %>" style="color:#45b1f3;"><%- category %></a></span><span class="card-header-dot">·</span><span class="card-header-date"><%- moment.utc(article.ts).fromNow()%></span></div>
 				<div class="card-header-more"></div>
 			</div>
-			<div class="card-content-info" style="font-weight: 600;padding-top: 10px"><a href="/postit/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></div>
+			<div class="card-content-info" style="font-weight: 600;padding-top: 10px"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></div>
 			<div class="card-content-info" style="color:#45b1f3;padding: 8px 0 4px 0;"><%- metatags.toString() %></div>
 			<div class="card-content-images">
-				<a href="/postit/<%- article.author %>/<%- article.link %>"><div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div></a>
+				<a href="/post/<%- article.author %>/<%- article.link %>"><div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div></a>
 			</div>
 			<div class="card-buttons-wrapper">
 				<div class="card-button-wrap heart-wrap" style="justify-content: space-between;">

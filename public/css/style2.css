@@ -940,8 +940,8 @@ a {
     fill: #1da1f2;
 }
 .tweet-header-content {
-    font-weight: 800;
-    font-size: 19px;
+    font-weight: 500;
+    font-size: 16px;
 }
 .tweet-body-wrapper {
     padding: 0 15px;
@@ -968,10 +968,10 @@ a {
 .tweet-user-name {
     font-size: 16px;
     font-weight: 700;
-    cursor: pointer;
+    /*cursor: pointer;*/
 }
 .tweet-user-name:hover {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
 }
 .tweet-username {
     font-size: 15.5px;
@@ -1686,16 +1686,18 @@ a {
     background-color: rgba(0, 0, 0, .03);
 }
 .feed-card-trend div:first-child {
-    font-size: 13px;
-    color: #657786;
-}
-.feed-card-trend div:nth-child(2) {
     font-size: 15px;
     color: #14171a;
     font-weight: 700;
     padding-top: 2px;
 }
 .feed-card-trend div:nth-child(3) {
+    font-size: 15px;
+    color: #14171a;
+    font-weight: 700;
+    padding-top: 2px;
+}
+.feed-card-trend div:nth-child(2) {
     font-size: 15px;
     color: #657786;
     padding-top: 2px;
