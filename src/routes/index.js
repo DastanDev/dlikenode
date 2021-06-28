@@ -190,6 +190,4 @@ const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime 
     //return trendingTags
     return tagsArr
 }
-
-
 module.exports = router;

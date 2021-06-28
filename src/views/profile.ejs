@@ -16,6 +16,11 @@
 <%
 let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
 let followList = JSON.stringify(user.followers);
+function getDomain(url) {let hostName = getHostName(url);let domain = hostName;
+    if (hostName != null) {let parts = hostName.split('.').reverse();if (parts != null && parts.length > 1) {domain = parts[1] + '.' + parts[0];if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) { domain = parts[2] + '.' + domain;}}}
+    return domain;
+}
+function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i); if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {return match[2];} else {return false;}}
 %>
 <div id="root">
     <div class="alert-wrapper" style="top: -100px;"><div class="alert-content"></div></div>
@@ -32,37 +37,56 @@ let followList = JSON.stringify(user.followers);
                         </div>
                     </div>
                     <div class="profile-banner-wrapper">
+                        <% if(user.json && user.json.profile && user.json.profile.avatar){ %>
+                        <img src="<%- user.json.profile.cover_image %>" alt="<%- user.name %>">
+                        <% }else{ %>
                         <img src="https://i.imgur.com/CAFy1oY.jpg" alt="">
+                        <% } %>
                     </div>
                     <div class="profile-details-wrapper">
                         <div class="profile-options">
                             <div class="profile-image-wrapper">
-                                <img src="https://i.imgur.com/iV7Sdgm.jpg" alt="">
+                                <% if(user.json && user.json.profile && user.json.profile.avatar){ %>
+                                <img src="<%- user.json.profile.avatar %>" alt="<%- user.name %>">
+                                <% }else{ %>
+                                <img src="https://i.imgur.com/iV7Sdgm.jpg" alt="<%- user.name %>">
+                                <% } %>
                             </div>
                             <div class="profile-edit-button">
                                 <% if(user.name == loguser) { %>
-                                <span>Edit profile</span>
+                                <span id="profile_edit">Edit profile</span>
                             <% }else{ %>
                             <% if((loguser) && followList.includes(loguser)) { %>
-                                <span>Following</span>
+                                <span class="btn_unfollow_user" data-username="<%- user.name %>">Following</span>
                                 <% }else{ %>
-                                <span>Follow</span>
+                                <span class="btn_follow_user" data-username="<%- user.name %>">Follow</span>
                                 <% } %>
                             <% } %>
                             </div>
                         </div>
                         <div class="profile-details-box">
                             <div class="profile-name">@<%- user.name %></div>
-                            <div class="profile-username"><span class="p_data_names" style="line-height: 1.4;"><span class="name" style="font-size: 1rem;"><i class="fas fa-caret-right" style="color: #fbbd08;padding-right: 3px"></i><%- (user.balance)/100 %>&nbsp;<span style="font-size: 0.6rem;padding-right: 4px;">DLIKE</span><i class="fas fa-bolt" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- vp %>&nbsp;<span style="font-size: 0.6rem;">VP</span> <i class="fas fa-database" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- bw %>&nbsp;<span style="font-size: 0.6rem;">BW</span></span></div>
+                            <div class="profile-username" style="padding-top: 3px;">
+                                <span class="p_data_names" style="line-height: 1.4;">
+                                    <span class="name" style="font-size: 1rem;">
+                                        <img src="https://img.icons8.com/ios-filled/10/1da1f2/lightning-bolt--v1.png"/><%- (user.balance)/100 %><span style="font-size: 0.8rem;padding-right: 4px;">DLIKE</span> 
+                                        <img src="https://img.icons8.com/ios-filled/10/1da1f2/lightning-bolt--v1.png"/><%- vp %><span style="font-size: 0.8rem;padding-right: 4px;">VP</span> 
+                                        <img src="https://img.icons8.com/ios-filled/10/1da1f2/lightning-bolt--v1.png"/><%- bw %><span style="font-size: 0.8rem;">BW</span>
+                                    </span>
+                                </span>
+                            </div>
                             <% if(user.json && user.json.profile && user.json.profile.website){ %>
                             <div class="profile-bio"><%- user.json.profile.about %></div>
                             <% }else{} %>
                             <div class="profile-bio"></div>
                             <div class="profile-info-box">
                                 <% if(user.json && user.json.profile && user.json.profile.location){ %>
-                                <div class="profile-location"><%- user.json.profile.location %></div>
+                                <div class="profile-location"> <img src="https://img.icons8.com/material-outlined/20/000000/marker.png"/> <%- user.json.profile.location %> </div>
                                 <% }else{} %>
-                                <div class="profile-date"> <%- activeTime %> </div>
+                                <div class="profile-date"> <img src="https://img.icons8.com/fluent-systems-regular/20/000000/planner.png"> <%- activeTime %> </div>
+                                <% if(user.json && user.json.profile && user.json.profile.location){ %>
+                                <div class="profile-date"> <img src="https://img.icons8.com/ios/20/000000/geography.png"/> <a href="<%- user.json.profile.website %>" target="_blank"><%- getDomain(user.json.profile.website) %></a> </div>
+                                <% }else{} %>
                             </div>
                         </div>
                         <div class="profile-social-box">
@@ -77,14 +101,67 @@ let followList = JSON.stringify(user.followers);
                     <div id="profile_posts"><%- include('./common/blog.ejs') %></div>
                     <div id="profile_likes"><%- include('./common/likes.ejs') %></div>
                 </div>
+                
             </div>
             <%- include('./common/rnav') %>
         </main>
         <%- include('./common/lnav') %>
     </div>
+
+
+                <div class="modal-edit modal-profile" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-closeIcon">
+                                <div class="modal-closeIcon-wrap">
+                                    <img src="https://img.icons8.com/material-outlined/24/000000/multiply--v1.png"/>
+                                </div>
+                            </div>
+                            <p class="modal-title">Edit Profile</p>
+                            <div class="save-modal-wrapper">
+                                <div class="save-modal-btn prof_edit_btn">Save</div>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <form class="edit-form">
+                                <div class="edit-input-wrap">
+                                    <div class="edit-input-content">
+                                        <label>Profile Pitcure URL</label>
+                                        <input type="text" id="profile_img" class="edit-input" value="">
+                                    </div>
+                                </div>
+                                <div class="edit-input-wrap">
+                                    <div class="edit-input-content">
+                                        <label>Cover Pitcure URL</label>
+                                        <input type="text" id="cover_img" class="edit-input" value="">
+                                    </div>
+                                </div>
+                                <div class="edit-input-wrap">
+                                    <div class="edit-input-content">
+                                        <label>About</label>
+                                        <input type="text" id="profile_about" class="edit-input" value="">
+                                    </div>
+                                </div>
+                                <div class="edit-input-wrap">
+                                    <div class="edit-input-content">
+                                        <label>Location</label>
+                                        <input type="text" id="profile_location" class="edit-input" value="">
+                                    </div>
+                                </div>
+                                <div class="edit-input-wrap">
+                                    <div class="edit-input-content">
+                                        <label>Website</label>
+                                        <input type="text" id="profile_website" class="edit-input" value="">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-<script src="/js/utils.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script><script src="/js/breej.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/toaster.js"></script>
 <script type="text/javascript">
 $('#profile_likes').hide();
 $('.likes_tab').on('click', function() {
@@ -96,8 +173,21 @@ $('.likes_tab').on('click', function() {
 });
 $('.posts_tab').on('click', function() {
     $('.posts_tab').addClass('activeTab');
-    $('.likess_tab').removeClass('activeTab');
+    $('.likes_tab').removeClass('activeTab');
     $('#profile_likes').hide();
     $('#profile_posts').show();
+});
+$('#profile_edit').click(function(e) {  e.preventDefault();$(".modal-profile").show();});
+$(".modal-closeIcon-wrap").click(function(){$(".modal-profile").hide();});
+$('.prof_edit_btn').click(function() {
+    $(".prof_edit_btn").attr("disabled", true).html('updating');
+    let p_about=$('#profile_about').val();let p_website = $('#profile_website').val();
+    let p_location = $('#profile_location').val();console.log(p_location);let p_cover_img = $('#cover_img').val();let p_img = $('#profile_img').val();
+    $.ajax({url: '/pupdate', type: 'post',contentType: 'application/json', data: JSON.stringify({ acc_about:p_about, acc_website:p_website, acc_location:p_location, acc_cover_img:p_cover_img, acc_img:p_img }),
+        success: function(data) {
+                if (data.error == true) {toastr['error'](data.message);$(".prof_edit_btn").attr("disabled", false).html('save');return false;
+                } else {$(".modal-profile").hide();toastr['success']("updated Successfully!");setTimeout(function(){window.location.reload();}, 500);}
+        }
+    });
 });
 </script>
