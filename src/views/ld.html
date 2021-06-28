@@ -107,3 +107,210 @@ index
 </div>
 </div></div>
 <%- include('./common/footer.ejs') %>
+
+
+
+
+
+PROFILE
+
+
+
+
+
+
+<!DOCTYPE html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%- article.json.title %></title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="<%- article.json.title %>" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+<%- include('./common/navbar.ejs') %>
+<%
+function getDomain(url) {let hostName = getHostName(url);let domain = hostName;
+    if (hostName != null) {
+        let parts = hostName.split('.').reverse();
+        if (parts != null && parts.length > 1) {
+            domain = parts[1] + '.' + parts[0];
+            if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) { domain = parts[2] + '.' + domain;}
+        }
+    }
+    return domain;
+}
+function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+    if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+        return match[2];
+    } else {return false;}
+}
+let tags = article.json.tags;
+let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + catg.slice(1);
+%>
+
+<div class="latest-post-section"><div class="container">
+    <article class="post-style-two post-full-width">
+        <div class="post-thumb"><img src="<%- article.json.image %>" alt="<%- article.json.title %>" class="img-responsive"></div>
+        <div class="post-contnet-wrap">
+            <div class="post-footer">
+                <div class="post-author-block">
+                    <div><a href="/profile/<%- article.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="<%- article.author %>" class="img-fluid my_img"></a></div>
+                    <div class="author-info"><h5 class="auth_inf"><a href="/profile/<%- article.author %>"><%- article.author %></a></h5><span class="auth-time"><%- moment.utc(article.ts).fromNow()%></span>
+                    </div>
+                </div>
+                <div class="post-comments post-com-cat"><a href="/category/<%- (article.json.category).toLowerCase() %>"><%- category %></a></div>
+            </div>
+            <h1 class="post-title"><%- article.json.title %></h1>
+            <p class="post-entry"><%- article.json.body %><br>
+                <span class="read_more">Read more on: <a href="<%- article.json.url %>" target="_blank"><%- getDomain(article.json.url) %></a></span>
+            </p>
+            <p class="post-entry post-tags"><%- metatags %></p>
+            <div class="post-footer">
+                <div class="post-author-block"><div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div></div>
+                <div class="post-comments"><div><span class="dlike_tokens<?php echo $permlink; ?><?php echo $author; ?>"><%- (article.likes)*0.1 %></span> <b>DLIKE</b></div></div>
+            </div>
+        </div>
+    </article>
+<div class="more_posts">More Like This</div>
+<div class="row"><%- include('./common/similar.ejs') %></div>
+</div></div>
+<%- include('./common/footer.ejs') %>
+
+
+
+
+
+
+
+
+
+
+
+PROFILE
+
+
+
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLIKE - Share To Get Rewarded</title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+<%- include('./common/navbar.ejs') %>
+<%
+let activeTime = moment.utc(user.created.ts).format("MMMM YYYY");
+let followList = JSON.stringify(user.followers);
+%>
+
+<div id="profile_page">
+    <div id="p_cover" class="img-fluid"><img src="" style="width:100%;height:100%;"></div>
+    <div style="background: #ededed;"><div class="container p-data">
+        <div class="row p_data_inner">
+            <div>
+                <span><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" id="p_img" class="img-fluid rounded-circle"></span><span class="p_data_names" style="line-height: 1.4;"><span class="name" style="font-size: 1rem;"><i class="fas fa-caret-right" style="color: #fbbd08;padding-right: 3px"></i><%- (user.balance)/100 %>&nbsp;<span style="font-size: 0.6rem;padding-right: 4px;">DLIKE</span><i class="fas fa-bolt" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- vp %>&nbsp;<span style="font-size: 0.6rem;">VP</span> <i class="fas fa-database" style="color: #fbbd08;padding-right: 3px;padding-left: 5px;"></i><%- bw %>&nbsp;<span style="font-size: 0.6rem;">BW</span></span><br><span class="p_name">@<%- user.name %></span></span>
+            </div>
+            <div>
+                <span>
+                    <% if(user.name == loguser) { %>
+                    <button class="btn btn-danger btn-follow" id="profile_edit">Edit Profile</button>
+                    <% }else{ %>
+                        <% if((loguser) && followList.includes(loguser)) { %>
+                        <button class="btn btn-danger btn_unfollow_user btn-follow" data-username="<%- user.name %>"><span class="btn_txt_unfollow">Following</span></button>
+                        <% }else{ %>
+                        <button class="btn btn-danger btn_follow_user btn-follow" data-username="<%- user.name %>"><span class="btn_txt_follow">Follow</span></button>
+                        
+                        <button class="btn btn-danger btn_verify_email">Verify Email</button>
+                        <% } %>
+                    <% } %>
+                </span><br>
+                <span style="display: flex;justify-content: center;font-size: 1rem;">
+                    <span style="font-weight: 700;"><%- user.followers.length %></span>&nbsp;Followers&nbsp;&nbsp;&nbsp;<span style="font-weight: 700;"><%- user.follows.length %></span>&nbsp;Following&nbsp;</span>
+            </div>
+        </div>
+        <% if(user.json && user.json.profile && user.json.profile.website){ %>
+        <div class="row p_data_top" style="padding-top:1px;"><span class="p_about"></span><%- user.json.profile.about %></div>
+        <% }else{} %>
+        <div class="row p_data_mid">
+            <span class="p_joined"><i class="fas fa-calendar-alt" style="line-height:0.1;color: #191d5d;"></i> Joined <%- activeTime %></span>
+            <% if(user.json && user.json.profile && user.json.profile.location){ %>
+            <span class="p_location" style="margin-left:10px;"><i class="fas fa-map-marker-alt" style="color: #191d5d;padding-right:5px;"></i><%- user.json.profile.location %></span>
+            <% }else{} %>
+            <% if(user.json && user.json.profile && user.json.profile.website){ %>
+            <span class="web_site" style="margin-left:10px;"><i class="fas fa-link" style="color: #191d5d;padding-right:8px;"></i><%- user.json.profile.website %>
+            <% }else{} %>
+        </div>
+    </div>
+<div class="new-ticker-block new-ticker-block-section latest-post-section" style="min-height:50vh;padding-top:10px;"><div class="container"><div class="new-ticker-block-wrap">
+<div class="ticker-head">
+    <ul class="nav nav-tabs ticker-nav prof-nav" role="tablist">
+        <li class="nav-item"><a class="nav-link active show" href="#user_posts" role="tab" data-toggle="tab" aria-selected="true"><h5>Posts</h5></a></li><li class="nav-item"><a class="nav-link" href="#user_likes" role="tab" data-toggle="tab">Likes</a></li><li class="nav-item nav-item-last"></li>
+    </ul>
+</div>
+<div class="market-ticker-block"><div class="tab-content">
+<div role="tabpanel" class="tab-pane fade in active show" id="user_posts"><div class="container"><div class="row" style="margin-top: 30px;"><%- include('./common/blog.ejs') %>
+</div></div></div>
+<div role="tabpanel" class="tab-pane fade" id="user_likes"><div class="container"><div class="row" style="margin-top: 30px;"><%- include('./common/likes.ejs') %>
+</div></div></div>
+</div>
+</div></div></div></div></div>
+<div class="modal fade" id="profile_modal" tabindex="-1" role="dialog" aria-hidden="true"><div class="modal-dialog" role="document"><div class="modal-content modal-custom"><%- include('./common/profileupdate.ejs') %></div></div></div>
+<%- include('./common/footer.ejs') %><script>var profileName = <%- JSON.stringify(profName) %>;
+$('#profile_edit').click(function(e) {  e.preventDefault();$("#profile_modal").modal("show");});
+$('.prof_edit_btn').click(function() {
+    $(".prof_edit_btn").attr("disabled", true).html('updating');
+    let p_about=$('#profile_about').val();let p_website = $('#profile_website').val();
+    let p_location = $('#profile_location').val();console.log(p_location);let p_cover_img = $('#cover_img').val();let p_img = $('#profile_img').val();
+    $.ajax({url: '/pupdate', type: 'post',contentType: 'application/json', data: JSON.stringify({ acc_about:p_about, acc_website:p_website, acc_location:p_location, acc_cover_img:p_cover_img, acc_img:p_img }),
+        success: function(data) {
+                if (data.error == true) {toastr['error'](data.message);$(".prof_edit_btn").attr("disabled", false).html('update');return false;
+                } else {$("#profile_modal").modal("hide");toastr['success']("updated Successfully!");setTimeout(function(){window.location.reload();}, 300);}
+        }
+    });
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+
+
+
+
+
+
+blog
+
+<% 
+    articles.forEach(function(article) { 
+    let tags = article.json.tags;
+    let metatags = tags.map(s => '<a href="/tags/'+s+'">#'+s+'</a>').join(' ');
+    let catg = article.json.category; let category = catg.charAt(0).toUpperCase() + catg.slice(1);
+%>
+    <div class="col-lg-4 col-md-6 postsMainDiv">
+        <article class="post-style-two"><div class="post-contnet-wrap-top">
+            <div class="post-footer">
+                <div class="post-author-block">
+                    <div><a href="/profile/<%- article.author %>"><img src="https://i.postimg.cc/rwbTkssy/dlike-user-profile.png" alt="img" class="img-fluid my_img"></a></div>
+                    <div class="author-info">
+                        <h5><a href="/profile/<%- article.author %>"><%- article.author %></a><div class="time"><%- moment.utc(article.ts).fromNow()%></div></h5>
+                    </div></div>
+                    <div class="post-comments post-catg"><span class="post-meta"><a href="/category/<%- (article.json.category).toLowerCase() %>"><b><%- category %></b></a></span></div>
+                    </div></div>
+                    <div class="post-thumb img-fluid"><a href="/post/<%- article.author %>/<%- article.link %>"><img src="<%- article.json.image %>" class="card-img-top"></a></div>
+                    <div class="post-contnet-wrap">
+                        <h4 class="post-title single_title"><a href="/post/<%- article.author %>/<%- article.link %>"><%- article.json.title %></a></h4>
+                        <p class="post-entry post-tags"><%- metatags.toString() %></p>
+                        <div class="post-comments bottom_block">
+                        <div><img src="/images/dlike-hover.png" alt="DLIKE" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"> | <span id="post_likes" class="post_likes"><%- article.likes %></span>LIKES</div>
+                <div><span class="dlike_tokens"><%- (article.likes)*0.1 %></span> <b>DLIKE</b>
+                </div></div>
+        </article>
+    </div><% }) %>
+
+
+
+
+
