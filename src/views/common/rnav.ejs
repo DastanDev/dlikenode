@@ -4,10 +4,12 @@
             <div class="feed-trending-card">
                 <h3 class="feed-card-header">Trending</h3>
                 <% trendingTags.forEach(function(tags) { %>
+                <a href="/tags/<%- tags.m %>">
                 <div class="feed-card-trend">
-                    <div><a href="/tags/<%- tags.m %>">#<%- tags.m %></a></div>
+                    <div>#<%- tags.m %></div>
                     <div><%- tags.v %> Posts</div>
                 </div>
+                </a>
                 <% }) %>
                 <div class="feed-more">Show more</div>
             </div>

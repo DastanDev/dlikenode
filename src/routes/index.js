@@ -185,7 +185,7 @@ const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime 
     for (let p in posts) if (posts[p].json && posts[p].json.tags) {let postTags = posts[p].json.tags;
         for (let t in postTags) if (!tags[postTags[t]]){tags[postTags[t]] = 1}else{tags[postTags[t]] += 1} }
     let tagArr = [];
-    for (let t in tags) tagArr.push({ m: t, v: tags[t]});tagsArr = tagArr.sort((a,b) => b.v - a.v);tagsArr = tagsArr.slice(0,4)
+    for (let t in tags) tagArr.push({ m: t, v: tags[t]});tagsArr = tagArr.sort((a,b) => b.v - a.v);tagsArr = tagsArr.slice(0,6)
     let trendingTags = "";var i;for (i = 0; i < tagsArr.length; i++) {trendingTags +='<a class="nav-item nav-link" href="/tags/'+tagsArr[i].m+'">#' + tagsArr[i].m + '</a>';}
     //return trendingTags
     return tagsArr

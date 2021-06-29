@@ -25,3 +25,5 @@ $('.btn_unfollow_user').click(function() {
         $.ajax({url: '/unfollow',type: 'POST',data: JSON.stringify({ unfollowName: unfollowName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("UNFollowed Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(".btn_txt_unfollow").html('Following');$('.btn_unfollow_user').attr("disabled", false);return false} } });
     } else { toastr.error('hmm... You must be login!'); return false; }
 });
+
+$(".back_btn").click(function (){window.history.back();});

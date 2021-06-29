@@ -379,9 +379,9 @@ a {
 .tweet-btn-active:hover {
     background-color: rgba(11, 137, 216, .876);
 }
-.Tweet-input-divider {
-    min-height: 10px;
-    height: 10px;
+.Top-input-divider {
+    min-height: 3px;
+    height: 3px;
     background-color: #e6ecf0;
     content: ""}
 [contenteditable=true] {
@@ -2193,4 +2193,8 @@ a {
 .activeTab {
     border-bottom: 2px solid #1da1f2;
     color: #1da1f2;
+}
+.profile-header-name {
+    font-weight: 800;
+    font-size: 19px;
 }
