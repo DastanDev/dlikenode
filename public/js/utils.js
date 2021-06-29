@@ -27,3 +27,6 @@ $('.btn_unfollow_user').click(function() {
 });
 
 $(".back_btn").click(function (){window.history.back();});
+
+
+$('#logout_btn').click(function(){$.ajax({type: 'POST',data: JSON.stringify({}),contentType: 'application/json',url: '/logout',success: function(data) {if (data.error == false);toastr['success']("Logout Success");setTimeout(function(){window.location.href = '/';}, 300);} }); })
