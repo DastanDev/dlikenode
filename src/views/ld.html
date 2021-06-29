@@ -455,3 +455,84 @@ similar posts
                 </div></div>
         </article>
 </div><% }) %>
+
+
+
+
+welcome
+
+
+
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLIKE - Share To Get Rewarded</title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+<%- include('./common/navbar.ejs') %>
+
+<div class="container"><div class="user-login-signup-form-wrap" style="padding: 9rem 0rem;">
+    <div class="modal-content" style="background: #1b1e63;border-radius: 14px;">
+        <div class="modal-body login_section">
+            <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
+            <div class="user-connected-form-block" style="background: #1b1e63;">
+                <form class="user-connected-from">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
+                        <span class="fa fas fa-user"></span>
+                    </div></div>
+                    <input type="text" name="login_user" id="login_user_id" placeholder="Username" class="form-control" />
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
+                        <span class="fa fas fa-lock"></span>
+                    </div></div>
+                    <input type="password" name="email_pass" id="login_pass" placeholder="Private Key" class="form-control" />
+                </div>
+                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default login_btn" style="width: 40%;padding-top: 5px;"><i class="fas fa-spinner fa-spin login_loader" style="display:none;"></i><span id="login_txt">Log In</span></button></div>
+                </form>
+                <div style="color: #fff;text-align:center;">Don't have an account?<span class="register_btn" style="color: #e1ec31;cursor: pointer;"> Register</span></div>
+            </div>
+        </div>
+
+        <div class="modal-body signup_section" style="display:none;">
+            <div class="contact-info-block signup_block"><div class="contact-info-inner signup_inner" style="margin: 3%;padding-bottom: 10px;">
+                <h4 class="sign_head" style="color: #f5f5f5;"></h4>
+                <span class="signup-signup-icon"><span class="fas fa-user" style="font-size:3rem;"></span></span>
+                <form name="signup" style="margin-top: 15px;">
+                    <div class="form-group input-username">
+                    <input type="hidden" id="refer_by" value="<%- ref %>" />
+                    <input type="text" name="username" class="form-control" id="user_name" placeholder="username">
+                    </div>
+                    <button type="button" class="next btn btn-default signup_btn" style="background: #1652f0;color: #fff;font-weight: 700;font-size: 15px;min-height: 50px;padding: 0px 40px;margin:12px;"><span class="signup_txt">Signup</span></button>
+                </form>
+                <div style="color: #fff;text-align:center;">Already a user?<span class="loginNow_btn" style="color: #e1ec31;cursor: pointer;"> Login</span></div>
+            </div></div>
+        </div>
+
+        <div class="modal-body key_section" style="display:none;">
+            <div class="user-connected-from-block" style="text-align:center;margin:25px 0px;">
+                <span class="signup-signup-icon"><span class="fas fa-user"></span></span>
+                <h4 style="color: #f5f5f5;">You're all set up!</h4>
+                <p class="signup-signup-description" style="margin-bottom: 20px;color: #f5f5f5;">This is the private key (password) of your account<br><span style="color: #e1ec31;">Copy and save it securely!</span></p>
+                <form class="user-connected-from">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"> 
+                        <span class="copy_pass" style="cursor:pointer;">Copy</a>
+                    </div></div>
+                    <input type="text" name="user_key" id="acct_priv_key" style="min-width:80%;" />
+                </div>
+                <div style="text-align:center;margin-top:40px;"><button type="button" class="btn btn-default signin_btn" style="width: 40%;padding-top: 5px;">Log In</button></div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div></div>
+
+<%- include('./common/footer.ejs') %>

@@ -21,27 +21,25 @@ breej.init({
 var msgkey = process.env.msgKey;
 var iv = "123456789"
 
-router.get('',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};console.log(loguser);let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
+router.get('',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
 router.get('/profile/:name', async(req, res) => {let nTags = await fetchTags();let name = req.params.name;let userAPI = await axios.get(`https://api.dlike.network/account/${name}`);let act = userAPI.data;let vp=breej.votingPower(act);let bw=breej.bandwidth(act);let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);let likesAPI = await axios.get(`https://api.dlike.network/votes/${name}`);if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};res.render('profile', { user : userAPI.data, articles: blogAPI.data, likes: likesAPI.data, moment: moment, bw: bw, vp: vp, loguser: loguser, profName: name, trendingTags: nTags }) })
 router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
-router.get('/tags/:tag',  async(req, res) => {let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledTag: tag }) })
-router.get('/category/:catg',  async(req, res) => {let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledCatg: catg }) })
-router.get('/share', function (req, res){let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share')}})
+router.get('/tags/:tag',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledTag: tag, loguser: loguser }) })
+router.get('/category/:catg',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledCatg: catg, loguser: loguser }) })
+router.get('/share', function (req, res){if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share',{loguser: loguser})}})
 router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;breej.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
 
-router.get('/welcome', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (token) {res.redirect('/profile/'+user);}else {let ref='';res.render('welcome',{ref: ref})}
+router.get('/welcome', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
+    if (token) {res.redirect('/profile/'+user);}else {let ref='';let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: ref, loguser: loguser, trendingTags: nTags})}
 })
 
-router.get('/welcome/:name', function(req, res) {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (!token) {let name = req.params.name;res.render('welcome',{ref: name})}else {res.redirect('/profile/'+user);}
+router.get('/welcome/:name', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
+    if (!token) {let name = req.params.name;let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: name, loguser: loguser, trendingTags: nTags})}else {res.redirect('/profile/'+user);}
 })
 
 router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (token) {let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);res.render('wallet', { act : userAPI.data})}else {res.redirect('/welcome');}
 })
-
-router.get('/new',  async(req, res) => {let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('new', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
 
 router.get('/post/:name/:link', async(req, res) => {let author = req.params.name;let link = req.params.link;let nTags = await fetchTags();
   const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`)
@@ -175,7 +173,7 @@ router.post('/pupdate', function(req, res){let post = req.body;let token = req.c
   })
 });
 
-router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey; let signedTx = breej.sign(priv,'dlike',newTx)
+router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey;let signedTx = breej.sign(priv,'dlike',newTx)
     breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
 });
 

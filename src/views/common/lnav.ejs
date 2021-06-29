@@ -20,7 +20,7 @@
 								<div class="Nav-item">Wallet</div>
 							</div>
 						</a>
-						<a class="Nav-link steem-keychain-checked" href="/trending">
+						<a class="Nav-link steem-keychain-checked" href="/profile/<%-loguser%>">
 							<div class="Nav-item-hover"><img src="https://img.icons8.com/windows/24/000000/gender-neutral-user.png"/>
 								<div class="Nav-item">Profile</div>
 							</div>
@@ -52,13 +52,15 @@
 							</div>
 						</div>
 						<div class="Nav-tweet">
-							<div class="Nav-tweet-link">
-								<% if(loguser){ %>
-								<div class="Nav-tweet-btn" id="logout_btn">Logout</div>
-								<% } else { %>
-								<div class="Nav-tweet-btn">Login</div>
-								<% } %>
+							<% if(loguser){ %>
+							<div class="Nav-tweet-link" id="logout_btn">
+								<div class="Nav-tweet-btn">Logout</div>
 							</div>
+							<% } else { %>
+							<div class="Nav-tweet-link" id="main_login_btn">
+								<div class="Nav-tweet-btn">Login</div>
+							</div>
+							<% } %>
 						</div>
 					</nav>
 					<div></div>
