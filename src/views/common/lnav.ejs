@@ -8,7 +8,9 @@
 							<div class="Nav-item-hover active-Nav"><img src="https://img.icons8.com/material-outlined/24/000000/home--v2.png"/>
 								<div class="Nav-item">Home</div>
 							</div>
-						</a><a class="Nav-link steem-keychain-checked" href="/bookmarks">
+						</a>
+						<% if(loguser){ %>
+						<a class="Nav-link steem-keychain-checked" href="/bookmarks">
 							<div class="Nav-item-hover"><img src="https://img.icons8.com/material-outlined/24/000000/filled-appointment-reminders.png"/>
 								<div class="Nav-item">Notifications</div>
 							</div>
@@ -23,6 +25,7 @@
 								<div class="Nav-item">Profile</div>
 							</div>
 						</a>
+						<% } %>
 						<a class="Nav-link steem-keychain-checked" href="/explore">
 							<div class="Nav-item-hover"><img src="https://img.icons8.com/material-outlined/24/000000/water.png"/>
 								<div class="Nav-item">RewardPool</div>
@@ -50,7 +53,11 @@
 						</div>
 						<div class="Nav-tweet">
 							<div class="Nav-tweet-link">
-								<div class="Nav-tweet-btn btn-hide">Login</div>
+								<% if(loguser){ %>
+								<div class="Nav-tweet-btn" id="logout_btn">Logout</div>
+								<% } else { %>
+								<div class="Nav-tweet-btn" id="logout_btn">Login</div>
+								<% } %>
 							</div>
 						</div>
 					</nav>
