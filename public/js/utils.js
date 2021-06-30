@@ -72,4 +72,55 @@ $('.signup_btn').click(function() {let input_username = $('#user_name').val();le
 $('.copy_pass').click(function() {var copyText = document.getElementById("acct_priv_key");copyText.select();copyText.setSelectionRange(0, 99999); /* For mobile devices */
     document.execCommand("copy");$('.copy_pass').html('Copied!');toastr['success']("Key copied to clipboard.");return false;
 })
+function isValidURL(url) {var RegExp = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/; if (RegExp.test(url)) {return true;} else {toastr.error('phew... Enter a valid url');return false;} }
+function getDomain(url) {let hostName = getHostName(url);let domain = hostName;if (hostName != null) {let parts = hostName.split('.').reverse();if (parts != null && parts.length > 1) {domain = parts[1] + '.' + parts[0];if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) { domain = parts[2] + '.' + domain;}}}; return domain;}
+function getHostName(url) {var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i); if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {return match[2];} else {return false;}}
 
+$('.share_me').click(function() {
+    if (dlike_username) {$('#share_plus').html('Sharing...');
+        let input_url = $("#url_field").val();
+        if (input_url == ''){ $("#url_field").css("border-color", "RED");toastr.error('phew... You forgot to enter URL');$('#share_plus').html('Share');return false;}
+        let verifyUrl = getDomain(input_url);
+        var sites = ["dlike.io", "wikipedia.org","facebook.com","youtube.com", "pinterest.com","twitter.com","bloomberg.com","youtu.be","pornhub.com","imgur.com","amazon.com","imgbb.com","freepik.com"];
+        if(sites.includes(verifyUrl)){toastr.error('Sharing from this URL is not allowed');return false;}
+        if (isValidURL(input_url)) {
+            $.ajax({url: '/share',type: 'POST',data: JSON.stringify({ url: input_url }),contentType: 'application/json',
+                success: function(data)  {
+                    let title=data.title;let image=data.image;let description=data.description;let url="input_url";
+                    if(title !=''){
+                        $('.share_link').hide();$('.edit_psot').show();
+                        $('.data-title').html(title);$(".link_image").attr("src", image);$('#domain_name').html(verifyUrl);$('#post_desc').html(description);$('.url_link').val(input_url)}
+                    else{toastr.error('Unable to share link'); return false; }
+                }
+            });
+        } else {toastr.error('phew... URL is not Valid');}
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+$('.share_new_post').click(function(clickEvent) {
+    if (dlike_username) {
+        let urlInput = $('.url_link').val();
+        if($('.dlike_cat').val() == "0") {$('.dlike_cat').css("border-color", "RED");toastr.error('Please Select an appropriate Category');return false;}
+        var inputtags = $.trim($('.dlike_tags').val()).toLowerCase();let tags=inputtags.replace(/\s\s+/g, ' ');let newtags = $.trim(tags).split(' ');
+        if (newtags.length < 2) {$('.tags').css("border-color", "RED");toastr.error('Please add at least two related tags');return false;}
+        if (newtags.length > 5) {$('.tags').css("border-color", "RED");toastr.error('maximum 5 tags allowed');return false;}
+        var allowed_tags_type = /^[a-z\d\s]+$/i;
+        if (!allowed_tags_type.test(tags)) {$('.tags').css("border-color", "RED");toastr.error('Only alphanumeric tags, no Characters.');return false;}
+        var post_tags = tags.split(' ');
+        var description = $('textarea#post_desc').val();
+        var post_description = $.trim(description).split(' ');console.log(post_description.length)
+        if (post_description.length < 10) {$('.data-desc').css("border-color", "RED");toastr.error('Please add description of minimum 30 words');return false;}
+        if (post_description.length > 82) {$('.data-desc').css("border-color", "RED");toastr.error('Please add description not more than 80 words');return false;}
+        var title = $('.data-title').html();
+        if (title=="") {toastr.error('Some error in this link!');return false;}
+        var post_body = description.replace(/[\u2018\u2019]/g, "'").replace(/[\u201C\u201D]/g, '"');
+        var urlImage =  $('.post_img img').attr('src');
+        var category = $( ".dlike_cat option:selected" ).text(); var post_category=category.toLowerCase();
+        $(".share_new_post").attr("disabled", true);$('.edit_post_txt').html('Publishing...');
+        $.ajax({type: "POST",url: "/post",data: {title: title,tags:post_tags,description:post_body,category: post_category,image:urlImage,exturl:urlInput},
+            success: function(data) {console.log(data)
+                if (data.error == false) {toastr['success']("Link Shared Successfully!");setTimeout(function(){window.location.href = '/';}, 400);
+                } else {toastr['error'](data.message);$(".share_new_post").attr("disabled", false);$('.edit_post_txt').html('Publish');return false}
+            },
+        });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+})

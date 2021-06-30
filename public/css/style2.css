@@ -2319,10 +2319,10 @@ a {
     text-align: center;
     width: 100%;
 }
-.wel_sec{display: flex;justify-content: center;margin-top: 20px;}
-.signin_btn, .signup_btn, .login_btn{width: 50%}
-.wel_sec_msg{color: #111;text-align:center;padding-top: 10px;}
-.register_btn, .loginNow_btn{color: #1da1f2;cursor: pointer;}
-#acct_priv_key{min-width:80%;}.copy_pass{cursor:pointer}.key_section_block{text-align:center;margin:25px 0px;}
-.key_section_description{margin-bottom: 20px;color: #111;}.key_section_description span{color: #df4759}.key_section h4{color: #111111}
-.welcome_inner{border-radius: 14px;margin: 20px}.welcome_section{padding: 3rem 0rem}#user_name{min-height: 50px}.signup_section p{text-align: center}
+.wel_sec{display: flex;justify-content: center;margin-top: 20px;}.link_bottom{display: flex;justify-content: space-between;padding: 5px 0px;font-size: 1.1rem;}
+.signin_btn, .signup_btn, .login_btn, .share_me, .share_new_post{width: 50%;max-width: inherit;}.dlike_cat{border:none;}.edit_psot{padding: 4rem 2rem;}
+.wel_sec_msg{color: #111;text-align:center;padding-top: 10px;}#url_field{border-radius: 12px;min-height: 50px;}.dlike_tags{padding-top: 4px;font-size: 1rem;width: 90%;border: none;color: rgb(29 161 242);}
+.register_btn, .loginNow_btn, .share_help{color: #1da1f2;cursor: pointer;}.data-title{font-weight: 600;font-size: 1rem;padding: 8px 0px;}
+#acct_priv_key{min-width:80%;}.copy_pass{cursor:pointer}.key_section_block{text-align:center;margin:25px 0px;}#post_desc{width: 100%;border: none;overflow: hidden;font-size: 0.9rem;}
+.key_section_description{margin-bottom: 20px;color: #111;}.key_section_description span{color: #df4759}.key_section h4{color: #111111}.share_link h4{color: #111111;padding-bottom: 12px;}
+.welcome_inner{border-radius: 14px;margin: 20px}.welcome_section{padding: 3rem 0rem}#user_name{min-height: 50px}.signup_section p{text-align: center}.share_link{padding: 5rem 2rem;text-align: center;}

@@ -536,3 +536,68 @@ welcome
 </div></div>
 
 <%- include('./common/footer.ejs') %>
+
+
+
+
+share
+
+
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DLIKE - Share To Get Rewarded</title>
+<meta name="description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members.">
+
+<meta property="og:url" content="https://dlike.io" />
+<meta property="og:title" content="DLIKE - Share To Get Rewarded" />
+<meta property="og:description" content="DLIKE is a blockchain based social media dapp where you get rewarded for sharing. Share informative links to earn reward on every like you get from other community members." />
+<meta property="og:image" content="/images/dlike-main.jpg" />
+<%- include('./common/navbar.ejs') %>
+
+
+<div class="container share_link"><div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
+    <div class="modal-content" style="background: #1b1e63;border-radius: 14px;"><div class="modal-body">
+        <div class="share-block">=<p>Share To Get Rewarded</p></div>
+        <div class="user-connected-form-block" style="background: #1b1e63;">
+            <form class="user-connected-from share-form">
+                <div class="form-group"><input type="text" class="form-control" id="url_field" required="true" placeholder="Enter URL" style="border-radius: 20px;"></div>
+                <center><button type="button" class="btn btn-default share_me" style="width: 40%;padding-top: 5px;" id="dlike_share"><i class="fas fa-spinner fa-spin share_loader" style="display:none;"></i><span id="share_plus">Share</span></button></center>
+            </form>
+            <p style="color: #fff;">Must read  <a href="/help" style="color: #e1ec31;"> Terms &amp; Conditions</a> for sharing!</p>
+        </div>
+    </div></div>
+</div></div>  
+
+<div class="container edit_psot" style="display: none;">
+    <div class="user-login-signup-form-wrap" style="padding: 7rem 0rem;">
+        <div class="modal-content" style="border:none;"><div class="modal-body">
+            <input type="hidden" name="url_link" class="url_link" value="">
+            <div class="post_img"><img class="img-fluid d-flex flex-column link_image" src="" alt="dlike"/></div>
+            <div class="modal-info-block link_box">
+                <p class="data-title"></p>
+                <textarea class="data-desc" rows="2" style="width: 100%;border: none;" id="post_desc"></textarea>
+                <div class="link_bottom">
+                    <p style="margin-bottom: 1px;"><i class="fas fa-link link_icon"></i><span id="domain_name"></span></p>
+                    <select  style="border:none;" name="category" class="dlike_cat">
+                        <option value="0">Select Category</option>
+                        <option value="1">News</option>
+                        <option value="2">Cryptocurrency</option>
+                        <option value="3">Food</option>
+                        <option value="4">Sports</option>
+                        <option value="5">Technology</option>
+                        <option value="6">LifeStyle</option>
+                        <option value="7">Health</option>
+                        <option value="8">Gaming</option>
+                        <option value="9">Business</option>
+                        <option value="10">General</option>
+                    </select>
+                </div>
+                <div class="link_bottom_section">
+                    <input type="text" placeholder="Tags separated by space" style="width: 60%;border: none;color: rgb(27, 149, 224);" class="dlike_tags" />
+                    <button type="button" class="btn btn-primary dlike_share_post">SHARE</button>
+                </div>
+            </div>
+        </div></div>
+    </div>
+</div>
+
+<%- include('./common/footer.ejs') %>
