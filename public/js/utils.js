@@ -131,3 +131,16 @@ $('.card-buttons-wrapper').on("click", ".hov_vote", function() {
         $.ajax({ type: "POST",url: "/upvote", data: {author: postAuthor, postLink: postLink}, success: function(data) {if (data.error == false) {$('.hov_vote').removeClass('hov_ani').addClass('hov_done');toastr['success']("Upvoted Successfully!");setTimeout(function(){window.location.href = '/';}, 400);} else {$('.hov_vote').removeClass('hov_ani');toastr['error'](data.message);return false}} });
     } else { toastr.error('hmm... You must be login!'); return false; }
 });
+
+
+$('.btn_app_wit').click(function() {
+    if (dlike_username != null) {var nodeName = $(this).attr("data-node");$(this).closest("tr").find(".btn_txt_app").hide();$(this).closest("tr").find(".wit_loader").show();
+        $.ajax({url: '/witup',type: 'POST',data: JSON.stringify({ nodeName: nodeName }),contentType: 'application/json', success: function(data)  {if (data.error == false) {toastr['success']("Approved Successfully!");setTimeout(function(){window.location.reload();}, 300);} else {toastr['error'](data.message);$(this).closest("tr").find(".btn_txt_app").show();$(this).closest("tr").find(".wit_loader").hide();return false}} });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
+$('.btn_unapp_wit').click(function() {
+    if (dlike_username) {var nodeName = $(this).attr("data-node");$(this).closest("tr").find(".btn_txt_unapp").hide();$(this).closest("tr").find(".unwit_loader").show();
+        $.ajax({url: '/witunup',type: 'POST',data: JSON.stringify({ nodeName: nodeName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("UnApproved Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(this).closest("tr").find(".btn_txt_unapp").show();$(this).closest("tr").find(".unwit_loader").hide();return false} } });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});

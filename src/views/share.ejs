@@ -19,64 +19,41 @@
             <div class="middle-section ms-width">
                 <div class="Home-wrapper">
                     <%- include('./common/topnav') %>
-                   
-
-
-<div class="share_link">
-    <div class="share-block"><h4>Share To Get Rewarded</h4></div>
-    <div class="form-group"><input type="text" class="form-control" id="url_field" required="true" placeholder="Enter URL"></div>
-    <div class="wel_sec"><div class="Nav-tweet-link share_me"><span class="Nav-tweet-btn" id="share_plus">Share</span></div></div>
-    <div class="wel_sec_msg">Must read<span class="share_help"> <a href="/help"> Terms &amp; Conditions</a></span>  for sharing!</div>
-</div> 
-
-<div class="edit_psot" style="display: none;">
-    <input type="hidden" name="url_link" class="url_link" value="">
-    <div class="post_img card-image-link"><img class="link_image" src="" alt=""/></div>
-    <div class="data-title"></div>
-    <textarea class="data-desc" rows="3" id="post_desc"></textarea>
-    <div class="link_bottom">
-        <p><img src="https://img.icons8.com/ios/10/000000/link.png"/> <span id="domain_name"></span></p>
-        <select name="category" class="dlike_cat">
-            <option value="0">Select Category</option>
-            <option value="1">News</option>
-            <option value="2">Cryptocurrency</option>
-            <option value="3">Food</option>
-            <option value="4">Sports</option>
-            <option value="5">Technology</option>
-            <option value="6">LifeStyle</option>
-            <option value="7">Health</option>
-            <option value="8">Gaming</option>
-            <option value="9">Business</option>
-            <option value="10">General</option>
-        </select>
-    </div>
-    <input type="text" placeholder="Tags separated by space" class="dlike_tags" />
-    <div class="wel_sec"><div class="Nav-tweet-link share_new_post"><span class="Nav-tweet-btn edit_post_txt">Share</span></div></div>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                    <div class="share_link">
+                        <div class="share-block"><h4>Share To Get Rewarded</h4></div>
+                        <div class="form-group"><input type="text" class="form-control" id="url_field" required="true" placeholder="Enter URL"></div>
+                        <div class="wel_sec"><div class="Nav-tweet-link share_me"><span class="Nav-tweet-btn" id="share_plus">Share</span></div></div>
+                        <div class="wel_sec_msg">Must read<span class="share_help"> <a href="/help"> Terms &amp; Conditions</a></span>  for sharing!</div>
+                    </div> 
+                    <div class="edit_psot" style="display: none;">
+                        <input type="hidden" name="url_link" class="url_link" value="">
+                        <div class="post_img card-image-link"><img class="link_image" src="" alt=""/></div>
+                        <div class="data-title"></div>
+                        <textarea class="data-desc" rows="3" id="post_desc"></textarea>
+                        <div class="link_bottom">
+                            <p><img src="https://img.icons8.com/ios/10/000000/link.png"/> <span id="domain_name"></span></p>
+                            <select name="category" class="dlike_cat">
+                                <option value="0">Select Category</option>
+                                <option value="1">News</option>
+                                <option value="2">Cryptocurrency</option>
+                                <option value="3">Food</option>
+                                <option value="4">Sports</option>
+                                <option value="5">Technology</option>
+                                <option value="6">LifeStyle</option>
+                                <option value="7">Health</option>
+                                <option value="8">Gaming</option>
+                                <option value="9">Business</option>
+                                <option value="10">General</option>
+                            </select>
+                        </div>
+                        <input type="text" placeholder="Tags separated by space" class="dlike_tags" />
+                        <div class="wel_sec"><div class="Nav-tweet-link share_new_post"><span class="Nav-tweet-btn edit_post_txt">Share</span></div></div>
+                    </div>
                 </div>
             </div>
-            
+            <%- include('./common/rnav') %>
         </main>
         <%- include('./common/lnav') %>
     </div>
 </div>
-
-
-
 <%- include('./common/footer') %>

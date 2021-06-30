@@ -26,16 +26,11 @@ router.get('/profile/:name', async(req, res) => {let nTags = await fetchTags();l
 router.get('/trending',  async(req, res) => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags }) })
 router.get('/tags/:tag',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledTag: tag, loguser: loguser }) })
 router.get('/category/:catg',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledCatg: catg, loguser: loguser }) })
-router.get('/share', function (req, res){if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {res.render('share',{loguser: loguser})}})
+router.get('/share', async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {let nTags = await fetchTags();res.render('share',{loguser: loguser, trendingTags: nTags})}})
 router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;breej.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
+router.get('/welcome', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username; if (token) {res.redirect('/profile/'+user);}else {let ref='';let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: ref, loguser: loguser, trendingTags: nTags})}})
 
-router.get('/welcome', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (token) {res.redirect('/profile/'+user);}else {let ref='';let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: ref, loguser: loguser, trendingTags: nTags})}
-})
-
-router.get('/welcome/:name', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (!token) {let name = req.params.name;let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: name, loguser: loguser, trendingTags: nTags})}else {res.redirect('/profile/'+user);}
-})
+router.get('/welcome/:name', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username; if (!token) {let name = req.params.name;let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: name, loguser: loguser, trendingTags: nTags})}else {res.redirect('/profile/'+user);} })
 
 router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
     if (token) {let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);res.render('wallet', { act : userAPI.data})}else {res.redirect('/welcome');}
