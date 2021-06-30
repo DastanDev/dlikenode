@@ -54,7 +54,7 @@ var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + 
                                 </div>
                                 <div class="tweet-user-wrap">
                                     <div>
-                                        <span class="tweet-user-name">@<%- article.author %></span>
+                                        <span class="tweet-user-name"><a href="/profile/<%- article.author %>">@<%- article.author %></a></span>
                                         <span><small style="color: #657786;">in </small><a href="/category/<%- (article.json.category).toLowerCase() %>" style="color:#45b1f3;"><%- category %></a></span><span class="card-header-dot">·</span><span class="card-header-date"><%- moment.utc(article.ts).fromNow()%></span>
                                     </div>
                                 </div>

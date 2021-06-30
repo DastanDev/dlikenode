@@ -2326,3 +2326,7 @@ a {
 #acct_priv_key{min-width:80%;}.copy_pass{cursor:pointer}.key_section_block{text-align:center;margin:25px 0px;}#post_desc{width: 100%;border: none;overflow: hidden;font-size: 0.9rem;}
 .key_section_description{margin-bottom: 20px;color: #111;}.key_section_description span{color: #df4759}.key_section h4{color: #111111}.share_link h4{color: #111111;padding-bottom: 12px;}
 .welcome_inner{border-radius: 14px;margin: 20px}.welcome_section{padding: 3rem 0rem}#user_name{min-height: 50px}.signup_section p{text-align: center}.share_link{padding: 5rem 2rem;text-align: center;}
+.hov_ani2 {width: 20px;height: auto;content:url(https://img.icons8.com/ios-glyphs/20/ff0000/like--v2.gif);}
+.hov_ani {width: 20px;height: auto;content:url(https://img.icons8.com/office/16/fa314a/like--v2.gif);}
+.hov_up {width: 20px;height: auto;content:url(https://img.icons8.com/office/16/fa314a/like--v2.gif);}
+.hov_done {width: 20px;height: auto;content:url(https://img.icons8.com/material-rounded/24/fa314a/like.png);}
