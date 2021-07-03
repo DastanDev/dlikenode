@@ -69,7 +69,7 @@ var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + 
                                 </div>
                                 <div class="card-icon-value" style="opacity: 1;"><%- article.likes %></div>
                             </div>
-                            <div class="card-button-wrap"><span class="int-num"><%- (article.likes)*0.1 %></span> TOK</div>
+                            <div class="card-button-wrap"><span class="int-num"><%- ((article.likes)*0.1).toFixed(2) %></span> TOK</div>
                         </div>
                     </div>
                 </div>
