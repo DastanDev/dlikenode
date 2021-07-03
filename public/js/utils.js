@@ -126,7 +126,7 @@ $('.share_new_post').click(function(clickEvent) {
 })
 
 
-$('.card-buttons-wrapper').on("click", ".hov_vote", function() {
+$('.likes_section').on("click", ".hov_vote", function() {
     if (dlike_username) {var postLink = $(this).attr("data-permlink");var postAuthor = $(this).attr("data-author");$(this).addClass('hov_ani');
         $.ajax({ type: "POST",url: "/upvote", data: {author: postAuthor, postLink: postLink}, success: function(data) {if (data.error == false) {$('.hov_vote').removeClass('hov_ani').addClass('hov_done');toastr['success']("Upvoted Successfully!");setTimeout(function(){window.location.href = '/';}, 400);} else {$('.hov_vote').removeClass('hov_ani');toastr['error'](data.message);return false}} });
     } else { toastr.error('hmm... You must be login!'); return false; }

@@ -19,7 +19,7 @@ var catg = article.json.category;var category = catg.charAt(0).toUpperCase() + c
 			<div class="card-content-images">
 				<a href="/post/<%- article.author %>/<%- article.link %>"><div class="card-image-link"><img alt="" src="<%- article.json.image %>"></div></a>
 			</div>
-			<div class="card-buttons-wrapper">
+			<div class="card-buttons-wrapper likes_section">
 				<div class="card-button-wrap heart-wrap" style="justify-content: space-between;">
 					<div class="card-icon heart-icon">
 						<% if((loguser) && upvotes.includes(loguser)){ %>
@@ -30,7 +30,7 @@ var catg = article.json.category;var category = catg.charAt(0).toUpperCase() + c
 					</div>
 					<div class="card-icon-value" style="opacity: 1;"><%- article.likes %></div>
 				</div>
-				<div class="card-button-wrap"><%- (article.likes)*0.1 %> TOK</div>
+				<div class="card-button-wrap"><%- ((article.likes)*0.1).toFixed(2) %> TOK</div>
 			</div>
 		</div>
 	</div>

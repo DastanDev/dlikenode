@@ -37,34 +37,9 @@ router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user
 })
 
 router.get('/post/:name/:link', async(req, res) => {let author = req.params.name;let link = req.params.link;let nTags = await fetchTags();
-  const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`)
-  let category = postAPI.data.json.category
-  let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);
-  res.render('post', { article : postAPI.data, simPosts : simAPI.data, moment: moment, trendingTags: nTags })
-})
-
-router.get('/postit/:name/:link', async(req, res) => {
-    let author = req.params.name
-    let link = req.params.link
-    try {
-        const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`)
-        let category = postAPI.data.json.category
-        let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);
-        res.render('postit', { article : postAPI.data, simPosts : simAPI.data, moment: moment })
-    } catch (err) {
-        if(err.response) {
-            res.render('postit', { article : null })
-            console.log(err.response.data)
-            //console.log(err.response.status)
-            //console.log(err.response.headers)
-        } else if(err.requiest) {
-            res.render('postit', { article : null })
-            console.log(err.requiest)
-        } else {
-            res.render('postit', { article : null })
-            console.error('Error', err.message)
-        }
-    } 
+  const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`); let category = postAPI.data.json.category
+  let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};
+  res.render('post', { article : postAPI.data, simPosts : simAPI.data, moment: moment, trendingTags: nTags, loguser: loguser })
 })
 
 

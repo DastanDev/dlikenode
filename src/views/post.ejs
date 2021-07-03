@@ -31,7 +31,7 @@ var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + 
                 <div class="Home-wrapper">
                     <%- include('./common/topnav') %>
                     <div class="tweet-wrapper">
-                        <div class="tweet-header-wrapper">
+                        <div class="post-header-wrapper">
                             <div class="profile-header-back">
                                 <div class="header-back-wrapper"><img src="https://img.icons8.com/windows/24/1da1f2/long-arrow-left.png" class="back_btn" /></div>
                             </div>
@@ -58,7 +58,7 @@ var catg = article.json.category; var category = catg.charAt(0).toUpperCase() + 
                             <div class="tweet-date"><a href="<%- article.json.url %>" target="_blank" style="padding-left:6px;color: #45b1f3;"><%- getDomain(article.json.url) %></a>
                             </div>
                         </div>
-                        <div class="tweet-header-wrapper" style="    justify-content: space-between;">
+                        <div class="post-header-wrapper likes_section" style="justify-content: space-between;overflow: hidden;">
                             <div class="card-button-wrap heart-wrap">
                                 <div class="card-icon heart-icon">
                                     <% if((loguser) && upvotes.includes(loguser)){ %>
