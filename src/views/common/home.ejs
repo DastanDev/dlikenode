@@ -22,7 +22,7 @@ var catg = article.json.category;var category = catg.charAt(0).toUpperCase() + c
 			<div class="card-buttons-wrapper">
 				<div class="card-button-wrap heart-wrap" style="justify-content: space-between;">
 					<div class="card-icon heart-icon">
-						<% if(upvotes.includes(loguser)){ %>
+						<% if((loguser) && upvotes.includes(loguser)){ %>
 						<img src="https://img.icons8.com/material-rounded/20/fa314a/like.png"/>
 						<% }else{ %>
 						<img src="https://img.icons8.com/material-outlined/20/000000/like--v1.png" class="hov_vote" data-permlink="<%- article.link %>" data-author="<%- article.author %>"/>
