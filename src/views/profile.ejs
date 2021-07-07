@@ -185,7 +185,7 @@ $(".modal-closeIcon-wrap").click(function(){$(".modal-profile").hide();});
 $('.prof_edit_btn').click(function() {
     $(".prof_edit_btn").attr("disabled", true).html('updating');
     let p_about=$('#profile_about').val();let p_website = $('#profile_website').val();
-    let p_location = $('#profile_location').val();console.log(p_location);let p_cover_img = $('#cover_img').val();let p_img = $('#profile_img').val();
+    let p_location = $('#profile_location').val();let p_cover_img = $('#cover_img').val();let p_img = $('#profile_img').val();
     $.ajax({url: '/pupdate', type: 'post',contentType: 'application/json', data: JSON.stringify({ acc_about:p_about, acc_website:p_website, acc_location:p_location, acc_cover_img:p_cover_img, acc_img:p_img }),
         success: function(data) {
                 if (data.error == true) {toastr['error'](data.message);$(".prof_edit_btn").attr("disabled", false).html('save');return false;

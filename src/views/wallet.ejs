@@ -35,47 +35,44 @@
                             <span style="font-size:20px; font-weight: 600;">TOK</span>
                         </div>
                         <div class="col user-connected-from" style="display: flex; justify-content: center;">
-                            <button style="margin:8px;border: none;" type="button" class="btn btn-default withd_btn">Transfer</button>
-                            <button style="margin:8px;border: none;" type="button" class="btn btn-default withd_btn">Withdraw</button>
+                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Transfer</button>
+                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Withdraw</button>
                         </div>
 
                     </div>
-                    <div class="form-group reward_fileds">
-                        <input type="text" class="form-control reward_input" value=" | Income Today" readonly>
-                        <span class="fas fa-bolt inp_icon"></span><% console.log(act) %>
-                        <span class="inp_text"><%- earnToday.data.dist %></span>
+                </div>
+                <div style="margin: 20px 0px;">
+                    <div style="padding:10px 30px;display:flex;justify-content: space-between;">
+                        <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/lightning-bolt--v1.png"/> Income Today</h4></span><span><%- earnToday.data.dist %></span>
                     </div>
-                    <div class="form-group reward_fileds">
-                        <input type="text" class="form-control reward_input" value=" | My Affiliates" readonly>
-                        <span class="fas fa-flask inp_icon"></span>
-                        <span class="inp_text"><%- act.refCount %></span>
+                    <div style="padding:10px 30px;display:flex;justify-content: space-between;">
+                        <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/group.png"/> My Affiliates</h4></span><span><%- act.refCount %></span>
                     </div>
+                    <hr style="border: 1px dotted #e6ecf0">
+                </div>
+
 
                     
 
-                </div>
-                <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
-                    <div class="queue-stats card p-3">
-                        <div class="d-flex align-items-center">
-                            <span class="stamp stamp-md bg-blue mr-3"><i class="fa fa-list"></i></span>
-                            <div>
-                                <h4 class="m-0"><small>My Affiliate Link</small></h4>
-                                <small class="queue-stats-display text-muted"><b><a href="https://dlike.io/welcome/" style="color: #467fcf;">https://dlike.io/welcome/<%- act.name %></a></b></small><br>
-                                <small>You earn 0.05 DLIKE tokens for each like on the posts of your referrals</small>
-                            </div>
-                        </div>
+                <div class="col" style="margin:3px 25px;">
+                    <div>
+                        <h4 class="m-0"><small>My Affiliate Link</small></h4>
+                        <small class="queue-stats-display text-muted"><b><a href="https://dlike.io/welcome/" style="color: #467fcf;">https://dlike.io/welcome/<%- act.name %></a></b></small><br>
+                        <small>You earn 0.05 DLIKE tokens for each like on the posts of your referrals</small>
+                    </div>
+                    <hr style="border: 1px dotted #e6ecf0;margin: 16px 0px">
+                    <div>
+                        <h4 class="m-0"><small>Boost Posts</small></h4>
+                        <small class="queue-stats-display text-muted" style="">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
+                        <span style="display: flex;justify-content: center;">
+                            <button style="margin:6px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
+                        </span>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
                     <div class="queue-stats card p-3"><div class="d-flex align-items-center">
                             <span class="stamp stamp-md bg-green mr-3"><i class="fa fa-battery-full"></i></span>
-                            <div>
-                                <h4 class="m-0"><small style="font-weight: 600;">Boost Posts</small></h4>
-                                <small class="queue-stats-display text-muted" style="line-height: 8px !important;font-weight: 90%">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
-                                <span style="display: flex;justify-content: center;">
-                                    <button style="margin:8px;" type="button" class="btn btn-default withd_btn">Boost</button>
-                                </span>
-                            </div>
+                            
                     </div></div>
                 </div>
 
