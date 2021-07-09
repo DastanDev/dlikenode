@@ -35,7 +35,7 @@
                             <span style="font-size:20px; font-weight: 600;">TOK</span>
                         </div>
                         <div class="col user-connected-from" style="display: flex; justify-content: center;">
-                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Transfer</button>
+                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn" id="transfer_btn">Transfer</button>
                             <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Withdraw</button>
                         </div>
 
@@ -65,14 +65,13 @@
                         <h4 class="m-0"><small>Boost Posts</small></h4>
                         <small class="queue-stats-display text-muted" style="">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
                         <span style="display: flex;justify-content: center;">
-                            <button style="margin:6px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
+                            <button style="margin:12px 0px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
                         </span>
                     </div>
                 </div>
                 <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
                     <div class="queue-stats card p-3"><div class="d-flex align-items-center">
-                            <span class="stamp stamp-md bg-green mr-3"><i class="fa fa-battery-full"></i></span>
-                            
+                        <span class="stamp stamp-md bg-green mr-3"><i class="fa fa-battery-full"></i></span>
                     </div></div>
                 </div>
 
@@ -91,3 +90,49 @@
         <%- include('./common/lnav') %>
     </div>
 </div>
+
+
+<div class="modal-edit modal-transfer" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p></p>
+                <p class="modal-title">Transfer</p>
+                <div class="modal-closeIcon">
+                    <div class="modal-closeIcon-wrap">
+                        <img src="https://img.icons8.com/material-outlined/24/000000/multiply--v1.png"/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form class="edit-form">
+                    <div class="edit-input-wrap">
+                        <div class="edit-input-content">
+                            <label>To</label>
+                            <input type="text" id="profile_img" class="edit-input" value="">
+                        </div>
+                    </div>
+                    <div class="edit-input-wrap">
+                        <div class="edit-input-content">
+                            <label>Amount</label>
+                            <input type="text" id="cover_img" class="edit-input" value="">
+                        </div>
+                    </div>
+                    <div class="edit-input-wrap">
+                        <div class="edit-input-content">
+                            <label>Memo</label>
+                            <input type="text" id="profile_about" class="edit-input" value="">
+                        </div>
+                    </div>
+                </form>
+                <div class="save-modal-wrapper">
+                    <div class="save-modal-btn trans_btn">Transfer</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%- include('./common/footer') %>
+
+    <script type="text/javascript">
+        $('#transfer_btn').click(function(e) {  e.preventDefault();$(".modal-transfer").show();});
+        $(".modal-closeIcon-wrap").click(function(){$(".modal-transfer").hide();});
+    </script>
