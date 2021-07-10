@@ -153,11 +153,11 @@ router.post('/transfer', function(req, res){let post = req.body;let token = req.
     
     breej.getAccount(post.rec_user, function(error, account) {
         if(!account){res.send({ error: true, message: 'Not a valid receiver' });
-        }else if(post.trans_amount > (account.balance)/100){res.send({ error: true, message: 'Not enough balance' });
         }else if(sender == post.rec_user) {res.send( {error: true, message: 'can not transfer to yourself'});
         }else{
             breej.getAccount(sender, function(error, account) {console.log(account.pub)
                 if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
+                }else if(post.trans_amount > (account.balance)/100){res.send({ error: true, message: 'Not enough balance' });
                 }else{let amount = parseInt((post.trans_amount)*100);
                     let newTx = {type: 3,data: {receiver: post.rec_user,amount: amount,memo: post.memo}};
                     let signedTx = breej.sign(wifKey, sender, newTx);
