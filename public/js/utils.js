@@ -93,7 +93,7 @@ $('.share_me').click(function() {
                     else{toastr.error('Unable to share link'); return false; }
                 }
             });
-        } else {toastr.error('phew... URL is not Valid');}
+        } else {toastr.error('phew... URL is not Valid');return false;}
     } else { toastr.error('hmm... You must be login!'); return false; }
 });
 $('.share_new_post').click(function(clickEvent) {
@@ -142,5 +142,17 @@ $('.btn_app_wit').click(function() {
 $('.btn_unapp_wit').click(function() {
     if (dlike_username) {var nodeName = $(this).attr("data-node");$(this).closest("tr").find(".btn_txt_unapp").hide();$(this).closest("tr").find(".unwit_loader").show();
         $.ajax({url: '/witunup',type: 'POST',data: JSON.stringify({ nodeName: nodeName }),contentType: 'application/json',success: function(data)  {if (data.error == false) {toastr['success']("UnApproved Successfully!");setTimeout(function(){window.location.reload();}, 300); } else {toastr['error'](data.message);$(this).closest("tr").find(".btn_txt_unapp").show();$(this).closest("tr").find(".unwit_loader").hide();return false} } });
+    } else { toastr.error('hmm... You must be login!'); return false; }
+});
+
+$('.trans_btn').click(function() {
+    if (dlike_username) {$('.trans_txt').html('Transferring...');
+        let trans_amount=$("#trans_amount").val();let rec_user=$("#rec_user").val();let memo=$("#trans_memo").val();let trans_bal=$(".trans_bal").html();
+        if (rec_user==''){ $("#rec_user").css("border-color", "RED");toastr.error('phew... Enter receiver username');$('.trans_txt').html('Transfer');return false;}
+        if ((trans_amount=='') || (trans_amount<1)){ $("#trans_amount").css("border-color", "RED");toastr.error('phew... Enter correct amount');$('.trans_txt').html('Transfer');return false;}
+        if (!$.isNumeric(trans_amount)) {toastr.error('phew... Enter valid amount');$('.trans_txt').html('Transfer');return false;}
+        $.ajax({url: '/transfer',type: 'POST',data: JSON.stringify({ rec_user: rec_user, trans_amount: trans_amount, memo: memo}),contentType: 'application/json',
+            success: function(data)  {if (data.error == false) {toastr['success']("Transferred!");setTimeout(function(){window.location.reload();}, 400); } else {toastr['error'](data.message);$('.trans_txt').html('Transfer');return false;} }
+        });
     } else { toastr.error('hmm... You must be login!'); return false; }
 });

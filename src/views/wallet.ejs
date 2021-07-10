@@ -35,7 +35,7 @@
                             <span style="font-size:20px; font-weight: 600;">TOK</span>
                         </div>
                         <div class="col user-connected-from" style="display: flex; justify-content: center;">
-                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn" id="transfer_btn">Transfer</button>
+                            <button style="margin:8px;border: none; background: #1da1f2;cursor: pointer;" type="button" class="btn btn-default withd_btn" id="transfer_btn">Transfer</button>
                             <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Withdraw</button>
                         </div>
 
@@ -65,14 +65,9 @@
                         <h4 class="m-0"><small>Boost Posts</small></h4>
                         <small class="queue-stats-display text-muted" style="">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
                         <span style="display: flex;justify-content: center;">
-                            <button style="margin:12px 0px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
+                            <button style="margin:20px 0px 0px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
                         </span>
                     </div>
-                </div>
-                <div class="col-sm-12 col-lg-12" style="margin-bottom: 25px;">
-                    <div class="queue-stats card p-3"><div class="d-flex align-items-center">
-                        <span class="stamp stamp-md bg-green mr-3"><i class="fa fa-battery-full"></i></span>
-                    </div></div>
                 </div>
 
                 <div class="explore-nav-menu">
@@ -104,28 +99,21 @@
                 </div>
             </div>
             <div class="modal-body">
-                <form class="edit-form">
-                    <div class="edit-input-wrap">
-                        <div class="edit-input-content">
-                            <label>To</label>
-                            <input type="text" id="profile_img" class="edit-input" value="">
-                        </div>
+                <form class="edit-form" style="margin: 25px 0px 2px 0px;">
+                    <div class="input-group mb-3 edit-input-wrap">
+                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>To</span></div></div><input type="text" name="rec_user" id="rec_user" placeholder="Username" class="form-control" />
                     </div>
-                    <div class="edit-input-wrap">
-                        <div class="edit-input-content">
-                            <label>Amount</label>
-                            <input type="text" id="cover_img" class="edit-input" value="">
-                        </div>
+                    <p class="trans_bal" style="padding-left:15px;color: #1da1f2;">Balance: <%- (act.balance)/100 %></p>
+                    <div class="input-group mb-3 edit-input-wrap">
+                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Amount</span></div></div><input type="text" name="trans_amount" id="trans_amount" placeholder="" class="form-control" />
+                        
                     </div>
-                    <div class="edit-input-wrap">
-                        <div class="edit-input-content">
-                            <label>Memo</label>
-                            <input type="text" id="profile_about" class="edit-input" value="">
-                        </div>
+                    <div class="input-group mb-3 edit-input-wrap">
+                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Memo</span></div></div><input type="text" name="trans_memo" id="trans_memo" placeholder="Memo is Public" class="form-control" />
                     </div>
                 </form>
-                <div class="save-modal-wrapper">
-                    <div class="save-modal-btn trans_btn">Transfer</div>
+                <div class="save-modal-wrapper" style="justify-content: center;">
+                    <div class="save-modal-btn trans_btn" style="border-radius: 4px;padding: 8px 16px;"><span class="trans_txt">Transfer</span></div>
                 </div>
             </div>
         </div>

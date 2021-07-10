@@ -148,6 +148,25 @@ router.post('/signup', function(req, res){let post = req.body; let newTx = {type
 });
 
 
+router.post('/transfer', function(req, res){let post = req.body;let token = req.cookies.token;let sender=req.cookies.dlike_username;
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    
+    breej.getAccount(post.rec_user, function(error, account) {
+        if(!account){res.send({ error: true, message: 'Not a valid receiver' });
+        }else if(post.trans_amount > (account.balance)/100){res.send({ error: true, message: 'Not enough balance' });
+        }else if(sender == post.rec_user) {res.send( {error: true, message: 'can not transfer to yourself'});
+        }else{
+            breej.getAccount(sender, function(error, account) {console.log(account.pub)
+                if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
+                }else{let amount = parseInt((post.trans_amount)*100);
+                    let newTx = {type: 3,data: {receiver: post.rec_user,amount: amount,memo: post.memo}};
+                    let signedTx = breej.sign(wifKey, sender, newTx);
+                    breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
+                }
+            });
+        }
+   });
+});
 const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
     let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`);let posts = tagsAPI.data;let tags = {};
     for (let p in posts) if (posts[p].json && posts[p].json.tags) {let postTags = posts[p].json.tags;
