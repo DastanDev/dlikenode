@@ -33,7 +33,7 @@ router.get('/welcome', async(req, res) => {let token = req.cookies.token;let use
 router.get('/welcome/:name', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username; if (!token) {let name = req.params.name;let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: name, loguser: loguser, trendingTags: nTags})}else {res.redirect('/profile/'+user);} })
 
 router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (token) {let earnAPI = await axios.get(`https://api.dlike.network/distributed/${user}/today`);let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);let nTags = await fetchTags();res.render('wallet', { act : userAPI.data, trendingTags: nTags, loguser: user, earnToday: earnAPI})}else {res.redirect('/welcome');}
+    if (token) {let earnAPI = await axios.get(`https://api.dlike.network/distributed/${user}/today`);let transferAPI = await axios.get(`https://api.dlike.network/transfers/${user}`);let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);let nTags = await fetchTags();res.render('wallet', { activities: transferAPI.data, act : userAPI.data, trendingTags: nTags, loguser: user, earnToday: earnAPI})}else {res.redirect('/welcome');}
 })
 
 router.get('/post/:name/:link', async(req, res) => {let author = req.params.name;let link = req.params.link;let nTags = await fetchTags();
@@ -155,7 +155,7 @@ router.post('/transfer', function(req, res){let post = req.body;let token = req.
         if(!account){res.send({ error: true, message: 'Not a valid receiver' });
         }else if(sender == post.rec_user) {res.send( {error: true, message: 'can not transfer to yourself'});
         }else{
-            breej.getAccount(sender, function(error, account) {console.log(account.pub)
+            breej.getAccount(sender, function(error, account) {
                 if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
                 }else if(post.trans_amount > (account.balance)/100){res.send({ error: true, message: 'Not enough balance' });
                 }else{let amount = parseInt((post.trans_amount)*100);
@@ -166,6 +166,20 @@ router.post('/transfer', function(req, res){let post = req.body;let token = req.
             });
         }
    });
+});
+
+
+router.post('/boost', function(req, res){let post = req.body;let token = req.cookies.token;let sender=req.cookies.dlike_username;
+    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+    
+    breej.getAccount(sender, function(error, account) {
+        if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
+        }else{let amount = parseInt((post.boost_amount)*100);
+            let newTx = {type: 13,data: {link: post.boost_url,burn: amount}};
+            let signedTx = breej.sign(wifKey, sender, newTx);
+            breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
+        }
+    });
 });
 const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
     let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`);let posts = tagsAPI.data;let tags = {};

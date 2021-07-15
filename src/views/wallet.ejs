@@ -20,64 +20,55 @@
                 <div class="Home-wrapper">
                     <%- include('./common/topnav') %>
                     <div class="tweet-header-wrapper">
-                            <div class="profile-header-back">
-                                <div class="header-back-wrapper"><img src="https://img.icons8.com/windows/24/1da1f2/long-arrow-left.png" class="back_btn" /></div>
+                        <div class="profile-header-back">
+                            <div class="header-back-wrapper"><img src="https://img.icons8.com/windows/24/1da1f2/long-arrow-left.png" class="back_btn" /></div>
+                        </div>
+                        <div class="tweet-header-content"> Wallet</div>
+                    </div>
+                    <div class="offset-lg-1 col-lg-5 col-md-6" style="margin:1px;">
+                        <div class="user-connected-form-block" style="box-shadow: 0px 0px 10px 1px #cccccc;">
+                            <div style="text-align: center;padding:12px 0px 20px;">
+                                <h4 class="inp_text user_bal_amt" style="font-size: 30px;"><%- (act.balance)/100 %></h4>
+                                <span style="font-size:20px; font-weight: 600;">TOK</span>
                             </div>
-                            <div class="tweet-header-content"> Wallet</div>
+                            <div class="col user-connected-from" style="display: flex; justify-content: center;">
+                                <button style="margin:8px;border: none; background: #1da1f2;cursor: pointer;" type="button" class="btn btn-default withd_btn" id="transfer_btn">Transfer</button>
+                                <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Withdraw</button>
+                            </div>
                         </div>
-
-
-                <div class="offset-lg-1 col-lg-5 col-md-6" style="margin:1px;">
-                    <div class="user-connected-form-block" style="box-shadow: 0px 0px 10px 1px #cccccc;">
-
-                        <div style="text-align: center;padding:12px 0px 20px;">
-                            <h4 class="inp_text user_bal_amt" style="font-size: 30px;"><%- (act.balance)/100 %></h4>
-                            <span style="font-size:20px; font-weight: 600;">TOK</span>
+                    </div>
+                    <div style="margin: 20px 0px;">
+                        <div style="padding:10px 30px;display:flex;justify-content: space-between;">
+                            <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/lightning-bolt--v1.png"/> Income Today</h4></span><span><%- earnToday.data.dist %></span>
                         </div>
-                        <div class="col user-connected-from" style="display: flex; justify-content: center;">
-                            <button style="margin:8px;border: none; background: #1da1f2;cursor: pointer;" type="button" class="btn btn-default withd_btn" id="transfer_btn">Transfer</button>
-                            <button style="margin:8px;border: none; background: #1da1f2;" type="button" class="btn btn-default withd_btn">Withdraw</button>
+                        <div style="padding:10px 30px;display:flex;justify-content: space-between;">
+                            <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/group.png"/> My Affiliates</h4></span><span><%- act.refCount %></span>
                         </div>
-
+                        <hr style="border: 1px dotted #e6ecf0">
                     </div>
-                </div>
-                <div style="margin: 20px 0px;">
-                    <div style="padding:10px 30px;display:flex;justify-content: space-between;">
-                        <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/lightning-bolt--v1.png"/> Income Today</h4></span><span><%- earnToday.data.dist %></span>
+                    <div class="col" style="margin:3px 25px;">
+                        <div>
+                            <h4 class="m-0"><small>My Affiliate Link</small></h4>
+                            <small class="queue-stats-display text-muted"><b><a href="https://dlike.io/welcome/" style="color: #467fcf;">https://dlike.io/welcome/<%- act.name %></a></b></small><br>
+                            <small>You earn 0.05 DLIKE tokens for each like on the posts of your referrals</small>
+                        </div>
+                        <hr style="border: 1px dotted #e6ecf0;margin: 16px 0px">
+                        <div>
+                            <h4 class="m-0"><small>Boost Posts</small></h4>
+                            <small class="queue-stats-display text-muted" style="">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
+                            <span style="display: flex;justify-content: center;">
+                                <button style="margin:20px 0px 0px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;cursor: pointer;" type="button" class="boost_btn">Boost</button>
+                            </span>
+                        </div>
                     </div>
-                    <div style="padding:10px 30px;display:flex;justify-content: space-between;">
-                        <span><h4><img src="https://img.icons8.com/ios-glyphs/12/000000/group.png"/> My Affiliates</h4></span><span><%- act.refCount %></span>
+                    <div class="explore-nav-menu">
+                        <div class="explore-nav-item activeTab">Activity</div>
+                        <div class="explore-nav-item"></div>
                     </div>
-                    <hr style="border: 1px dotted #e6ecf0">
-                </div>
 
-
-                    
-
-                <div class="col" style="margin:3px 25px;">
-                    <div>
-                        <h4 class="m-0"><small>My Affiliate Link</small></h4>
-                        <small class="queue-stats-display text-muted"><b><a href="https://dlike.io/welcome/" style="color: #467fcf;">https://dlike.io/welcome/<%- act.name %></a></b></small><br>
-                        <small>You earn 0.05 DLIKE tokens for each like on the posts of your referrals</small>
-                    </div>
-                    <hr style="border: 1px dotted #e6ecf0;margin: 16px 0px">
-                    <div>
-                        <h4 class="m-0"><small>Boost Posts</small></h4>
-                        <small class="queue-stats-display text-muted" style="">You can boost any of your posts to top rankings on DLIKE main page by bidding. Your post will remain ranked untill it becomes a day old from the time of posting.</small><br>
-                        <span style="display: flex;justify-content: center;">
-                            <button style="margin:20px 0px 0px;border: none; background: #1da1f2;color: #fff;font-weight: 700;font-size: 15px;min-height: 40px;border-radius: 4px;width: 20%;" type="button" class="">Boost</button>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="explore-nav-menu">
-                    <div class="explore-nav-item activeTab">Activity</div>
-                    <div class="explore-nav-item"></div>
-                </div>
-
-
-
-
+                    <% activities.forEach(function(activity) { %>
+                    <p><%- activity.sender %></p>
+                    <% }) %>
                 </div>
             </div>
             <%- include('./common/rnav') %>
@@ -85,42 +76,65 @@
         <%- include('./common/lnav') %>
     </div>
 </div>
-
-
 <div class="modal-edit modal-transfer" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <p></p>
-                <p class="modal-title">Transfer</p>
-                <div class="modal-closeIcon">
-                    <div class="modal-closeIcon-wrap">
-                        <img src="https://img.icons8.com/material-outlined/24/000000/multiply--v1.png"/>
-                    </div>
-                </div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <p class="modal-title">Transfer</p>
+            <div class="modal-closeIcon"><div class="modal-closeIcon-wrap"><img src="https://img.icons8.com/material-outlined/24/000000/multiply--v1.png"/></div>
             </div>
-            <div class="modal-body">
-                <form class="edit-form" style="margin: 25px 0px 2px 0px;">
-                    <div class="input-group mb-3 edit-input-wrap">
-                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>To</span></div></div><input type="text" name="rec_user" id="rec_user" placeholder="Username" class="form-control" />
-                    </div>
-                    <p class="trans_bal" style="padding-left:15px;color: #1da1f2;">Balance: <%- (act.balance)/100 %></p>
-                    <div class="input-group mb-3 edit-input-wrap">
-                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Amount</span></div></div><input type="text" name="trans_amount" id="trans_amount" placeholder="" class="form-control" />
-                        
-                    </div>
-                    <div class="input-group mb-3 edit-input-wrap">
-                        <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Memo</span></div></div><input type="text" name="trans_memo" id="trans_memo" placeholder="Memo is Public" class="form-control" />
-                    </div>
-                </form>
-                <div class="save-modal-wrapper" style="justify-content: center;">
-                    <div class="save-modal-btn trans_btn" style="border-radius: 4px;padding: 8px 16px;"><span class="trans_txt">Transfer</span></div>
+        </div>
+        <div class="modal-body">
+            <form class="edit-form" style="margin: 25px 0px 2px 0px;">
+                <div class="input-group mb-3 edit-input-wrap">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>To</span></div></div><input type="text" name="rec_user" id="rec_user" placeholder="Username" class="form-control" />
                 </div>
+                <p class="trans_bal" style="padding-left:15px;color: #1da1f2;">Balance: <%- (act.balance)/100 %></p>
+                <div class="input-group mb-3 edit-input-wrap">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Amount</span></div></div><input type="text" name="trans_amount" id="trans_amount" placeholder="" class="form-control" />
+                    
+                </div>
+                <div class="input-group mb-3 edit-input-wrap">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Memo</span></div></div><input type="text" name="trans_memo" id="trans_memo" placeholder="Memo is Public" class="form-control" />
+                </div>
+            </form>
+            <div class="save-modal-wrapper" style="justify-content: center;">
+                <div class="save-modal-btn trans_btn" style="border-radius: 4px;padding: 8px 16px;"><span class="trans_txt">Transfer</span></div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal-edit modal-boost" style="display: none;">
+    <div class="modal-content" style="min-height:auto;">
+        <div class="modal-header">
+            <p class="modal-title">Boost Post</p>
+            <div class="modal-closeIcon"><div class="modal-closeIcon-wrap boost-close"><img src="https://img.icons8.com/material-outlined/24/000000/multiply--v1.png"/></div>
+            </div>
+        </div>
+        <div class="modal-body" style="margin-bottom:30px;">
+            <form class="edit-form" style="margin: 25px 0px 2px 0px;">
+                <div class="input-group mb-3 edit-input-wrap">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>URL</span></div></div><input type="text" name="boost_url" id="boost_url" placeholder="Enter URL" class="form-control" />
+                </div>
+                <p class="trans_bal" style="padding-left:15px;color: #1da1f2;">Post must not be older than 24 hours!</p>
+                <div class="input-group mb-3 edit-input-wrap">
+                    <div class="input-group-prepend"><div class="input-group-text mb-deck wel_deck"><span>Bid</span></div></div><input type="text" name="boost_amount" id="boost_amount" placeholder="" class="form-control" />
+                    
+                </div>
+            </form>
+            <div class="save-modal-wrapper" style="justify-content: center;">
+                <div class="save-modal-btn boost_post_btn" style="border-radius: 4px;padding: 8px 16px;"><span class="boost_btn_txt">Boost</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <%- include('./common/footer') %>
 
-    <script type="text/javascript">
-        $('#transfer_btn').click(function(e) {  e.preventDefault();$(".modal-transfer").show();});
-        $(".modal-closeIcon-wrap").click(function(){$(".modal-transfer").hide();});
-    </script>
+<script type="text/javascript">
+    $('#transfer_btn').click(function(e) {  e.preventDefault();$(".modal-transfer").show();});
+    $(".modal-closeIcon-wrap").click(function(){$(".modal-transfer").hide();});
+    $('.boost_btn').click(function(e) {  e.preventDefault();$(".modal-boost").show();});
+    $(".boost-close").click(function(){$(".modal-boost").hide();});
+</script>
