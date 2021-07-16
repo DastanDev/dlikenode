@@ -66,9 +66,23 @@
                         <div class="explore-nav-item"></div>
                     </div>
 
-                    <% activities.forEach(function(activity) { %>
-                    <p><%- activity.sender %></p>
-                    <% }) %>
+                    <table class="table coin-list latest-tranjections-table witness_table" style="margin:12px">
+                        <tbody><% activities.forEach(function(activity) { %>
+                            <tr style="line-height:30px;">
+                                <% if(activity.sender == loguser) { %>
+                                <td><img src="https://img.icons8.com/ios/20/df4759/send-letter--v1.png"/></td>
+                                <td>To @<%-activity.data.receiver%></td>
+                                <td style="float:right;"><%- -(activity.data.amount)/100 %> TOK</td>
+                                <%  } else if(activity.data.receiver == loguser) { %>
+                                <td><img src="https://img.icons8.com/ios/20/5cb85c/low-importance.png"/></td>
+                                <td>From @<%-activity.sender%></td>
+                                <td style="float:right;"><%- +(activity.data.amount)/100 %> TOK</td>
+                                <% } %>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                    
                 </div>
             </div>
             <%- include('./common/rnav') %>
