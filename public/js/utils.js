@@ -165,7 +165,7 @@ $('.boost_post_btn').click(function() {
         if ((boost_amount=='')){ $("#boost_amount").css("border-color", "RED");toastr.error('phew... Bid value empty');$('.boost_btn_txt').html('Boost');return false;}
         if (!$.isNumeric(boost_amount)) {toastr.error('phew... Enter valid bid amount');$('.boost_btn_txt').html('Boost');return false;}
         $.ajax({url: '/boost',type: 'POST',data: JSON.stringify({ boost_url: boost_url, boost_amount: boost_amount}),contentType: 'application/json',
-            success: function(data)  {if (data.error == false) {toastr['success']("Transferred!");setTimeout(function(){window.location.reload();}, 400); } else {toastr['error'](data.message);$('.boost_btn_txt').html('Boost');return false;} }
+            success: function(data)  {if (data.error == false) {toastr['success']("Post Boost Success!");setTimeout(function(){window.location.reload();}, 400); } else {toastr['error'](data.message);$('.boost_btn_txt').html('Boost');return false;} }
         });
     } else { toastr.error('hmm... You must be login!'); return false; }
 });
