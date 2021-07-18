@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const axios = require('axios')
 const moment = require('moment');
 const router = express.Router();
+var pathParse = require("path-parse")
 
 var Meta = require('html-metadata-parser');
 var getSlug = require('speakingurl');
@@ -80,8 +81,7 @@ router.post('/upvote', function(req, res){let post = req.body;let token = req.co
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
   let pubKey = breej.privToPub(wifKey);
   breej.getAccount(voter, function(error, account) {
-    if (pubKey !== account.pub) {res.send( {error: true } )
-    }else{newTx = breej.sign(wifKey, voter, newTx)
+    if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx);
       breej.sendTransaction(newTx, function(err, response) {//console.log(err,response)
         if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
       })
@@ -171,11 +171,11 @@ router.post('/transfer', function(req, res){let post = req.body;let token = req.
 
 router.post('/boost', function(req, res){let post = req.body;let token = req.cookies.token;let sender=req.cookies.dlike_username;
     let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    
-    breej.getAccount(sender, function(error, account) {
+    let boostUrl = pathParse(post.boost_url); let boostLink=boostUrl.base
+    breej.getAccount(sender, function(error, account) {console.log(boostLink)
         if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
         }else{let amount = parseInt((post.boost_amount)*100);
-            let newTx = {type: 13,data: {link: post.boost_url,burn: amount}};
+            let newTx = {type: 13,data: {link: boostLink,burn: amount}};
             let signedTx = breej.sign(wifKey, sender, newTx);
             breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
         }
