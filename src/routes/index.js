@@ -15,180 +15,243 @@ var randomstring = require("randomstring");
 
 router.use(cookieParser());
 breej.init({
-    api: 'https://api.dlike.network',
-    bwGrowth: 3600000,
-    vpGrowth: 6000000
+  api: 'https://api.dlike.network',
+  bwGrowth: 3600000,
+  vpGrowth: 6000000
 })
 var msgkey = process.env.msgKey;
 var iv = "123456789"
 
-router.get('',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let postsAPI = await axios.get(`https://api.dlike.network/new/`);let nTags = await fetchTags();res.render('index', { articles : postsAPI.data, moment: moment, trendingTags: nTags }) })
-router.get('/profile/:name', async(req, res) => {let nTags = await fetchTags();let name = req.params.name;let userAPI = await axios.get(`https://api.dlike.network/account/${name}`);let act = userAPI.data;let vp=breej.votingPower(act);let bw=breej.bandwidth(act);let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`);let likesAPI = await axios.get(`https://api.dlike.network/votes/${name}`);if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};res.render('profile', { user : userAPI.data, articles: blogAPI.data, likes: likesAPI.data, moment: moment, bw: bw, vp: vp, loguser: loguser, profName: name, trendingTags: nTags }) })
-router.get('/trending',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`);let nTags = await fetchTags();res.render('trending', { articles : postsAPI.data, moment: moment,trendingTags: nTags, loguser: loguser }) })
-router.get('/tags/:tag',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`);let nTags = await fetchTags();res.render('tags', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledTag: tag, loguser: loguser }) })
-router.get('/category/:catg',  async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`);let nTags = await fetchTags();res.render('category', { articles: postsAPI.data, moment: moment,trendingTags: nTags, calledCatg: catg, loguser: loguser }) })
-router.get('/share', async(req, res) => {if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};let token = req.cookies.token;if (!token) {res.redirect('/welcome');} else {let nTags = await fetchTags();res.render('share',{loguser: loguser, trendingTags: nTags})}})
-router.get('/witnesses', async(req, res, next) => {let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved= [];if (req.cookies.dlike_username) {let loginUser = req.cookies.dlike_username;breej.getAccount(loginUser, (err, account) => {if (err) {next(new Error("Couldn't find user: " + err));return;}; let approved = account.approves; res.render('witnesses', { witnesses : witnessAPI.data, approved:approved}); next(); });} else {res.render('witnesses', { witnesses : witnessAPI.data,approved:approved});next();} })
-router.get('/welcome', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username; if (token) {res.redirect('/profile/'+user);}else {let ref='';let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: ref, loguser: loguser, trendingTags: nTags})}})
+router.get('',
+  async (req, res) => {
+    if (req.cookies.dlike_username) {
+      loguser = req.cookies.dlike_username
+    } else { loguser = "" };
+    try {
+      let postsAPI = await axios.get(`https://api.dlike.network/new/`);
+      console.log('postsAPI data', postsAPI.data.length)
+      let promotedAPI = await axios.get(`https://api.dlike.network/promoted`);
+      console.log('promotedAPI data', promotedAPI.data.length)
+      let promotedData;
+      if (promotedAPI.data.length > 0)
+        promotedData = promotedAPI.data.slice(0, 3).map(x => ({ ...x, author: `${x.author} promoted` }));
+      let nTags = await fetchTags();
+      let finalData = postsAPI.data;
+      if (promotedData.length > 0) finalData.splice(1, 0, promotedData[0]);
+      if (promotedData.length > 1) finalData.splice(4, 0, promotedData[1]);
+      if (promotedData.length > 2) finalData.splice(8, 0, promotedData[2]);
+      console.log('final data', finalData.length)
+      res.render('index', { articles: finalData, moment: moment, trendingTags: nTags })
+    } catch (ex) {
+      // console.log(ex)
+      res.json('index', { articles: [], moment: moment, trendingTags: [] })
+    }
+  })
+router.get('/profile/:name', async (req, res) => { let nTags = await fetchTags(); let name = req.params.name; let userAPI = await axios.get(`https://api.dlike.network/account/${name}`); let act = userAPI.data; let vp = breej.votingPower(act); let bw = breej.bandwidth(act); let blogAPI = await axios.get(`https://api.dlike.network/blog/${name}`); let likesAPI = await axios.get(`https://api.dlike.network/votes/${name}`); if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" }; res.render('profile', { user: userAPI.data, articles: blogAPI.data, likes: likesAPI.data, moment: moment, bw: bw, vp: vp, loguser: loguser, profName: name, trendingTags: nTags }) })
+router.get('/trending', async (req, res) => { if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" }; let timeNow = new Date().getTime(); let postsTime = timeNow - 86400000; let postsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}`); let nTags = await fetchTags(); res.render('trending', { articles: postsAPI.data, moment: moment, trendingTags: nTags, loguser: loguser }) })
+router.get('/tags/:tag', async (req, res) => { if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" }; let tag = req.params.tag; let postsAPI = await axios.get(`https://api.dlike.network/new?tag=${tag}`); let nTags = await fetchTags(); res.render('tags', { articles: postsAPI.data, moment: moment, trendingTags: nTags, calledTag: tag, loguser: loguser }) })
+router.get('/category/:catg', async (req, res) => { if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" }; let catg = req.params.catg; let postsAPI = await axios.get(`https://api.dlike.network/new?category=${catg}`); let nTags = await fetchTags(); res.render('category', { articles: postsAPI.data, moment: moment, trendingTags: nTags, calledCatg: catg, loguser: loguser }) })
+router.get('/share', async (req, res) => { if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" }; let token = req.cookies.token; if (!token) { res.redirect('/welcome'); } else { let nTags = await fetchTags(); res.render('share', { loguser: loguser, trendingTags: nTags }) } })
+router.get('/witnesses', async (req, res, next) => { let witnessAPI = await axios.get(`https://api.dlike.network/rank/leaders`); let approved = []; if (req.cookies.dlike_username) { let loginUser = req.cookies.dlike_username; breej.getAccount(loginUser, (err, account) => { if (err) { next(new Error("Couldn't find user: " + err)); return; }; let approved = account.approves; res.render('witnesses', { witnesses: witnessAPI.data, approved: approved }); next(); }); } else { res.render('witnesses', { witnesses: witnessAPI.data, approved: approved }); next(); } })
+router.get('/welcome', async (req, res) => { let token = req.cookies.token; let user = req.cookies.dlike_username; if (token) { res.redirect('/profile/' + user); } else { let ref = ''; let nTags = await fetchTags(); let loguser = ''; res.render('welcome', { ref: ref, loguser: loguser, trendingTags: nTags }) } })
 
-router.get('/welcome/:name', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username; if (!token) {let name = req.params.name;let nTags = await fetchTags();let loguser='';res.render('welcome',{ref: name, loguser: loguser, trendingTags: nTags})}else {res.redirect('/profile/'+user);} })
+router.get('/welcome/:name', async (req, res) => { let token = req.cookies.token; let user = req.cookies.dlike_username; if (!token) { let name = req.params.name; let nTags = await fetchTags(); let loguser = ''; res.render('welcome', { ref: name, loguser: loguser, trendingTags: nTags }) } else { res.redirect('/profile/' + user); } })
 
-router.get('/wallet', async(req, res) => {let token = req.cookies.token;let user = req.cookies.dlike_username;
-    if (token) {let earnAPI = await axios.get(`https://api.dlike.network/distributed/${user}/today`);let transferAPI = await axios.get(`https://api.dlike.network/transfers/${user}`);let userAPI = await axios.get(`https://api.dlike.network/account/${user}`);let nTags = await fetchTags();res.render('wallet', { activities: transferAPI.data, act : userAPI.data, trendingTags: nTags, loguser: user, earnToday: earnAPI})}else {res.redirect('/welcome');}
+router.get('/wallet', async (req, res) => {
+  let token = req.cookies.token; let user = req.cookies.dlike_username;
+  if (token) { let earnAPI = await axios.get(`https://api.dlike.network/distributed/${user}/today`); let transferAPI = await axios.get(`https://api.dlike.network/transfers/${user}`); let userAPI = await axios.get(`https://api.dlike.network/account/${user}`); let nTags = await fetchTags(); res.render('wallet', { activities: transferAPI.data, act: userAPI.data, trendingTags: nTags, loguser: user, earnToday: earnAPI }) } else { res.redirect('/welcome'); }
 })
 
-router.get('/post/:name/:link', async(req, res) => {let author = req.params.name;let link = req.params.link;let nTags = await fetchTags();
+router.get('/post/:name/:link', async (req, res) => {
+  let author = req.params.name; let link = req.params.link; let nTags = await fetchTags();
   const postAPI = await axios.get(`https://api.dlike.network/content/${author}/${link}`); let category = postAPI.data.json.category
-  let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`);if(req.cookies.dlike_username){loguser=req.cookies.dlike_username}else{loguser=""};
-  res.render('post', { article : postAPI.data, simPosts : simAPI.data, moment: moment, trendingTags: nTags, loguser: loguser })
+  let simAPI = await axios.get(`https://api.dlike.network/new?category=${category}`); if (req.cookies.dlike_username) { loguser = req.cookies.dlike_username } else { loguser = "" };
+  res.render('post', { article: postAPI.data, simPosts: simAPI.data, moment: moment, trendingTags: nTags, loguser: loguser })
 })
 
 
-router.post('/loginuser', function(req, res){var user = req.body;var key = user.pivkey;var username = user.username;
-  var encrypted = CryptoJS.AES.encrypt(key, msgkey,{ iv: iv});var token = encrypted.toString();
-  var decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});var wifKey = decrypted.toString(CryptoJS.enc.Utf8);
-  if(key == wifKey){res.cookie('dlike_username', username, { expires: new Date(Date.now() + 86400000000), httpOnly: false });res.cookie('token', token, { expires: new Date(Date.now() + 86400000000), httpOnly: true });res.send({ error: false });
-  }else{res.send({ error: false  });}
+router.post('/loginuser', function (req, res) {
+  var user = req.body; var key = user.pivkey; var username = user.username;
+  var encrypted = CryptoJS.AES.encrypt(key, msgkey, { iv: iv }); var token = encrypted.toString();
+  var decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); var wifKey = decrypted.toString(CryptoJS.enc.Utf8);
+  if (key == wifKey) {
+    res.cookie('dlike_username', username, { expires: new Date(Date.now() + 86400000000), httpOnly: false }); res.cookie('token', token, { expires: new Date(Date.now() + 86400000000), httpOnly: true }); res.send({ error: false });
+  } else { res.send({ error: false }); }
 });
 
 
-router.post('/post', function(req, res){
+router.post('/post', function (req, res) {
   let post = req.body;
   var permlink = getSlug(post.title);
   let token = req.cookies.token;
   let author = req.cookies.dlike_username;
   //let link = randomstring.generate({ length: 11, capitalization: 'lowercase'});
-  let content = {title:post.title, body: post.description, category: post.category,url: post.exturl, image: post.image, tags: post.tags }; 
-  let newTx = {type: 4,data: {link: permlink,json: content}}
-  let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
+  let content = { title: post.title, body: post.description, category: post.category, url: post.exturl, image: post.image, tags: post.tags };
+  let newTx = { type: 4, data: { link: permlink, json: content } }
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv });
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
-  breej.getAccount(author, function(error, account) {
-    if (breej.privToPub(wifKey) !== account.pub) {res.send( {error: true} )
-    }else{newTx = breej.sign(wifKey, author, newTx)
-      breej.sendTransaction(newTx, function(err, response) {//console.log(err,response)
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error'] });}
+  breej.getAccount(author, function (error, account) {
+    if (breej.privToPub(wifKey) !== account.pub) {
+      res.send({ error: true })
+    } else {
+      newTx = breej.sign(wifKey, author, newTx)
+      breej.sendTransaction(newTx, function (err, response) {//console.log(err,response)
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
       })
     }
   })
 });
 
-router.post('/share', function(req, res){var post = req.body;var sharedUrl = post.url;Meta.parser(sharedUrl, function (err, result) {let meta=result['og'];res.send(meta);}) });
-router.post('/logout', function(req, res){res.clearCookie('dlike_username');res.clearCookie('token');console.log('Logout');res.send({ error: false  });});
+router.post('/share', function (req, res) { var post = req.body; var sharedUrl = post.url; Meta.parser(sharedUrl, function (err, result) { let meta = result['og']; res.send(meta); }) });
+router.post('/logout', function (req, res) { res.clearCookie('dlike_username'); res.clearCookie('token'); console.log('Logout'); res.send({ error: false }); });
 
-router.post('/upvote', function(req, res){let post = req.body;let token = req.cookies.token;let voter = req.cookies.dlike_username;
-  let newTx = {type: 5,data: {link: post.postLink,author: post.author}}; 
-  let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});
+router.post('/upvote', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let voter = req.cookies.dlike_username;
+  let newTx = { type: 5, data: { link: post.postLink, author: post.author } };
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv });
   let wifKey = decrypted.toString(CryptoJS.enc.Utf8)
   let pubKey = breej.privToPub(wifKey);
-  breej.getAccount(voter, function(error, account) {
-    if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx);
-      breej.sendTransaction(newTx, function(err, response) {//console.log(err,response)
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
+  breej.getAccount(voter, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, voter, newTx);
+      breej.sendTransaction(newTx, function (err, response) {//console.log(err,response)
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
       })
     }
   })
 });
 
-router.post('/witup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
-    let newTx = {type: 1,data: {target: post.nodeName}};let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    breej.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx)
-    breej.sendTransaction(newTx, function(err, response) {if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  }); } }) } })
-});
-
-
-router.post('/witunup', function(req, res){let post = req.body;let token = req.cookies.token;let voter=req.cookies.dlike_username;
-    let newTx = {type: 2,data: {target: post.nodeName}};
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    breej.getAccount(voter, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, voter, newTx)
-    breej.sendTransaction(newTx, function(err, response) { 
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
-    })
+router.post('/witup', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let voter = req.cookies.dlike_username;
+  let newTx = { type: 1, data: { target: post.nodeName } }; let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(voter, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, voter, newTx)
+      breej.sendTransaction(newTx, function (err, response) { if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); } })
     }
   })
 });
 
 
-router.post('/follow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
-    let newTx = {type: 7,data: {target: post.followName}}; 
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
-    breej.sendTransaction(newTx, function(err, response) { 
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
-    })
+router.post('/witunup', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let voter = req.cookies.dlike_username;
+  let newTx = { type: 2, data: { target: post.nodeName } };
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(voter, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, voter, newTx)
+      breej.sendTransaction(newTx, function (err, response) {
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
+      })
     }
   })
 });
 
 
-router.post('/unfollow', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
-    let newTx = {type: 8,data: {target: post.unfollowName}};
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
-    breej.sendTransaction(newTx, function(err, response) { 
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
-    })
+router.post('/follow', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let loguser = req.cookies.dlike_username;
+  let newTx = { type: 7, data: { target: post.followName } };
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(loguser, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, loguser, newTx)
+      breej.sendTransaction(newTx, function (err, response) {
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
+      })
     }
   })
 });
 
-router.post('/pupdate', function(req, res){let post = req.body;let token = req.cookies.token;let loguser=req.cookies.dlike_username;
-    let content = {about:post.acc_about, website:post.acc_website, location: post.acc_location, cover_image: post.acc_cover_img,avatar: post.acc_img }; 
-    let newTx = {type: 6,data: {json: {profile: content}}}; 
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    breej.getAccount(loguser, function(error, account) {if (pubKey !== account.pub) {res.send( {error: true } )}else{newTx = breej.sign(wifKey, loguser, newTx)
-    breej.sendTransaction(newTx, function(err, response) { 
-        if (err === null){res.send({ error: false  });}else{res.send({ error: true, message: err['error']  });}
-    })
+
+router.post('/unfollow', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let loguser = req.cookies.dlike_username;
+  let newTx = { type: 8, data: { target: post.unfollowName } };
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(loguser, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, loguser, newTx)
+      breej.sendTransaction(newTx, function (err, response) {
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
+      })
     }
   })
 });
 
-router.post('/signup', function(req, res){let post = req.body; let newTx = {type: 0,data: {name: post.name,pub: post.pub,ref: post.ref}}; let priv = process.env.privKey;let signedTx = breej.sign(priv,'dlike',newTx)
-    breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
+router.post('/pupdate', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let loguser = req.cookies.dlike_username;
+  let content = { about: post.acc_about, website: post.acc_website, location: post.acc_location, cover_image: post.acc_cover_img, avatar: post.acc_img };
+  let newTx = { type: 6, data: { json: { profile: content } } };
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  breej.getAccount(loguser, function (error, account) {
+    if (pubKey !== account.pub) { res.send({ error: true }) } else {
+      newTx = breej.sign(wifKey, loguser, newTx)
+      breej.sendTransaction(newTx, function (err, response) {
+        if (err === null) { res.send({ error: false }); } else { res.send({ error: true, message: err['error'] }); }
+      })
+    }
+  })
+});
+
+router.post('/signup', function (req, res) {
+  let post = req.body; let newTx = { type: 0, data: { name: post.name, pub: post.pub, ref: post.ref } }; let priv = process.env.privKey; let signedTx = breej.sign(priv, 'dlike', newTx)
+  breej.sendTransaction(signedTx, (error, result) => { if (error === null) { res.send({ error: false }); } else { res.send({ error: true, message: error['error'] }); } })
 });
 
 
-router.post('/transfer', function(req, res){let post = req.body;let token = req.cookies.token;let sender=req.cookies.dlike_username;
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    
-    breej.getAccount(post.rec_user, function(error, account) {
-        if(!account){res.send({ error: true, message: 'Not a valid receiver' });
-        }else if(sender == post.rec_user) {res.send( {error: true, message: 'can not transfer to yourself'});
-        }else{
-            breej.getAccount(sender, function(error, account) {
-                if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
-                }else if(post.trans_amount > (account.balance)/100){res.send({ error: true, message: 'Not enough balance' });
-                }else{let amount = parseInt((post.trans_amount)*100);
-                    let newTx = {type: 3,data: {receiver: post.rec_user,amount: amount,memo: post.memo}};
-                    let signedTx = breej.sign(wifKey, sender, newTx);
-                    breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
-                }
-            });
+router.post('/transfer', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let sender = req.cookies.dlike_username;
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+
+  breej.getAccount(post.rec_user, function (error, account) {
+    if (!account) {
+      res.send({ error: true, message: 'Not a valid receiver' });
+    } else if (sender == post.rec_user) {
+      res.send({ error: true, message: 'can not transfer to yourself' });
+    } else {
+      breej.getAccount(sender, function (error, account) {
+        if (pubKey !== account.pub) {
+          res.send({ error: true, message: 'Unable to validate user' });
+        } else if (post.trans_amount > (account.balance) / 100) {
+          res.send({ error: true, message: 'Not enough balance' });
+        } else {
+          let amount = parseInt((post.trans_amount) * 100);
+          let newTx = { type: 3, data: { receiver: post.rec_user, amount: amount, memo: post.memo } };
+          let signedTx = breej.sign(wifKey, sender, newTx);
+          breej.sendTransaction(signedTx, (error, result) => { if (error === null) { res.send({ error: false }); } else { res.send({ error: true, message: error['error'] }); } })
         }
-   });
+      });
+    }
+  });
 });
 
 
-router.post('/boost', function(req, res){let post = req.body;let token = req.cookies.token;let sender=req.cookies.dlike_username;
-    let decrypted = CryptoJS.AES.decrypt(token, msgkey,{ iv: iv});let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
-    let boostUrl = pathParse(post.boost_url); let boostLink=boostUrl.base
-    breej.getAccount(sender, function(error, account) {console.log(boostLink)
-        if(pubKey !== account.pub) {res.send( {error: true, message: 'Unable to validate user'});
-        }else{let amount = parseInt((post.boost_amount)*100);
-            let newTx = {type: 13,data: {link: boostLink,burn: amount}};
-            let signedTx = breej.sign(wifKey, sender, newTx);
-            breej.sendTransaction(signedTx, (error,result) => { if (error === null){res.send({ error: false  });}else{res.send({ error: true, message: error['error']  });} })
-        }
-    });
+router.post('/boost', function (req, res) {
+  let post = req.body; let token = req.cookies.token; let sender = req.cookies.dlike_username;
+  let decrypted = CryptoJS.AES.decrypt(token, msgkey, { iv: iv }); let wifKey = decrypted.toString(CryptoJS.enc.Utf8); let pubKey = breej.privToPub(wifKey);
+  let boostUrl = pathParse(post.boost_url); let boostLink = boostUrl.base
+  breej.getAccount(sender, function (error, account) {
+    console.log(boostLink)
+    if (pubKey !== account.pub) {
+      res.send({ error: true, message: 'Unable to validate user' });
+    } else {
+      let amount = parseInt((post.boost_amount) * 100);
+      let newTx = { type: 13, data: { link: boostLink, burn: amount } };
+      let signedTx = breej.sign(wifKey, sender, newTx);
+      breej.sendTransaction(signedTx, (error, result) => { if (error === null) { res.send({ error: false }); } else { res.send({ error: true, message: error['error'] }); } })
+    }
+  });
 });
-const fetchTags = async () => {let timeNow = new Date().getTime();let postsTime = timeNow - 86400000;
-    let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`);let posts = tagsAPI.data;let tags = {};
-    for (let p in posts) if (posts[p].json && posts[p].json.tags) {let postTags = posts[p].json.tags;
-        for (let t in postTags) if (!tags[postTags[t]]){tags[postTags[t]] = 1}else{tags[postTags[t]] += 1} }
-    let tagArr = [];
-    for (let t in tags) tagArr.push({ m: t, v: tags[t]});tagsArr = tagArr.sort((a,b) => b.v - a.v);tagsArr = tagsArr.slice(0,6)
-    let trendingTags = "";var i;for (i = 0; i < tagsArr.length; i++) {trendingTags +='<a class="nav-item nav-link" href="/tags/'+tagsArr[i].m+'">#' + tagsArr[i].m + '</a>';}
-    //return trendingTags
-    return tagsArr
+const fetchTags = async () => {
+  let timeNow = new Date().getTime(); let postsTime = timeNow - 86400000;
+  let tagsAPI = await axios.get(`https://api.dlike.network/trending?after=${postsTime}&limit=100`); let posts = tagsAPI.data; let tags = {};
+  for (let p in posts) if (posts[p].json && posts[p].json.tags) {
+    let postTags = posts[p].json.tags;
+    for (let t in postTags) if (!tags[postTags[t]]) { tags[postTags[t]] = 1 } else { tags[postTags[t]] += 1 }
+  }
+  let tagArr = [];
+  for (let t in tags) tagArr.push({ m: t, v: tags[t] }); tagsArr = tagArr.sort((a, b) => b.v - a.v); tagsArr = tagsArr.slice(0, 6)
+  let trendingTags = ""; var i; for (i = 0; i < tagsArr.length; i++) { trendingTags += '<a class="nav-item nav-link" href="/tags/' + tagsArr[i].m + '">#' + tagsArr[i].m + '</a>'; }
+  //return trendingTags
+  return tagsArr
 }
 module.exports = router;
